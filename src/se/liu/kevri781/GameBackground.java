@@ -4,97 +4,92 @@ import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
+import java.awt.event.ComponentEvent;
 
-public class GameBackground extends JPanel implements Runnable {
+import static se.liu.kevri781.GameViewer.screenSize;
 
-    private ArrayList<Image> images = new ArrayList<>();
-    private ArrayList<Integer> x = new ArrayList<>();
-    private ArrayList<Integer> y = new ArrayList<>();
-    private ArrayList<Integer> speed = new ArrayList<>();
-    private ArrayList<Image> images2 = new ArrayList<>();
-    private ArrayList<Integer> x2 = new ArrayList<>();
-    private ArrayList<Integer> y2 = new ArrayList<>();
-    private ArrayList<Integer> speed2 = new ArrayList<>();
+public class GameBackground {
+
+    private ArrayList<Image> bgImages = new ArrayList<>();
+    private ArrayList<Image> bgImages2 = new ArrayList<>();
+    private ArrayList<Integer> bgXPos = new ArrayList<>();
+    private ArrayList<Integer> bgXpos2 = new ArrayList<>();
+    private ArrayList<Integer> bgYpos = new ArrayList<>();
+    private ArrayList<Integer> bgYpos2 = new ArrayList<>();
+    private ArrayList<Integer> bgSpeed = new ArrayList<>();
+    private ArrayList<Integer> bgSpeed2 = new ArrayList<>();
     private int numLayers;
-    private boolean imagesLoaded = false;
 
-    public GameBackground(int numLayers) {
-	this.numLayers = numLayers;
+    public GameBackground() {
+	this.numLayers = new File("resources/images/gamebackgrounds").list().length;
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	for (int i = 0; i < numLayers; i++) {
-	    images.add(null);
-	    images2.add(null);
-	    x.add(0);
-	    x2.add(881);
-	    y.add(0);
-	    y2.add(0);
-	    speed.add(i/4);
-	    speed2.add(i/4);
-	}
-	Thread t = new Thread(this);
-
-
-	// Wait for all images to be loaded before starting the game loop
-	MediaTracker tracker = new MediaTracker(this);
-	for (int i = 0; i < numLayers; i++) {
-	    String imagePath = "layer" + i + ".png";
-	    images.set(i, new ImageIcon(imagePath).getImage());
-	    images2.set(i, new ImageIcon(imagePath).getImage());
-	    tracker.addImage(images.get(i), i);
-	    tracker.addImage(images2.get(i), i);
-	}
-	try {
-	    tracker.waitForAll();
-	    imagesLoaded = true;
-	} catch (InterruptedException e) {
-	    e.printStackTrace();
-	}
-
-	t.start();
-    }
-
-    public void setImagesPath(String directory) {
-	for (int i = 0; i < numLayers; i++) {
-	    String imagePath = directory + "/layer" + i + ".png";
-	    images.set(i, new ImageIcon(imagePath).getImage());
-	    images2.set(i, new ImageIcon(imagePath).getImage());
+	    String imagePath = "resources/images/gamebackgrounds" + "/layer" + i + ".png";
+	    bgImages.add(new ImageIcon(imagePath).getImage());
+	    bgImages2.add(new ImageIcon(imagePath).getImage());
+	    bgXPos.add(0);
+	    bgXpos2.add(928);
+	    bgYpos.add(- (int) (screenSize.height/1.05));
+	    bgYpos2.add(- (int) (screenSize.height/1.05));
+//	    bgSpeed.add((int)(i / 1.2));
+//	    bgSpeed2.add((int)(i / 1.2));
+	    bgSpeed.add(0);
+	    bgSpeed2.add(0);
 	}
     }
 
-    public void paintComponent(Graphics g) {
-	super.paintComponent(g);
+    public void componentResized(ComponentEvent e) {
+	// Resize the background images
+	for (int i = 0; i < numLayers; i++) {
+	    bgImages.set(i, bgImages.get(i).getScaledInstance((int) (screenSize.width * 0.66) * 2, screenSize.height * 2, Image.SCALE_SMOOTH));
+	    bgImages2.set(i, bgImages2.get(i).getScaledInstance((int) (screenSize.width * 0.66) * 2, screenSize.height * 2, Image.SCALE_SMOOTH));
+	}
+    }
+
+    public void draw(Graphics g) {
 	Graphics2D g2d = (Graphics2D) g;
 	for (int i = 0; i < numLayers; i++) {
-	    g2d.drawImage(images.get(i), x.get(i), y.get(i), null);
-	    g2d.drawImage(images2.get(i), x2.get(i), y2.get(i), null);
+	    g2d.drawImage(bgImages.get(i), bgXPos.get(i), bgYpos.get(i), null); // - 950
+	    g2d.drawImage(bgImages2.get(i), bgXpos2.get(i), bgYpos2.get(i), null); // - 950
 	}
     }
 
-    public void run() {
-	while (true) {
-	    for (int i = 0; i < numLayers; i++) {
-		int width = images.get(i).getWidth(null);
-		x.set(i, x.get(i) - speed.get(i));
-		if (x.get(i) < -width) {
-		    x.set(i, x.get(i) + width * 2);
-		}
-		int width2 = images2.get(i).getWidth(null);
-		x2.set(i, x2.get(i) - speed2.get(i));
-		if (x2.get(i) < -width2 + 2) {
-		    x2.set(i, x2.get(i) + width2 * 2);
-		}
+    public void update() {
+	for (int i = 0; i < numLayers; i++) {
+	    int width = bgImages.get(i).getWidth(null);
+	    bgXPos.set(i, bgXPos.get(i) - bgSpeed.get(i));
+	    bgXpos2.set(i, bgXPos.get(i) + width - bgSpeed2.get(i));
+	    if (bgXPos.get(i) < -width) {
+		bgXPos.set(i, width);
+	    } else if (bgXPos.get(i) > width) {
+		bgXPos.set(i, -width);
 	    }
-	    repaint();
-	    try {
-		Thread.sleep(10);
-	    } catch (InterruptedException e) {
-		e.printStackTrace();
+	    if (bgXPos.get(i) > 0) {
+		bgXpos2.set(i, bgXPos.get(i) - width);
+	    } else if (bgXPos.get(i) < 0) {
+		bgXpos2.set(i, bgXPos.get(i) + width);
 	    }
 	}
     }
-
-
+    public void moveBackground(final int speed, Controls dir) {
+	for (int i = 0; i < numLayers; i++) {
+	    switch (dir) {
+		case RUN_LEFT:
+		    bgSpeed.set(i, -speed * i / 5);
+		    bgSpeed2.set(i, -speed * i / 5);
+		    break;
+		case RUN_RIGHT:
+		    bgSpeed.set(i, speed * i / 5);
+		    bgSpeed2.set(i, speed * i / 5);
+		    break;
+	    }
+	}
+    }
+    public void stopBackground() {
+	for (int i = 0; i < numLayers; i++) {
+	    bgSpeed.set(i, 0);
+	    bgSpeed2.set(i, 0);
+	}
+    }
 }
 
-//	if (x[i] < -images[i].getWidth(null)) {
-//	x[i] += images[i].getWidth(null) * 2;
