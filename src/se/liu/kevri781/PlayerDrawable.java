@@ -8,8 +8,6 @@ public class PlayerDrawable extends Player implements Drawable {
     private SpriteAnimation spriteAnimation;
     private int currentAnimationIndex;
     private Random rnd = new Random();
-    private int minRnd = 5;
-    private int maxRnd = 7;
 
     public PlayerDrawable(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -34,42 +32,6 @@ public class PlayerDrawable extends Player implements Drawable {
         // If collision occurs, take appropriate action
         // ...
     }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-
-        if (keyCode == KeyEvent.VK_LEFT) {
-            // Move the player left (left running animation)
-            System.out.println("hello");
-            currentAnimationIndex = 1;
-            getAnimation(currentAnimationIndex);
-        } else if (keyCode == KeyEvent.VK_RIGHT) {
-            // Move the player right (right running animation)
-            currentAnimationIndex = 2;
-            getAnimation(currentAnimationIndex);
-        } else if (keyCode == KeyEvent.VK_UP) {
-            // Move the player up (up running animation)
-            currentAnimationIndex = 3;
-            getAnimation(currentAnimationIndex);
-        } else if (keyCode == KeyEvent.VK_DOWN) {
-            // Move the player down (down running animation)
-            currentAnimationIndex = 4;
-            getAnimation(currentAnimationIndex);
-        } else if (keyCode == KeyEvent.VK_SPACE) {
-            // Use a special ability
-            getAnimation(currentAnimationIndex);
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        // Stop the player's movement when key is released
-        // Also stop the running animations and set the player to the standing animation
-        currentAnimationIndex = 0;
-        // ...
-    }
-
     public void getAnimation(int animationIndex) {
         switch (currentAnimationIndex) {
                 case 0:
@@ -90,22 +52,29 @@ public class PlayerDrawable extends Player implements Drawable {
                         break;
                 case 4:
                         // Death animation
-                        spriteAnimation = new SpriteAnimation("resources/images/player/Death.png", 135, 135, 10, 100);
+                        spriteAnimation = new SpriteAnimation("resources/images/player/Death.png", 135, 135, 9, 100);
                         break;
                 case 5:
-                        // Attack animation
-                        spriteAnimation = new SpriteAnimation("resources/images/player/Attack1.png", 135, 135, 10, 100);
+                        // Attack animation 1
+                        spriteAnimation = new SpriteAnimation("resources/images/player/Attack1.png", 135, 135, 5, 100);
                         break;
                 case 6:
-                        // Attack animation
-                        spriteAnimation = new SpriteAnimation("resources/images/player/Attack2.png", 135, 135, 10, 100);
+                        // Attack animation 2
+                        spriteAnimation = new SpriteAnimation("resources/images/player/Attack2.png", 135, 135, 5, 100);
                         break;
                 case 7:
-                        // Attack animation
-                        spriteAnimation = new SpriteAnimation("resources/images/player/Attack3.png", 135, 135, 10, 100);
+                        // Attack animation 3
+                        spriteAnimation = new SpriteAnimation("resources/images/player/Attack3.png", 135, 135, 5, 100);
                         break;
-        }
-
+                case 8:
+                        // Fall animation
+                        spriteAnimation = new SpriteAnimation("resources/images/player/Fall.png", 135, 135, 2, 100);
+                        break;
+                case 9:
+                        // Get hit animation
+                        spriteAnimation = new SpriteAnimation("resources/images/player/Get_Hit.png", 135, 135, 3, 100);
+                        break;
+            }
     }
 
     public void setSpriteAnimation(Controls dir) {
@@ -115,7 +84,11 @@ public class PlayerDrawable extends Player implements Drawable {
 //		    bgSpeed2.set(i, speed);
 //		    break;
             case ATTACK:
-                this.currentAnimationIndex = rnd.nextInt(maxRnd - minRnd) + minRnd;
+                final int maxRnd = 8;
+                final int minRnd = 5;
+                int rndInt = rnd.nextInt(maxRnd - minRnd) + minRnd;
+                System.out.println(rndInt);
+                this.currentAnimationIndex = rndInt;
                 break;
             case RUN_LEFT:
                 this.currentAnimationIndex = 1;
@@ -132,10 +105,10 @@ public class PlayerDrawable extends Player implements Drawable {
         getAnimation(currentAnimationIndex);
     }
 
-    public void updateAnimation() {
-        // Update the current animation frame based on the current animation index
-        spriteAnimation.getNextFrame();
-    }
+//    public void updateAnimation() {
+//        // Update the current animation frame based on the current animation index
+//        spriteAnimation.getNextFrame();
+//    }
 
 
 }

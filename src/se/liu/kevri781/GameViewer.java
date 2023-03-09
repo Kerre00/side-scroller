@@ -12,7 +12,7 @@ public class GameViewer {
 
 	frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+//	frame.setSize(1080/2, 720/2);
 
 
 

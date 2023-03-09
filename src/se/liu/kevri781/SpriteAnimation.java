@@ -17,7 +17,6 @@ public class SpriteAnimation {
     private int numFrames;
     private int animationDelay;
     private long lastUpdate;
-
     public SpriteAnimation(String filePath, int spriteWidth, int spriteHeight, int numFrames, int animationDelay) {
 	try {
 	    spriteSheet = ImageIO.read(new File(filePath));
@@ -31,12 +30,12 @@ public class SpriteAnimation {
 	currentFrame = 0;
 	lastUpdate = System.currentTimeMillis();
     }
-
     public BufferedImage getNextFrame() {
 	if (System.currentTimeMillis() - lastUpdate >= animationDelay) {
 	    currentFrame++;
 	    if (currentFrame >= numFrames) {
 		currentFrame = 0;
+		System.out.println("Animation reset");
 	    }
 	    lastUpdate = System.currentTimeMillis();
 	}
@@ -44,10 +43,6 @@ public class SpriteAnimation {
 	int y = (currentFrame / (spriteSheet.getWidth() / spriteWidth)) * spriteHeight;
 	return spriteSheet.getSubimage(x, y, spriteWidth, spriteHeight);
     }
-    public void render(Graphics g, int x, int y) {
-	g.drawImage(getNextFrame(), x, y, null);
-    }
-
     public Image getCurrentFrame() {
 	return getNextFrame();
     }

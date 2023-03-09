@@ -7,6 +7,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.*;
 
+//TODO: Fix player animation freezing on the last frame wen the player is moving.
+//TODO: Fix the attack animation so that you don't have to hold the attack button down to attack.
+
 public class GamePanel extends JPanel implements Runnable, KeyListener
 {
     private Thread thread;
@@ -14,7 +17,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private GameBackground background;
     private Player player;
     private PlayerDrawable playerDrawable;
-
+    private final int FPS = 60;
     public GamePanel() {
 	setFocusable(true);
 	setVisible(true);
@@ -62,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	    update();
 	    repaint();
 	    try {
-		Thread.sleep(10);
+		Thread.sleep(1000 / FPS);
 	    } catch (InterruptedException e) {
 		e.printStackTrace();
 	    }
@@ -80,33 +83,31 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	playerDrawable.draw(g);
     }
 
-    @Override public void keyTyped(final KeyEvent e) {
-
-    }
+    @Override public void keyTyped(final KeyEvent e) {}
 
     public void keyPressed(KeyEvent e) {
 	int keyCode = e.getKeyCode();
 	switch(keyCode) {
 	    case KeyEvent.VK_LEFT:
-		System.out.println("Left");
+//		System.out.println("Left");
 		background.moveBackground(5, Controls.RUN_LEFT);
 		playerDrawable.setSpriteAnimation(Controls.RUN_LEFT);
 		break;
 	    case KeyEvent.VK_RIGHT :
-		System.out.println("Right");
+//		System.out.println("Right");
 		background.moveBackground(5, Controls.RUN_RIGHT);
 		playerDrawable.setSpriteAnimation(Controls.RUN_RIGHT);
 		break;
 	    case KeyEvent.VK_UP:
-		System.out.println("Jump");
+//		System.out.println("Jump");
 //		background.moveBackground(5, Direction.UP);
 		break;
 	    case KeyEvent.VK_DOWN:
-		System.out.println("Down");
+//		System.out.println("Down");
 		background.moveBackground(5, Controls.CROUCH);
 		break;
 	    case KeyEvent.VK_SPACE:
-		System.out.println("Attack");
+//		System.out.println("Attack");
 		playerDrawable.setSpriteAnimation(Controls.ATTACK);
 		break;
 	}
