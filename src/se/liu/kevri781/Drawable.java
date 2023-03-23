@@ -9,6 +9,4 @@ public interface Drawable
 //    Contains a method for drawing the object on the screen.
     void draw(Graphics g);
     void update();
-    void collidesWith();
-
 }

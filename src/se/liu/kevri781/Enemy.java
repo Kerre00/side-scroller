@@ -1,33 +1,55 @@
 package se.liu.kevri781;
 
-import javax.swing.*;
 import java.awt.*;
 
-public abstract class Enemy extends Character
+public class Enemy extends Character
 {
-//    Represents an enemy character.
-//    Defines methods for enemy-specific behavior, such as AI and spawning.
-    public Enemy(final int x, final int y, final int width, final int height) {
-	super(x, y, width, height);
+    // Represents an enemy character.
+    // Defines methods for enemy-specific behavior, such as AI and spawning.
+    // Define properties common to all enemies
+    private CharacterType characterType;
+
+    public Enemy(final CharacterType characterType, final int x, final int y, final int width, final int height) {
+        super(x, y, width, height);
+        this.characterType = characterType;
+        this.setScale(3);
+        this.setAttackReach(100);
+        this.setSpeed(5);
+    }
+    public void Ai(Player player) {
+        // This represents the AI of the enemy
+        // The enemy will move towards the player
+        // The enemy will attack the player if it is within attack range
+        // The enemy will stop attacking if the player is out of range
+        // The enemy will start moving towards the player if the player is out of range
+        // The enemy will stop moving if the player is within range
+        // The enemy will stop moving if the player is dead
+        // The enemy will stop moving if the enemy is dead
+        // The enemy will stop moving if the enemy is attacking
+        // The enemy will stop attacking if the enemy is dead
+        if (player.isDead() || isDead()) {
+            stop();
+        } else if (xDistanceTo(player, false) < attackReach) {
+            stop();
+            attack();
+        } else if (xDistanceTo(player, false) > attackReach) {
+            setAttacking(false);
+            if (xDistanceTo(player, false) > 100) {
+                if (player.getX() < x) {
+                    moveLeft();
+                } else if (player.getX() > x) {
+                    moveRight();
+                }
+            }
+        }
     }
 
     @Override public void update() {
-
+        x += velocityX;
+        y += velocityY;
+    }
+    public CharacterType getEnemyType() {
+        return characterType;
     }
 
-    @Override public void draw(final Graphics g) {
-
-    }
-
-    @Override public boolean collidesWith(final GameObjects other) {
-	return false;
-    }
-
-    public Object getAttackPower() {
-        return damage;
-    }
-
-    public abstract void keyPressed();
-
-    public abstract void keyReleased();
 }

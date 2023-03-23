@@ -9,9 +9,10 @@ public abstract class GameObjects
     protected int x, y;
     protected int velocityX, velocityY;
     protected int width, height;
+    protected int scale = 1;
     private double gravity;
     private boolean isOnGround;
-
+    private Point centerCoordinate;
 
     // Constructor
     public GameObjects(int x, int y, int width, int height) {
@@ -21,6 +22,7 @@ public abstract class GameObjects
         this.velocityY = 0;
         this.width = width;
         this.height = height;
+        this.centerCoordinate = new Point(x + width / 2, y + height / 2);
         gravity = 0.5;
         isOnGround = false;
     }
@@ -54,18 +56,38 @@ public abstract class GameObjects
     public boolean isOnGround() {
         return isOnGround;
     }
-
-
-    // Abstract methods for handling game logic
     public abstract void update();
-    public abstract void draw(Graphics g);
-    public abstract boolean collidesWith(GameObjects other);
+    public int xDistanceTo(GameObjects other, boolean enableDirection) {
+        int xMid = x + this.getScaledWidth() / 2;
+        int xMidOther = other.getX() + other.getScaledWidth() / 2;
+        int xDistance;
+        if (enableDirection) {
+            xDistance = xMid - xMidOther;
+        } else {
+            xDistance = Math.abs(xMid - xMidOther);
+        }
+        return xDistance;
+    }
+    public void moveWithBackground(GameBackground background) {
+        this.velocityX += -(background.getGroundSpeed());
+//        x = -this.velocityX;
+    }
+    public Point getCenterCoordinate() {
+        return centerCoordinate;
+    }
+    public void setCenterCoordinate(Point centerCoordinate) {
+        this.centerCoordinate = centerCoordinate;
+    }
+    public int getScale() { return scale; }
+    public void setScale(int scale) { this.scale = scale; }
 
     // Common methods for all game objects
     public int getX() { return x; }
     public int getY() { return y; }
     public int getWidth() { return width; }
     public int getHeight() { return height; }
+    public int getScaledWidth() { return width * scale; }
+    public int getScaledHeight() { return height * scale; }
 
     public void setX(int x) { this.x = x; }
     public void setY(int y) { this.y = y; }
@@ -78,7 +100,4 @@ public abstract class GameObjects
     public void setVelocityX(int vx) { this.velocityX = vx; }
     public void setVelocityY(int vy) { this.velocityY = vy; }
 
-    protected Rectangle getBounds() {
-        return null;
-    }
 }

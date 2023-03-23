@@ -5,10 +5,10 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 import javax.swing.*;
-
-//TODO: Fix player animation freezing on the last frame wen the player is moving.
-//TODO: Fix the attack animation so that you don't have to hold the attack button down to attack.
 
 public class GamePanel extends JPanel implements Runnable, KeyListener
 {
@@ -17,7 +17,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private GameBackground background;
     private Player player;
     private PlayerDrawable playerDrawable;
+    private Enemy enemy;
+    private EnemyDrawable enemyDrawable;
+    private boolean playerAlive = true;
+    private ArrayList<CharacterType> characterTypes = new ArrayList<>();
+//    private int groundLevel = (int) (GameViewer.screenSize.height * 0.5);
+    private Random random = new Random();
     private final int FPS = 60;
+    public static ArrayList<Enemy> enemies = new ArrayList<>();
+
     public GamePanel() {
 	setFocusable(true);
 	setVisible(true);
@@ -27,8 +35,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	// Load background image
 	background = new GameBackground();
 
-	player = new Player(GameViewer.screenSize.width / 3, (int) (GameViewer.screenSize.height * 0.5), 135, 135);
-	playerDrawable = new PlayerDrawable(player.x, player.y, player.width, player.height);
+	// Creates the player
+	player = new Player(GameViewer.screenSize.width / 3, (int) (GameViewer.screenSize.height * 0.6), 135, 135); // * 0.5
+	playerDrawable = new PlayerDrawable(player.x, player.y, player.width, player.height, player);
+
+	// Adds enemy types to the enemyTypes array
+	characterTypes.addAll(Arrays.asList(CharacterType.values()));
+	// gets a random enemy type
+//	CharacterType enemyType = characterTypes.get(random.nextInt(characterTypes.size()));
+
+	// Creates an enemy
+	enemy = new Enemy(CharacterType.SKELETON_WARRIOR, GameViewer.screenSize.width / 3, (int) (GameViewer.screenSize.height * (0.543 + 0.09)), 128, 128);
+	enemyDrawable = new EnemyDrawable(GameViewer.screenSize.width, (int) (GameViewer.screenSize.height * (0.543 + 0.09)), 128, 128, enemy);
+	enemies.add(enemy);
 
 	// Set the size of the panel to the size of the screen
 	setPreferredSize(new Dimension(GameViewer.screenSize.width, GameViewer.screenSize.height));
@@ -42,15 +61,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	});
 
     }
-
-
-
     public void start() {
 	running = true;
 	thread = new Thread(this);
 	thread.start();
     }
-
     public void stop() {
 	running = false;
 	try {
@@ -59,7 +74,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	    e.printStackTrace();
 	}
     }
-
     public void run() {
 	while (running) {
 	    update();
@@ -71,51 +85,63 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	    }
 	}
     }
-
     private void update() {
 	background.update();
 	player.update();
+	enemy.update();
+	enemy.Ai(player);
+	enemyDrawable.animationLogic();
+	playerDrawable.animationLogic();
+	enemy.moveWithBackground(background);
     }
-
     public void paintComponent(Graphics g) {
 	super.paintComponent(g);
 	background.draw(g);
+	enemyDrawable.draw(g);
 	playerDrawable.draw(g);
+	background.drawForeGround(g);
     }
-
     @Override public void keyTyped(final KeyEvent e) {}
 
     public void keyPressed(KeyEvent e) {
 	int keyCode = e.getKeyCode();
-	switch(keyCode) {
-	    case KeyEvent.VK_LEFT:
-//		System.out.println("Left");
-		background.moveBackground(5, Controls.RUN_LEFT);
-		playerDrawable.setSpriteAnimation(Controls.RUN_LEFT);
-		break;
-	    case KeyEvent.VK_RIGHT :
-//		System.out.println("Right");
-		background.moveBackground(5, Controls.RUN_RIGHT);
-		playerDrawable.setSpriteAnimation(Controls.RUN_RIGHT);
-		break;
-	    case KeyEvent.VK_UP:
-//		System.out.println("Jump");
+	if (!player.dead) {
+	    switch (keyCode) {
+		case KeyEvent.VK_LEFT:
+		    player.moveLeft();
+		    background.moveBackground(player.speed, PlayerAction.RUN_LEFT);
+		    break;
+		case KeyEvent.VK_RIGHT:
+		    player.moveRight();
+		    background.moveBackground(player.speed, PlayerAction.RUN_RIGHT);
+		    break;
+		case KeyEvent.VK_UP:
 //		background.moveBackground(5, Direction.UP);
-		break;
-	    case KeyEvent.VK_DOWN:
-//		System.out.println("Down");
-		background.moveBackground(5, Controls.CROUCH);
-		break;
-	    case KeyEvent.VK_SPACE:
-//		System.out.println("Attack");
-		playerDrawable.setSpriteAnimation(Controls.ATTACK);
-		break;
-	}
+		    break;
+		case KeyEvent.VK_DOWN:
+		    background.moveBackground(player.speed, PlayerAction.CROUCH);
+		    break;
+		case KeyEvent.VK_SPACE:
+		    break;
+	    }
+	} else {
+	    background.stopBackground();
+	    e.consume();
+    	}
+	playerDrawable.animationLogic();
     }
 
     @Override public void keyReleased(final KeyEvent e) {
 	background.stopBackground();
-	playerDrawable.setSpriteAnimation();
+	if (!player.dead) {
+	    playerDrawable.stopSpriteAnimation();
+	}
+	    enemy.moveWithBackground(background);
     }
+
+    public void setRunning(boolean running) {
+	this.running = running;
+    }
+
 
 }

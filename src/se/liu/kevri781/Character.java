@@ -11,20 +11,21 @@ public abstract class Character extends GameObjects
     public int damage;
     public int speed;
     public int maxHealth;
-    private boolean firing;
-
+    public int attackReach;
+    private boolean attacking;
+    public String stringDirection;
 
     public Character(final int x, final int y, final int width, final int height) {
         super(x, y, width, height);
-        this.health = 1;
+        this.health = 3;
         this.dead = false;
         this.level = 1;
         this.damage = 1;
         this.speed = 1;
         this.maxHealth = 1;
-        this.firing = false;
+        this.attacking = false;
+        this.stringDirection = "_right";
     }
-
     public void moveLeft() {
         velocityX = -speed;
     }
@@ -37,23 +38,28 @@ public abstract class Character extends GameObjects
     public void moveDown() {
             velocityY = speed;
     }
-    public void moveCharacter() {
-        x += velocityX;
-        y += velocityY;
-    }
+
     public void attack() {
-        firing = true;
+        attacking = true;
     }
     public void stop() {
         velocityX = 0;
         velocityY = 0;
     }
-    public void setFiring(boolean firing) {
-        this.firing = firing;
+    public void setAttacking(boolean attacking) {
+        this.attacking = attacking;
     }
 
-    public boolean isFiring() {
-        return firing;
+    public boolean isAttacking() {
+        return attacking;
+    }
+
+    public void setAttackReach(int attackReach) {
+        this.attackReach = attackReach;
+    }
+
+    public int getAttackReach() {
+        return attackReach;
     }
 
     public void setLevel(int level) {
@@ -97,54 +103,6 @@ public abstract class Character extends GameObjects
 //                return maxSpeed;
 //        }
 
-    public void setVelocityX(int velocityX) {
-        this.velocityX = velocityX;
-    }
-
-    public int getVelocityX() {
-        return velocityX;
-    }
-
-    public void setVelocityY(int velocityY) {
-        this.velocityY = velocityY;
-    }
-
-    public int getVelocityY() {
-        return velocityY;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     public void setHealth(int health) {
         this.health = health;
     }
@@ -159,5 +117,64 @@ public abstract class Character extends GameObjects
 
     public boolean isDead() {
         return dead;
+    }
+
+    protected boolean isMovingLeft() {
+        if (velocityX < 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected boolean isMovingRight() {
+        if (velocityX > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected boolean isGettingHit() {
+        return false;
+    }
+
+    protected boolean isJumping() {
+        if (velocityY < 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected boolean isFalling() {
+        if (velocityY > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected boolean isMoving() {
+        if (velocityX != 0 || velocityY != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public String getDirection() {
+            return stringDirection;
+    }
+    public void setDirection(Direction direction) {
+        switch (direction) {
+            case LEFT:
+                stringDirection = "_left";
+                break;
+            case RIGHT:
+                stringDirection = "_right";
+                break;
+        }
+    }
+    protected boolean isHurt() {
+        return false;
     }
 }
