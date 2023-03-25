@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.ComponentEvent;
 
 import static se.liu.kevri781.GameViewer.screenSize;
+import static se.liu.kevri781.GameViewer.frameSize;
 
 public class GameBackground {
 

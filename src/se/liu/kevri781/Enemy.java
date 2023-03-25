@@ -2,6 +2,8 @@ package se.liu.kevri781;
 
 import java.awt.*;
 
+import static se.liu.kevri781.GamePanel.GROUND_LEVEL;
+
 public class Enemy extends Character
 {
     // Represents an enemy character.
@@ -15,6 +17,7 @@ public class Enemy extends Character
         this.setScale(3);
         this.setAttackReach(100);
         this.setSpeed(5);
+        this.setGroundCoord(GROUND_LEVEL - getScaledHeight());
     }
     public void Ai(Player player) {
         // This represents the AI of the enemy
@@ -29,17 +32,15 @@ public class Enemy extends Character
         // The enemy will stop attacking if the enemy is dead
         if (player.isDead() || isDead()) {
             stop();
-        } else if (xDistanceTo(player, false) < attackReach) {
+        } else if (xDistanceTo(player, false) <= attackReach) {
             stop();
             attack();
         } else if (xDistanceTo(player, false) > attackReach) {
             setAttacking(false);
-            if (xDistanceTo(player, false) > 100) {
-                if (player.getX() < x) {
-                    moveLeft();
-                } else if (player.getX() > x) {
-                    moveRight();
-                }
+            if (player.getX() < x) {
+                moveLeft();
+            } else if (player.getX() > x) {
+                moveRight();
             }
         }
     }
@@ -47,6 +48,7 @@ public class Enemy extends Character
     @Override public void update() {
         x += velocityX;
         y += velocityY;
+        this.applyGravity();
     }
     public CharacterType getEnemyType() {
         return characterType;

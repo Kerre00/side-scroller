@@ -1,24 +1,27 @@
 package se.liu.kevri781;
 
-import java.awt.*;
+import static se.liu.kevri781.GamePanel.GROUND_LEVEL;
 
 public class Player extends Character
 {
     private boolean recovering;
     private long recoverTimer;
-    private Point centerCoordinate;
+    private final int spaceBelowSprite = 49; // The space below the sprite that is not part of the sprite
     public Player(final int x, final int y, final int width, final int height) {
         super(x, y, width, height);
         this.recovering = false;
         this.setScale(5);
         this.setSpeed(5);
         this.setDirection(Direction.RIGHT);
+        this.setGroundCoord(GROUND_LEVEL - (height - spaceBelowSprite) * scale);
     }
 
     @Override public void update() {
         // Moves the player
         x += velocityX;
         y += velocityY;
+        applyGravity();
+//        System.out.println("player velocityX: " + velocityX + " velocityY: " + velocityY);
 
         // Sets recovering to false if the player has been recovering for 2 seconds
         if (recovering) {

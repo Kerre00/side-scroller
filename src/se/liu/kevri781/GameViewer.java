@@ -5,29 +5,31 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameViewer {
-    //TODO: Fix player animation freezing on the last frame wen the player is moving.
     //TODO: Fix the attack animation so that you don't have to hold the attack button down to attack.
     //TODO: Fix the attack animation so that it doesn't play when the player is not moving.
-    //TODO: Fix it so that the game resizes when the window is resized.
+    //TODO: Fix the attack animation so that it doesn't play when the player is not moving.
+    //TODO: Fix all other panels: MenuPanel, GameOverPanel, PausePanel, OptionsPanel, etc...
+    //TODO: Fix save/load system?
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public static Dimension frameSize = null;
 //    public static JFrame frame;
 
     public static void main(String[] args) {
 	JFrame frame = new JFrame("Side Scroller Game");
 
-	frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//    	frame.setSize(1280, 720);
+	frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Runs the game in fullscreen windowed mode.
+//	frame.setUndecorated(true); // Hides the title bar.
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//	frame.setSize(screenSize.width / 2, screenSize.height / 2);
+
 	frame.setResizable(false);
-
-
+	frameSize = frame.getSize();
 
 	GamePanel panel = new GamePanel();
 	panel.start();
-//	MenuPanel panel = new MenuPanel();
+
 	frame.add(panel, BorderLayout.CENTER);
 
-//	frame.pack();
 	frame.setVisible(true);
     }
 }

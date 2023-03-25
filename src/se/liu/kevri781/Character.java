@@ -26,26 +26,93 @@ public abstract class Character extends GameObjects
         this.attacking = false;
         this.stringDirection = "_right";
     }
+
+    // ----------------------------------
+    // -------Methods for movement-------
+    // ----------------------------------
     public void moveLeft() {
         velocityX = -speed;
     }
     public void moveRight() {
         velocityX = speed;
     }
-    public void moveUp() {
-        velocityY = -speed;
-    }
-    public void moveDown() {
-            velocityY = speed;
-    }
-
-    public void attack() {
-        attacking = true;
+    public void jump() {
+        // This method is used to make the character jump
+        // the character can only jump once the velocityY is 0
+        if (!isAboveGround()) {
+            velocityY -= 20;
+        }
     }
     public void stop() {
         velocityX = 0;
         velocityY = 0;
     }
+    public String getDirection() {
+            return stringDirection;
+    }
+    public void setDirection(Direction direction) {
+        switch (direction) {
+            case LEFT:
+                stringDirection = "_left";
+                break;
+            case RIGHT:
+                stringDirection = "_right";
+                break;
+        }
+    }
+    protected boolean isMovingLeft() {
+        if (velocityX < 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected boolean isMovingRight() {
+        if (velocityX > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected boolean isMoving() {
+        if (velocityX != 0 || velocityY != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected boolean isJumping() {
+        if (velocityY < 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    protected boolean isFalling() {
+        if (velocityY > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    protected boolean isAboveGround() {
+        if (y < groundCoord) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // -----------------------------------
+    // -------Methods for attacking-------
+    // -----------------------------------
+
+    public void attack() {
+        attacking = true;
+    }
+
     public void setAttacking(boolean attacking) {
         this.attacking = attacking;
     }
@@ -56,6 +123,10 @@ public abstract class Character extends GameObjects
 
     public void setAttackReach(int attackReach) {
         this.attackReach = attackReach;
+    }
+
+    public void stopAttack() {
+        attacking = false;
     }
 
     public int getAttackReach() {
@@ -95,14 +166,6 @@ public abstract class Character extends GameObjects
         return damage;
     }
 
-//        public void setMaxSpeed(int maxSpeed) {
-//                this.maxSpeed = maxSpeed;
-//        }
-//
-//        public int getMaxSpeed() {
-//                return maxSpeed;
-//        }
-
     public void setHealth(int health) {
         this.health = health;
     }
@@ -119,62 +182,13 @@ public abstract class Character extends GameObjects
         return dead;
     }
 
-    protected boolean isMovingLeft() {
-        if (velocityX < 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    protected boolean isMovingRight() {
-        if (velocityX > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     protected boolean isGettingHit() {
         return false;
     }
 
-    protected boolean isJumping() {
-        if (velocityY < 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    protected boolean isFalling() {
-        if (velocityY > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    protected boolean isMoving() {
-        if (velocityX != 0 || velocityY != 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public String getDirection() {
-            return stringDirection;
-    }
-    public void setDirection(Direction direction) {
-        switch (direction) {
-            case LEFT:
-                stringDirection = "_left";
-                break;
-            case RIGHT:
-                stringDirection = "_right";
-                break;
-        }
-    }
     protected boolean isHurt() {
         return false;
     }
+
 }

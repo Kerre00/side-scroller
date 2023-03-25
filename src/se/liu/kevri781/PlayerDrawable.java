@@ -6,71 +6,74 @@ import java.util.Random;
 public class PlayerDrawable extends Player implements Drawable {
     private SpriteAnimation spriteAnimation;
     private int currentAnimationIndex;
+    private boolean lockAnimation = false;
     private Random rnd = new Random();
     private Player player;
     private String dir = null;
-    public PlayerDrawable(int x, int y, int width, int height, Player player) {
-        super(x, y, width, height);
+    public PlayerDrawable(Player player) {
+        super(player.getX(), player.getY(), player.getWidth(), player.getHeight());
         // Set the current animation index to 0 (the idle animation)
         this.currentAnimationIndex = 0;
         this.player = player;
         this.dir = "resources/images/player/";
         // Create a sprite animation object for the idle animation
-        this.stringDirection = "_right";
         getAnimation(currentAnimationIndex);
     }
 
     @Override
     public void draw(Graphics g) {
         // Draw the next frame of the current player animation
-        g.drawImage(spriteAnimation.getNextFrame(), x, y, width * getScale(), height * getScale(), null);
+        if (spriteAnimation.freezeAnimation) {
+            return;
+        }
+        g.drawImage(spriteAnimation.getNextFrame(), player.x, player.y, player.getScaledWidth(), player.getScaledHeight(), null);
     }
     public void getAnimation(int animationIndex) {
         switch (currentAnimationIndex) {
                 case 0:
                         // Idle animation
-                        spriteAnimation = new SpriteAnimation(dir + "Idle" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Idle" + stringDirection + ".png", 100);
                         break;
                 case 1:
                         // Running animation
-                        spriteAnimation = new SpriteAnimation(dir + "Run_left" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Run" + stringDirection + ".png", 100);
                         break;
                 case 2:
-                        // Right running animation
-                        spriteAnimation = new SpriteAnimation(dir + "Run_right" + stringDirection + ".png", 100);
+                        // Crouch animation
                         break;
                 case 3:
                         // Jumping animation
-                        spriteAnimation = new SpriteAnimation(dir + "Jump" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Jump" + stringDirection + ".png", 100);
                         break;
                 case 4:
                         // Death animation
-                        spriteAnimation = new SpriteAnimation(dir + "Death" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Death" + stringDirection + ".png", 100);
                         break;
                 case 5:
                         // Attack animation 1
-                        spriteAnimation = new SpriteAnimation(dir + "Attack_1" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Attack_1" + stringDirection + ".png", 100);
                         break;
                 case 6:
                         // Attack animation 2
-                        spriteAnimation = new SpriteAnimation(dir + "Attack_2" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Attack_2" + stringDirection + ".png", 100);
                         break;
                 case 7:
                         // Attack animation 3
-                        spriteAnimation = new SpriteAnimation(dir + "Attack_3" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Attack_3" + stringDirection + ".png", 100);
                         break;
                 case 8:
                         // Fall animation
-                        spriteAnimation = new SpriteAnimation(dir + "Fall" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Fall" + stringDirection + ".png", 100);
                         break;
                 case 9:
                         // Get hit animation
-                        spriteAnimation = new SpriteAnimation(dir + "Get_Hit" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Get_Hit" + stringDirection + ".png", 100);
                         break;
             }
     }
 
-    public void animationLogic() {
+    public void animationLogic(GameBackground gameBackground) {
+        int lastAnimationIndex = currentAnimationIndex;
         if (player.isDead()) {
             this.currentAnimationIndex = 4;
         } else if (player.isJumping()) {
@@ -84,20 +87,30 @@ public class PlayerDrawable extends Player implements Drawable {
             this.currentAnimationIndex = 9;
         } else if (player.isFalling()) {
             this.currentAnimationIndex = 8;
-        } else if (player.isMoving()) {
-            System.out.println("Moving");
+        } else if (gameBackground.getGroundSpeed() != 0) {
             this.currentAnimationIndex = 1;
         } else {
             this.currentAnimationIndex = 0;
+        } if (lastAnimationIndex != currentAnimationIndex) {
+            if (!player.isAttacking()) {
+                getAnimation(currentAnimationIndex);
+            }
         }
-        getAnimation(currentAnimationIndex);
     }
 
     public void stopSpriteAnimation() {
-        if (player.isDead()) {this.currentAnimationIndex = 4;}
         if (currentAnimationIndex < 4) {
             this.currentAnimationIndex = 0;
         }
         getAnimation(currentAnimationIndex);
+    }
+    public boolean animationDone() {
+        return spriteAnimation.isFinished();
+    }
+    public void setLockAnimation(boolean lockAnimation) {
+            this.lockAnimation = lockAnimation;
+    }
+    public boolean isLockAnimation() {
+        return lockAnimation;
     }
 }

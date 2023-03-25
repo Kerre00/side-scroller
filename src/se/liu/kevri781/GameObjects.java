@@ -2,6 +2,9 @@ package se.liu.kevri781;
 
 import java.awt.*;
 
+import static se.liu.kevri781.GamePanel.FPS;
+import static se.liu.kevri781.GamePanel.GROUND_LEVEL;
+
 public abstract class GameObjects
 {
 //    Represents any object that can appear in the game, including the player, enemies, and obstacles.
@@ -9,26 +12,24 @@ public abstract class GameObjects
     protected int x, y;
     protected int velocityX, velocityY;
     protected int width, height;
-    protected int scale = 1;
-    private double gravity;
+    protected int scale = 1; // Scale of the object when resized
+    private double gravity = 1; // Gravity in pixels per second per second
     private boolean isOnGround;
     private Point centerCoordinate;
+    private boolean isSyncedWithBackground = false;
+    protected int groundCoord;
 
     // Constructor
-    public GameObjects(int x, int y, int width, int height) {
+    protected GameObjects(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.velocityX = 0;
         this.velocityY = 0;
         this.width = width;
         this.height = height;
-        this.centerCoordinate = new Point(x + width / 2, y + height / 2);
-        gravity = 0.5;
+        this.centerCoordinate = new Point(x + getScaledWidth() / 2, y + getScaledHeight() / 2);
         isOnGround = false;
-    }
-
-    public GameObjects() {
-        this(0, 0, 0, 0);
+        this.groundCoord = GROUND_LEVEL - height;
     }
 
     // Getter and setter methods for the gravity field
@@ -43,18 +44,31 @@ public abstract class GameObjects
 
     // Gravity-related methods
     public void applyGravity() {
-        if (!isOnGround) {
+        if (y < groundCoord) {
             velocityY += gravity;
-            y += velocityY;
+        } else if (y > groundCoord) {
+            setOnGround();
         }
     }
-
-    public void setOnGround(boolean isOnGround) {
-        this.isOnGround = isOnGround;
+    public void setOnGround() {
+        if (y > groundCoord) {
+            y = groundCoord;
+            velocityY = 0;
+            isOnGround = true;
+        } else {
+            isOnGround = false;
+        }
+    }
+    public void setGroundCoord(int groundCoord) {
+        this.groundCoord = groundCoord;
     }
 
     public boolean isOnGround() {
-        return isOnGround;
+        if (y == groundCoord) {
+            return true;
+        } else {
+            return false;
+        }
     }
     public abstract void update();
     public int xDistanceTo(GameObjects other, boolean enableDirection) {
@@ -70,7 +84,9 @@ public abstract class GameObjects
     }
     public void moveWithBackground(GameBackground background) {
         this.velocityX += -(background.getGroundSpeed());
-//        x = -this.velocityX;
+        if (!isSyncedWithBackground) {
+            isSyncedWithBackground = true;
+        }
     }
     public Point getCenterCoordinate() {
         return centerCoordinate;

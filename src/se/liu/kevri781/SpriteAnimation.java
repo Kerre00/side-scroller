@@ -4,7 +4,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 public class SpriteAnimation {
     private BufferedImage spriteSheet = null;
@@ -16,9 +15,11 @@ public class SpriteAnimation {
     private long lastUpdate;
     private boolean reverse;
     private String filePath;
-    private GamePanel gamePanel;
+    private boolean playWholeAnimation = false;
+    public boolean freezeAnimation = false;
+    GameObjects object;
 
-    public SpriteAnimation(String filePath, int animationDelay) {
+    public SpriteAnimation(GameObjects object, String filePath, int animationDelay) {
 	try {
 	    spriteSheet = ImageIO.read(new File(filePath));
 	} catch (IOException e) {
@@ -29,7 +30,7 @@ public class SpriteAnimation {
 	this.numFrames = spriteSheet.getWidth() / spriteWidth;
 	this.animationDelay = animationDelay;
 	this.filePath = filePath;
-	System.out.println(filePath);
+	this.object = object;
 
 	if (filePath.contains("_left")) {
 	    this.reverse = true;
@@ -46,44 +47,51 @@ public class SpriteAnimation {
 	lastUpdate = System.currentTimeMillis();
     }
     public BufferedImage getNextFrame() {
-	if (playerDead()) {
-	    int x = (currentFrame % (spriteSheet.getWidth() / spriteWidth)) * spriteWidth;
-	    int y = (currentFrame / (spriteSheet.getWidth() / spriteWidth)) * spriteHeight;
-	    return spriteSheet.getSubimage(x, y, spriteWidth, spriteHeight);
-	}
-	else if (reverse) {
-	    if (System.currentTimeMillis() - lastUpdate >= animationDelay) {
-		currentFrame--;
-		if (isFinished()) {
-		    currentFrame = numFrames - 1;
+	 if (!freezeAnimation) {
+	     if (reverse) {
+		if (System.currentTimeMillis() - lastUpdate >= animationDelay) {
+		    currentFrame--;
+		    if (isFinished()) {
+			currentFrame = numFrames - 1;
+			stopPlayerAnimation();
+		    }
+		    lastUpdate = System.currentTimeMillis();
 		}
-		lastUpdate = System.currentTimeMillis();
-	    }
-	} else {
-	    if (System.currentTimeMillis() - lastUpdate >= animationDelay) {
-		currentFrame++;
-		if (isFinished()) {
-		    currentFrame = 0;
+	    } else {
+		if (System.currentTimeMillis() - lastUpdate >= animationDelay) {
+		    currentFrame++;
+		    if (isFinished()) {
+			currentFrame = 0;
+			stopPlayerAnimation();
+		    }
+		    lastUpdate = System.currentTimeMillis();
 		}
-		lastUpdate = System.currentTimeMillis();
 	    }
-	}
-
+    	}
 	int x = (currentFrame % (spriteSheet.getWidth() / spriteWidth)) * spriteWidth;
 	int y = (currentFrame / (spriteSheet.getWidth() / spriteWidth)) * spriteHeight;
 	return spriteSheet.getSubimage(x, y, spriteWidth, spriteHeight);
     }
     public boolean isFinished() {
-	if (reverse)
-	    return currentFrame == 0;
-	else
-	    return currentFrame == numFrames;
+	if (reverse) {
+	    return this.currentFrame == 0;}
+	else {
+	    return this.currentFrame == this.numFrames - 1;
+	}
     }
-    public boolean playerDead() {
-	return Objects.equals(filePath, "resources/images/player/Death.png") && currentFrame >= numFrames - 1;
+    private boolean playerDead() {
+	return filePath.contains("Death") && filePath.contains("Player") && currentFrame >= numFrames - 1;
     }
-
-    public BufferedImage getSpriteSheet() {
-	return spriteSheet;
+    private void setFreezeAnimation(boolean freezeAnimation) {
+	this.freezeAnimation = freezeAnimation;
+    }
+    private void stopPlayerAnimation() {
+	if (object instanceof Player) {
+	    if (filePath.contains("Attack")) {
+		((Player) object).setAttacking(false);
+	    } else if (filePath.contains("Death")) {
+		setFreezeAnimation(true);
+	    }
+	}
     }
 }
