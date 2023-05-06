@@ -2,54 +2,64 @@ package se.liu.kevri781;
 
 public abstract class Character extends GameObjects
 {
-//    Represents a character in the game, which includes the player and enemies.
+    //    Represents a character in the game, which includes the player and enemies.
 //    Contains properties such as health, attack power, and movement speed.
 //    Defines methods for movement, attacking, and taking damage.
     public int health;
+    public int maxHealth;
+    public boolean recovering;
+    public long recoverTimer;
     public boolean dead;
     public int level;
     public int damage;
     public int speed;
-    public int maxHealth;
     public int attackReach;
     private boolean attacking;
+    private boolean isGettingHit;
     public String stringDirection;
 
     public Character(final int x, final int y, final int width, final int height) {
         super(x, y, width, height);
-        this.health = 3;
+        this.maxHealth = 3;
+        this.health = 1;
         this.dead = false;
         this.level = 1;
         this.damage = 1;
         this.speed = 1;
-        this.maxHealth = 1;
         this.attacking = false;
         this.stringDirection = "_right";
+        this.attackReach = 100;
+        this.recovering = false;
     }
 
     // ----------------------------------
     // -------Methods for movement-------
     // ----------------------------------
     public void moveLeft() {
+        setDirection(Direction.LEFT);
         velocityX = -speed;
     }
+
     public void moveRight() {
+        setDirection(Direction.RIGHT);
         velocityX = speed;
     }
+
     public void jump() {
-        // This method is used to make the character jump
-        // the character can only jump once the velocityY is 0
         if (!isAboveGround()) {
             velocityY -= 20;
         }
     }
+
     public void stop() {
         velocityX = 0;
-        velocityY = 0;
+//        velocityY = 0;
     }
+
     public String getDirection() {
-            return stringDirection;
+        return stringDirection;
     }
+
     public void setDirection(Direction direction) {
         switch (direction) {
             case LEFT:
@@ -60,6 +70,7 @@ public abstract class Character extends GameObjects
                 break;
         }
     }
+
     protected boolean isMovingLeft() {
         if (velocityX < 0) {
             return true;
@@ -75,6 +86,7 @@ public abstract class Character extends GameObjects
             return false;
         }
     }
+
     protected boolean isMoving() {
         if (velocityX != 0 || velocityY != 0) {
             return true;
@@ -82,6 +94,7 @@ public abstract class Character extends GameObjects
             return false;
         }
     }
+
     protected boolean isJumping() {
         if (velocityY < 0) {
             return true;
@@ -97,6 +110,7 @@ public abstract class Character extends GameObjects
             return false;
         }
     }
+
     protected boolean isAboveGround() {
         if (y < groundCoord) {
             return true;
@@ -144,6 +158,7 @@ public abstract class Character extends GameObjects
 
     public void setMaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
+        this.health = maxHealth;
     }
 
     public int getMaxHealth() {
@@ -182,13 +197,24 @@ public abstract class Character extends GameObjects
         return dead;
     }
 
-
+    public void reduceHealth(int damage) {
+        health -= damage;
+        setGettingHit(true);
+        knockBack();
+    }
     protected boolean isGettingHit() {
-        return false;
+        return isGettingHit;
     }
-
-    protected boolean isHurt() {
-        return false;
+    protected void setGettingHit(boolean gettingHit) {
+        isGettingHit = gettingHit;
     }
-
+    protected void knockBack() {
+        if (getDirection().equals("_left")) {
+//            velocityX = 10;
+//            velocityY = -10;
+        } else if (getDirection().equals("_right")) {
+//            velocityX = -10;
+//            velocityY = -10;
+        }
+    }
 }

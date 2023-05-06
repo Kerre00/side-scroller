@@ -54,6 +54,7 @@ public class SpriteAnimation {
 		    if (isFinished()) {
 			currentFrame = numFrames - 1;
 			stopPlayerAnimation();
+			stopEnemyAnimation();
 		    }
 		    lastUpdate = System.currentTimeMillis();
 		}
@@ -63,6 +64,7 @@ public class SpriteAnimation {
 		    if (isFinished()) {
 			currentFrame = 0;
 			stopPlayerAnimation();
+			stopEnemyAnimation();
 		    }
 		    lastUpdate = System.currentTimeMillis();
 		}
@@ -89,8 +91,24 @@ public class SpriteAnimation {
 	if (object instanceof Player) {
 	    if (filePath.contains("Attack")) {
 		((Player) object).setAttacking(false);
-	    } else if (filePath.contains("Death")) {
+	    } if (((Player) object).isGettingHit()) {
+		((Player) object).setGettingHit(false);
+		((Player) object).stop();
+	    } if (filePath.contains("Death")) {
 		setFreezeAnimation(true);
+	    }
+	}
+    }
+    private void stopEnemyAnimation() {
+	if (object instanceof Enemy) {
+	    if (((Enemy) object).isGettingHit()) {
+		((Enemy) object).setGettingHit(false);
+		((Enemy) object).stop();
+	    } if (filePath.contains("Death")) {
+		setFreezeAnimation(true);
+		GamePanel.enemies.remove(object);
+	    } if (filePath.contains("Attack")) {
+		((Enemy) object).setAttacking(false);
 	    }
 	}
     }

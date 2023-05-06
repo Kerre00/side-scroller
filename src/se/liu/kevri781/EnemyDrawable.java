@@ -65,12 +65,12 @@ public class EnemyDrawable extends Enemy implements Drawable {
                 spriteAnimation = new SpriteAnimation(enemy,dir + "Run" + stringDirection + ".png", 100);
                 break;
             case 3:
-                // Jumping animation
-                spriteAnimation = new SpriteAnimation(enemy,dir + "Jump" + stringDirection + ".png", 100);
+                // Jumping animation TODO: Add jumping animation
+//                spriteAnimation = new SpriteAnimation(enemy,dir + "Jump" + stringDirection + ".png", 100);
                 break;
             case 4:
                 // Death animation
-                spriteAnimation = new SpriteAnimation(enemy,dir + "Death" + stringDirection + ".png", 100);
+                spriteAnimation = new SpriteAnimation(enemy,dir + "Dead" + stringDirection + ".png", 100);
                 break;
             case 5:
                 // Attack animation 1
@@ -85,12 +85,12 @@ public class EnemyDrawable extends Enemy implements Drawable {
                 spriteAnimation = new SpriteAnimation(enemy,dir + "Attack_3" + stringDirection + ".png", 100);
                 break;
             case 8:
-                // Fall animation
-                spriteAnimation = new SpriteAnimation(enemy,dir + "Fall" + stringDirection + ".png", 100);
+                // Fall animation TODO: Add fall animation
+//                spriteAnimation = new SpriteAnimation(enemy,dir + "Fall" + stringDirection + ".png", 100);
                 break;
             case 9:
                 // Get hit animation
-                spriteAnimation = new SpriteAnimation(enemy,dir + "Get_Hit" + stringDirection + ".png", 100);
+                spriteAnimation = new SpriteAnimation(enemy,dir + "Hurt" + stringDirection + ".png", 100);
                 break;
         }
     }
@@ -101,18 +101,16 @@ public class EnemyDrawable extends Enemy implements Drawable {
             currentAnimationIndex = 4;
         } else if (enemy.isAttacking()) {
             currentAnimationIndex = 5;
+        } else if (enemy.isGettingHit()) {
+            currentAnimationIndex = 9;
         } else if (enemy.isJumping()) {
             currentAnimationIndex = 3;
         } else if (enemy.isFalling()) {
             currentAnimationIndex = 8;
         } else if (enemy.isMovingLeft()) {
-            enemy.setDirection(Direction.LEFT);
             currentAnimationIndex = 1;
         } else if (enemy.isMovingRight()) {
-            enemy.setDirection(Direction.RIGHT);
             currentAnimationIndex = 1;
-        } else if (enemy.isGettingHit()) {
-            currentAnimationIndex = 9;
         } else {
             currentAnimationIndex = 0;
         }

@@ -32,7 +32,7 @@ public class GameBackground {
 	    bgImages2.add(new ImageIcon(imagePath).getImage());
 
 	    bgXPos.add(0);
-	    bgXpos2.add(928);
+	    bgXpos2.add(bgImages.get(i).getWidth(null));
 
 	    bgYpos.add(- (int) (screenSize.height/1.05));
 	    bgYpos2.add(- (int) (screenSize.height/1.05));
@@ -75,18 +75,11 @@ public class GameBackground {
 	    }
 	}
     }
-    public void moveBackground(final int speed, PlayerAction dir) {
+    public void moveBackground(int speed) {
+	speed /= 5;
 	for (int i = 0; i < numLayers; i++) {
-	    switch (dir) {
-		case RUN_LEFT:
-		    bgSpeed.set(i, -speed * i / 5);
-		    bgSpeed2.set(i, -speed * i / 5);
-		    break;
-		case RUN_RIGHT:
-		    bgSpeed.set(i, speed * i / 5);
-		    bgSpeed2.set(i, speed * i / 5);
-		    break;
-	    }
+	    bgSpeed.set(i, speed * i);
+	    bgSpeed2.set(i, speed * i);
 	}
     }
     public void drawForeGround(Graphics g) {
@@ -104,11 +97,6 @@ public class GameBackground {
     public int getGroundSpeed() {
 	return bgSpeed.get(bgSpeed.size() - 2);
     }
-    public void stopBackground() {
-	for (int i = 0; i < numLayers; i++) {
-	    bgSpeed.set(i, 0);
-	    bgSpeed2.set(i, 0);
-	}
-    }
+
 }
 

@@ -19,16 +19,16 @@ public class GameViewer {
 
 //    	frame.setSize(1280, 720);
 	frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Runs the game in fullscreen windowed mode.
-//	frame.setUndecorated(true); // Hides the title bar.
+	frame.setUndecorated(true); // Hides the title bar.
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	frame.setResizable(false);
 	frameSize = frame.getSize();
 
-	GamePanel panel = new GamePanel();
-	panel.start();
+//	GamePanel panel = new GamePanel();
+//	panel.start();
 
-	frame.add(panel, BorderLayout.CENTER);
+	PanelManager panel = new PanelManager();
 
 	frame.setVisible(true);
     }

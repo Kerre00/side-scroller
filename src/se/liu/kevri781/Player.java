@@ -4,24 +4,27 @@ import static se.liu.kevri781.GamePanel.GROUND_LEVEL;
 
 public class Player extends Character
 {
-    private boolean recovering;
-    private long recoverTimer;
     private final int spaceBelowSprite = 49; // The space below the sprite that is not part of the sprite
-    public Player(final int x, final int y, final int width, final int height) {
+    private int money = 0;
+    public GameBackground background;
+    public Player(final int x, final int y, final int width, final int height, GameBackground background) {
         super(x, y, width, height);
-        this.recovering = false;
+        this.background = background;
+        this.setAttackReach(200);
         this.setScale(5);
         this.setSpeed(5);
+        this.setMaxHealth(10);
         this.setDirection(Direction.RIGHT);
         this.setGroundCoord(GROUND_LEVEL - (height - spaceBelowSprite) * scale);
     }
 
     @Override public void update() {
         // Moves the player
-        x += velocityX;
+        if (background != null) {
+            background.moveBackground(velocityX);
+        }
         y += velocityY;
         applyGravity();
-//        System.out.println("player velocityX: " + velocityX + " velocityY: " + velocityY);
 
         // Sets recovering to false if the player has been recovering for 2 seconds
         if (recovering) {
@@ -35,11 +38,38 @@ public class Player extends Character
         // If the player collides with an enemy, the player loses a life
         for (int i = 0; i < GamePanel.enemies.size(); i++) {
             Enemy e = GamePanel.enemies.get(i);
-            if (this.xDistanceTo(e, false) < 100 && !recovering) {
-                health--;
-                recovering = true;
-                recoverTimer = System.nanoTime();
-//                System.out.println("You have been hit! You have " + health + " lives left.");
+            int dist = this.xDistanceTo(e, false);
+
+            if (e.recovering) {
+                long elapsed = (System.nanoTime() - e.recoverTimer) / 1000000;
+                if (elapsed > 2000) {
+                    e.recovering = false;
+                    e.recoverTimer = 0;
+                }
+            }
+
+            if (e.isAttacking()) {
+                if (dist <= e.attackReach && !recovering) {
+                    reduceHealth(1);
+                    recovering = true;
+                    recoverTimer = System.nanoTime();
+                }
+            }
+
+            if (dist < 100 && !recovering && !e.isDead()) {
+                    reduceHealth(1);
+                    recovering = true;
+                    recoverTimer = System.nanoTime();
+            }
+
+            if (this.isAttacking() && dist <= attackReach && !e.recovering) {
+                e.reduceHealth(1);
+                e.recovering = true;
+                e.recoverTimer = System.nanoTime();
+                if (e.getHealth() <= 0) {
+                    e.setDead(true);
+                    addMoney(e.getMoneyValue());
+                }
             }
         }
 
@@ -47,5 +77,11 @@ public class Player extends Character
         if (health <= 0) {
             setDead(true);
         }
+    }
+    public int getMoney() {
+        return money;
+    }
+    public void addMoney(int amount) {
+        money += amount;
     }
 }

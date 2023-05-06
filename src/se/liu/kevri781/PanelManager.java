@@ -1,7 +1,7 @@
 package se.liu.kevri781;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 public class PanelManager {
 
@@ -9,25 +9,29 @@ public class PanelManager {
     private JPanel currentPanel;
     private MenuPanel menuPanel;
     private GamePanel gamePanel;
-//    private PausePanel pausePanel;
-//    private EndGamePanel endGamePanel;
 
     public PanelManager() {
-        frame = new JFrame("Game");
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
+        frame = new JFrame("Side Scroller Game");
 
-        menuPanel = new MenuPanel();
-        gamePanel = new GamePanel();
-//        pausePanel = new PausePanel(this);
-//        endGamePanel = new EndGamePanel(this);
+        menuPanel = new MenuPanel(this);
+
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Runs the game in fullscreen windowed mode.
+        frame.setUndecorated(true); // Hides the title bar.
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        frame.setResizable(false);
+        frame.setVisible(true);
 
         currentPanel = menuPanel;
+
         frame.add(currentPanel);
 
-        frame.setVisible(true);
+        frame.revalidate();
+        frame.repaint();
+    }
+
+    public static void main(String[] args) {
+        PanelManager panel = new PanelManager();
     }
 
     public void switchToMainMenu() {
@@ -35,16 +39,11 @@ public class PanelManager {
     }
 
     public void switchToGame() {
+        gamePanel = new GamePanel(this);
         switchPanel(gamePanel);
+        gamePanel.start();
+        gamePanel.requestFocusInWindow();
     }
-
-//    public void switchToPause() {
-//        switchPanel(pausePanel);
-//    }
-
-//    public void switchToEndGame() {
-//        switchPanel(endGamePanel);
-//    }
 
     private void switchPanel(JPanel panel) {
         frame.remove(currentPanel);

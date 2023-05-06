@@ -11,7 +11,7 @@ public class PlayerDrawable extends Player implements Drawable {
     private Player player;
     private String dir = null;
     public PlayerDrawable(Player player) {
-        super(player.getX(), player.getY(), player.getWidth(), player.getHeight());
+        super(player.getX(), player.getY(), player.getWidth(), player.getHeight(), player.background);
         // Set the current animation index to 0 (the idle animation)
         this.currentAnimationIndex = 0;
         this.player = player;
@@ -39,7 +39,7 @@ public class PlayerDrawable extends Player implements Drawable {
                         spriteAnimation = new SpriteAnimation(player, dir + "Run" + stringDirection + ".png", 100);
                         break;
                 case 2:
-                        // Crouch animation
+                        // TODO: Crouch animation
                         break;
                 case 3:
                         // Jumping animation
@@ -83,7 +83,7 @@ public class PlayerDrawable extends Player implements Drawable {
             final int minRnd = 5;
             int rndInt = rnd.nextInt(maxRnd - minRnd) + minRnd;
             this.currentAnimationIndex = rndInt;
-        } else if (player.isHurt()) {
+        } else if (player.isGettingHit()) {
             this.currentAnimationIndex = 9;
         } else if (player.isFalling()) {
             this.currentAnimationIndex = 8;
