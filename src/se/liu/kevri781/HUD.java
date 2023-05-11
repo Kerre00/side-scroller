@@ -9,7 +9,7 @@ public class HUD extends Player implements Drawable
     private Enemy enemy;
     private int healthBarX;
     private int healthBarY;
-    private Dimension screenDimension = GameViewer.screenSize;
+    private Dimension screenDimension = PanelManager.SCREEN_SIZE;
     public HUD(Player player, Enemy enemy) {
         super(0, 0, 0, 0, null);
         this.player = player;

@@ -2,19 +2,26 @@ package se.liu.kevri781;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class UpgradesPanel extends JPanel
 {
     private PanelManager panelManager;
+    private UpgradesManager upgradesManager;
 
     public UpgradesPanel(final PanelManager panelManager) {
 	this.panelManager = panelManager;
+	this.upgradesManager = new UpgradesManager();
+
 	setBackground(Color.DARK_GRAY);
 
 	setLayout(new GridBagLayout());
 
 	GridBagConstraints c = new GridBagConstraints();
-	c.insets = new Insets(50, 10, 10, 10); //
+	c.insets = new Insets(80, 10, 10, 10); //
 	c.gridx = 0;
 	c.gridy = 0;
 	c.gridwidth = GridBagConstraints.REMAINDER; // spans across all columns
@@ -32,7 +39,7 @@ public class UpgradesPanel extends JPanel
 	c.anchor = GridBagConstraints.NORTH; // aligns to the top
 	c.weighty = 0; // resets the vertical weight
 
-	JTextField textField = new JTextField("Balance: 420$");
+	JTextField textField = new JTextField("Balance: " + GameProgress.getMoney() + "$");
 	textField.setFont(new Font("Times New Roman", Font.BOLD, 40));
 	textField.setForeground(Color.WHITE);
 	textField.setBackground(Color.DARK_GRAY);
@@ -58,7 +65,7 @@ public class UpgradesPanel extends JPanel
 
 	c.gridy++;
 
-	JTextField currentDamageTextField = new JTextField("Current LVL: 10");
+	JTextField currentDamageTextField = new JTextField("Current LVL: " + GameProgress.getUpgradeLevel(Upgrades.MAX_DAMAGE));
 	currentDamageTextField.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	currentDamageTextField.setForeground(Color.WHITE);
 	currentDamageTextField.setBackground(Color.DARK_GRAY);
@@ -80,7 +87,7 @@ public class UpgradesPanel extends JPanel
 
 	c.gridy++;
 
-	JTextField currentHealthTextField = new JTextField("Current LVL: 100");
+	JTextField currentHealthTextField = new JTextField("Current LVL: " + GameProgress.getUpgradeLevel(Upgrades.MAX_HEALTH));
 	currentHealthTextField.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	currentHealthTextField.setForeground(Color.WHITE);
 	currentHealthTextField.setBackground(Color.DARK_GRAY);
@@ -102,7 +109,7 @@ public class UpgradesPanel extends JPanel
 
 	c.gridy++;
 
-	JTextField currentSpeedTextField = new JTextField("Current LVL: 10");
+	JTextField currentSpeedTextField = new JTextField("Current LVL: " + GameProgress.getUpgradeLevel(Upgrades.SPEED));
 	currentSpeedTextField.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	currentSpeedTextField.setForeground(Color.WHITE);
 	currentSpeedTextField.setBackground(Color.DARK_GRAY);
@@ -124,7 +131,7 @@ public class UpgradesPanel extends JPanel
 
 	c.gridy++;
 
-	JTextField currentJumpTextField = new JTextField("Current LVL: 10");
+	JTextField currentJumpTextField = new JTextField("Current LVL: " + GameProgress.getUpgradeLevel(Upgrades.JUMP_HEIGHT));
 	currentJumpTextField.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	currentJumpTextField.setForeground(Color.WHITE);
 	currentJumpTextField.setBackground(Color.DARK_GRAY);
@@ -136,17 +143,17 @@ public class UpgradesPanel extends JPanel
 
 	c.gridx++;
 
-	JTextField fireRateTextField = new JTextField("Attack Rate");
-	fireRateTextField.setFont(new Font("Times New Roman", Font.BOLD, 25));
-	fireRateTextField.setForeground(Color.WHITE);
-	fireRateTextField.setBackground(Color.DARK_GRAY);
-	fireRateTextField.setBorder(null);
-	fireRateTextField.setEditable(false);
-	add(fireRateTextField, c);
+	JTextField attackReachTextField = new JTextField("Attack Reach");
+	attackReachTextField.setFont(new Font("Times New Roman", Font.BOLD, 25));
+	attackReachTextField.setForeground(Color.WHITE);
+	attackReachTextField.setBackground(Color.DARK_GRAY);
+	attackReachTextField.setBorder(null);
+	attackReachTextField.setEditable(false);
+	add(attackReachTextField, c);
 
 	c.gridy++;
 
-	JTextField currentFireRateTextField = new JTextField("Current LVL: 10");
+	JTextField currentFireRateTextField = new JTextField("Current LVL: " + GameProgress.getUpgradeLevel(Upgrades.ATTACK_REACH));
 	currentFireRateTextField.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	currentFireRateTextField.setForeground(Color.WHITE);
 	currentFireRateTextField.setBackground(Color.DARK_GRAY);
@@ -168,7 +175,7 @@ public class UpgradesPanel extends JPanel
 
 	c.gridy++;
 
-	JTextField currentRecoveryTimeTextField = new JTextField("Current LVL: 10");
+	JTextField currentRecoveryTimeTextField = new JTextField("Current LVL: " + GameProgress.getUpgradeLevel(Upgrades.RECOVERY_TIME));
 	currentRecoveryTimeTextField.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	currentRecoveryTimeTextField.setForeground(Color.WHITE);
 	currentRecoveryTimeTextField.setBackground(Color.DARK_GRAY);
@@ -181,45 +188,87 @@ public class UpgradesPanel extends JPanel
 	c.gridwidth = 1;
 	c.weighty = 0; // resets the vertical weight
 
-	JButton damageUpgrade = new JButton("100$ (+1 dmg)");
+	JButton damageUpgrade = new JButton(upgradesManager.getUpgradePrice(Upgrades.MAX_DAMAGE) + "$");
 	damageUpgrade.setPreferredSize(new Dimension(200, 50));
 	damageUpgrade.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	add(damageUpgrade, c);
+	damageUpgrade.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		upgradesManager.upgrade(Upgrades.MAX_DAMAGE);
+		panelManager.switchToUpgrades();
+	    }
+	});
 
 	c.gridx++;
 
-	JButton healthUpgrade = new JButton("100$ (+10 hp)");
+	JButton healthUpgrade = new JButton(upgradesManager.getUpgradePrice(Upgrades.MAX_HEALTH) + "$");
 	healthUpgrade.setPreferredSize(new Dimension(200, 50));
 	healthUpgrade.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	add(healthUpgrade, c);
+	healthUpgrade.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		upgradesManager.upgrade(Upgrades.MAX_HEALTH);
+		panelManager.switchToUpgrades();
+	    }
+	});
 
 	c.gridx++;
 
-	JButton speedUpgrade = new JButton("100$ (+1 spd)");
+	JButton speedUpgrade = new JButton(upgradesManager.getUpgradePrice(Upgrades.SPEED) + "$");
 	speedUpgrade.setPreferredSize(new Dimension(200, 50));
 	speedUpgrade.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	add(speedUpgrade, c);
+	speedUpgrade.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		upgradesManager.upgrade(Upgrades.SPEED);
+		panelManager.switchToUpgrades();
+	    }
+	});
 
 	c.gridx++;
 
-	JButton jumpUpgrade = new JButton("100$ (+1 jum)");
+	JButton jumpUpgrade = new JButton(upgradesManager.getUpgradePrice(Upgrades.JUMP_HEIGHT) + "$");
 	jumpUpgrade.setPreferredSize(new Dimension(200, 50));
 	jumpUpgrade.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	add(jumpUpgrade, c);
+	jumpUpgrade.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		upgradesManager.upgrade(Upgrades.JUMP_HEIGHT);
+		panelManager.switchToUpgrades();
+	    }
+	});
 
 	c.gridx++;
 
-	JButton fireRateUpgrade = new JButton("100$ (+1 fr)");
-	fireRateUpgrade.setPreferredSize(new Dimension(200, 50));
-	fireRateUpgrade.setFont(new Font("Times New Roman", Font.BOLD, 20));
-	add(fireRateUpgrade, c);
+	JButton attackReachUpgrade = new JButton(upgradesManager.getUpgradePrice(Upgrades.ATTACK_REACH) + "$");
+	attackReachUpgrade.setPreferredSize(new Dimension(200, 50));
+	attackReachUpgrade.setFont(new Font("Times New Roman", Font.BOLD, 20));
+	add(attackReachUpgrade, c);
+	attackReachUpgrade.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		upgradesManager.upgrade(Upgrades.ATTACK_REACH);
+		panelManager.switchToUpgrades();
+	    }
+	});
 
 	c.gridx++;
 
-	JButton recoveryTimeUpgrade = new JButton("100$ (+1 rt)");
+	JButton recoveryTimeUpgrade = new JButton(upgradesManager.getUpgradePrice(Upgrades.RECOVERY_TIME) + "$");
 	recoveryTimeUpgrade.setPreferredSize(new Dimension(200, 50));
 	recoveryTimeUpgrade.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	add(recoveryTimeUpgrade, c);
+	recoveryTimeUpgrade.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		upgradesManager.upgrade(Upgrades.RECOVERY_TIME);
+		panelManager.switchToUpgrades();
+	    }
+	});
 
 	c.gridx = 0;
 	c.gridy = 5;
@@ -345,7 +394,7 @@ public class UpgradesPanel extends JPanel
 	c.gridy++;
 	c.gridx = 0;
 
-	JTextField skeletonWarriorLevelTextField = new JTextField("Current LVL: 1");
+	JTextField skeletonWarriorLevelTextField = new JTextField("Current LVL: " + GameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR));
 	skeletonWarriorLevelTextField.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	skeletonWarriorLevelTextField.setForeground(Color.WHITE);
 	skeletonWarriorLevelTextField.setBackground(Color.DARK_GRAY);
@@ -355,16 +404,23 @@ public class UpgradesPanel extends JPanel
 
 	c.gridy++;
 
-	JButton buySkeletonWarrior = new JButton("100$");
+	JButton buySkeletonWarrior = new JButton(upgradesManager.getUpgradePrice(Upgrades.SKELETON_WARRIOR) + "$");
 	buySkeletonWarrior.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	buySkeletonWarrior.setPreferredSize(new Dimension(100, 50));
 	add(buySkeletonWarrior, c);
+	buySkeletonWarrior.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		upgradesManager.upgrade(Upgrades.SKELETON_WARRIOR);
+		panelManager.switchToUpgrades();
+	    }
+	});
 
 	c.gridy--;
 
 	c.gridx++;
 
-	JTextField spearmanLevelTextField = new JTextField("Current LVL: 1");
+	JTextField spearmanLevelTextField = new JTextField("Current LVL: " + GameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN));
 	spearmanLevelTextField.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	spearmanLevelTextField.setForeground(Color.WHITE);
 	spearmanLevelTextField.setBackground(Color.DARK_GRAY);
@@ -374,16 +430,23 @@ public class UpgradesPanel extends JPanel
 
 	c.gridy++;
 
-	JButton buySpearman = new JButton("100$");
+	JButton buySpearman = new JButton(upgradesManager.getUpgradePrice(Upgrades.SKELETON_SPEARMAN) + "$");
 	buySpearman.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	buySpearman.setPreferredSize(new Dimension(100, 50));
 	add(buySpearman, c);
+	buySpearman.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		upgradesManager.upgrade(Upgrades.SKELETON_SPEARMAN);
+		panelManager.switchToUpgrades();
+	    }
+	});
 
 	c.gridy--;
 
 	c.gridx++;
 
-	JTextField archerLevelTextField = new JTextField("Current LVL: 1");
+	JTextField archerLevelTextField = new JTextField("Current LVL: " + GameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER));
 	archerLevelTextField.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	archerLevelTextField.setForeground(Color.WHITE);
 	archerLevelTextField.setBackground(Color.DARK_GRAY);
@@ -393,16 +456,23 @@ public class UpgradesPanel extends JPanel
 
 	c.gridy++;
 
-	JButton buyArcher = new JButton("100$");
+	JButton buyArcher = new JButton(upgradesManager.getUpgradePrice(Upgrades.SKELETON_ARCHER) + "$");
 	buyArcher.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	buyArcher.setPreferredSize(new Dimension(100, 50));
 	add(buyArcher, c);
+	buyArcher.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		upgradesManager.upgrade(Upgrades.SKELETON_ARCHER);
+		panelManager.switchToUpgrades();
+	    }
+	});
 
 	c.gridy--;
 
 	c.gridx++;
 
-	JTextField fireWizardLevelTextField = new JTextField("Current LVL: 1");
+	JTextField fireWizardLevelTextField = new JTextField("Current LVL: " + GameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD));
 	fireWizardLevelTextField.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	fireWizardLevelTextField.setForeground(Color.WHITE);
 	fireWizardLevelTextField.setBackground(Color.DARK_GRAY);
@@ -412,16 +482,23 @@ public class UpgradesPanel extends JPanel
 
 	c.gridy++;
 
-	JButton buyFireWizard = new JButton("100$");
+	JButton buyFireWizard = new JButton(upgradesManager.getUpgradePrice(Upgrades.FIRE_WIZARD) + "$");
 	buyFireWizard.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	buyFireWizard.setPreferredSize(new Dimension(100, 50));
 	add(buyFireWizard, c);
+	buyFireWizard.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		upgradesManager.upgrade(Upgrades.FIRE_WIZARD);
+		panelManager.switchToUpgrades();
+	    }
+	});
 
 	c.gridy--;
 
 	c.gridx++;
 
-	JTextField magicianLevelTextField = new JTextField("Current LVL: 1");
+	JTextField magicianLevelTextField = new JTextField("Current LVL: " + GameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN));
 	magicianLevelTextField.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	magicianLevelTextField.setForeground(Color.WHITE);
 	magicianLevelTextField.setBackground(Color.DARK_GRAY);
@@ -431,16 +508,23 @@ public class UpgradesPanel extends JPanel
 
 	c.gridy++;
 
-	JButton buyMagician = new JButton("100$");
+	JButton buyMagician = new JButton(upgradesManager.getUpgradePrice(Upgrades.WANDERER_MAGICIAN) + "$");
 	buyMagician.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	buyMagician.setPreferredSize(new Dimension(100, 50));
 	add(buyMagician, c);
+	buyMagician.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		upgradesManager.upgrade(Upgrades.WANDERER_MAGICIAN);
+		panelManager.switchToUpgrades();
+	    }
+	});
 
 	c.gridy--;
 
 	c.gridx++;
 
-	JTextField lightningMageLevelTextField = new JTextField("Current LVL: 1");
+	JTextField lightningMageLevelTextField = new JTextField("Current LVL: " + GameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE));
 	lightningMageLevelTextField.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	lightningMageLevelTextField.setForeground(Color.WHITE);
 	lightningMageLevelTextField.setBackground(Color.DARK_GRAY);
@@ -450,10 +534,17 @@ public class UpgradesPanel extends JPanel
 
 	c.gridy++;
 
-	JButton buyLightningMage = new JButton("100$");
+	JButton buyLightningMage = new JButton(upgradesManager.getUpgradePrice(Upgrades.LIGHTNING_MAGE) + "$");
 	buyLightningMage.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	buyLightningMage.setPreferredSize(new Dimension(100, 50));
 	add(buyLightningMage, c);
+	buyLightningMage.addActionListener(new ActionListener() {
+	    @Override
+	    public void actionPerformed(ActionEvent e) {
+		upgradesManager.upgrade(Upgrades.LIGHTNING_MAGE);
+		panelManager.switchToUpgrades();
+	    }
+	});
 
 	c.gridx = 0;
 	c.gridy++;

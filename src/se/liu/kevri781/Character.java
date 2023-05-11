@@ -7,29 +7,29 @@ public abstract class Character extends GameObjects
 //    Defines methods for movement, attacking, and taking damage.
     public int health;
     public int maxHealth;
-    public boolean recovering;
-    public long recoverTimer;
     public boolean dead;
     public int level;
     public int damage;
     public int speed;
+    public int jumpHeight;
     public int attackReach;
-    private boolean attacking;
-    private boolean isGettingHit;
-    public String stringDirection;
+    private boolean attacking = false;
+    private boolean isGettingHit = false;
+    public long recoverTimer = 0;
+    public boolean recovering = false;
+    public long invincibilityTimer = 1000;
+    public String stringDirection = "_right";
 
     public Character(final int x, final int y, final int width, final int height) {
         super(x, y, width, height);
-        this.maxHealth = 3;
-        this.health = 1;
-        this.dead = false;
         this.level = 1;
         this.damage = 1;
         this.speed = 1;
-        this.attacking = false;
-        this.stringDirection = "_right";
+        this.maxHealth = 3;
+        this.health = maxHealth;
+        this.dead = false;
         this.attackReach = 100;
-        this.recovering = false;
+        this.jumpHeight = 10;
     }
 
     // ----------------------------------
@@ -47,13 +47,15 @@ public abstract class Character extends GameObjects
 
     public void jump() {
         if (!isAboveGround()) {
-            velocityY -= 20;
+            velocityY -= jumpHeight;
         }
+    }
+    public void setJumpHeight(int jumpHeight) {
+        this.jumpHeight = jumpHeight;
     }
 
     public void stop() {
         velocityX = 0;
-//        velocityY = 0;
     }
 
     public String getDirection() {
@@ -200,7 +202,7 @@ public abstract class Character extends GameObjects
     public void reduceHealth(int damage) {
         health -= damage;
         setGettingHit(true);
-        knockBack();
+//        knockBack();
     }
     protected boolean isGettingHit() {
         return isGettingHit;
@@ -210,11 +212,14 @@ public abstract class Character extends GameObjects
     }
     protected void knockBack() {
         if (getDirection().equals("_left")) {
-//            velocityX = 10;
-//            velocityY = -10;
+            velocityX = 10;
+            velocityY = -10;
         } else if (getDirection().equals("_right")) {
-//            velocityX = -10;
-//            velocityY = -10;
+            velocityX = -10;
+            velocityY = -10;
         }
+    }
+    protected void setInvincibilityTimer(long invincibilityTimer) {
+        this.invincibilityTimer = invincibilityTimer;
     }
 }

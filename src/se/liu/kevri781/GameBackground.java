@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import java.awt.event.ComponentEvent;
 
-import static se.liu.kevri781.GameViewer.screenSize;
-import static se.liu.kevri781.GameViewer.frameSize;
+import static se.liu.kevri781.PanelManager.SCREEN_SIZE;
+import static se.liu.kevri781.PanelManager.frameSize;
 
 public class GameBackground {
 
@@ -45,8 +45,8 @@ public class GameBackground {
     public void componentResized(ComponentEvent e) {
 	// Resize the background images
 	for (int i = 0; i < numLayers; i++) {
-	    bgImages.set(i, bgImages.get(i).getScaledInstance((int) (screenSize.width * 0.66) * 2, screenSize.height * 2, Image.SCALE_SMOOTH));
-	    bgImages2.set(i, bgImages2.get(i).getScaledInstance((int) (screenSize.width * 0.66) * 2, screenSize.height * 2, Image.SCALE_SMOOTH));
+	    bgImages.set(i, bgImages.get(i).getScaledInstance((int) (SCREEN_SIZE.width * 0.66) * 2, SCREEN_SIZE.height * 2, Image.SCALE_SMOOTH));
+	    bgImages2.set(i, bgImages2.get(i).getScaledInstance((int) (SCREEN_SIZE.width * 0.66) * 2, SCREEN_SIZE.height * 2, Image.SCALE_SMOOTH));
 	}
     }
 

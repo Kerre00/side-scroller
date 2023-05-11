@@ -6,22 +6,22 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 import javax.swing.*;
+
+// Import screensize from PanelManager
+import static se.liu.kevri781.PanelManager.SCREEN_SIZE;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener
 {
     private Thread thread;
-    private volatile boolean running;
+    private volatile boolean running; // volatile = the variable is accessed by multiple threads
     private GameBackground background;
     private Player player;
     private PlayerDrawable playerDrawable;
     private Enemy enemy;
     private EnemyDrawable enemyDrawable;
-    private boolean playerAlive = true;
-    private ArrayList<CharacterType> characterTypes = new ArrayList<>(Arrays.asList(CharacterType.values()));
-    public static final int GROUND_LEVEL = (GameViewer.screenSize.height * 9 / 10);
+    public static final int GROUND_LEVEL = (SCREEN_SIZE.height * 9 / 10);
     private Random random = new Random();
     public static final int FPS = 60;
     public static ArrayList<Enemy> enemies = new ArrayList<>();
@@ -29,14 +29,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private final long NEW_ENEMY_DELAY = 350; // 2 seconds
     private HUD hud;
     private PanelManager panelManager;
+    private UpgradesManager upgradesManager;
+    private CharacterType[] unlockedEnemies;
+    private final static int ENEMY_SPAWN_DISTANCE = 2000;
 
     public GamePanel(PanelManager panelManager) {
 	this.panelManager = panelManager;
+	this.upgradesManager = new UpgradesManager();
+
+	// Load unlocked enemies
+	this.unlockedEnemies = upgradesManager.getUnlockedEnemies();
+
 	setFocusable(true);
 	setVisible(true);
 	requestFocusInWindow();
 	addKeyListener(this);
-	thread = new Thread(this);
 
 	// Load background image
 	background = new GameBackground();
@@ -45,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	resetGame();
 
 	// Set the size of the panel to the size of the screen
-	setPreferredSize(new Dimension(GameViewer.screenSize.width, GameViewer.screenSize.height));
+	setPreferredSize(new Dimension(SCREEN_SIZE.width, SCREEN_SIZE.height));
 
 	// Listener to the panel to resize the panel when the window is resized
 	addComponentListener(new ComponentAdapter()
@@ -57,6 +64,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
     }
     public void start() {
+	thread = new Thread(this);
 	running = true;
 	thread.start();
     }
@@ -71,14 +79,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
     public void resetGame() {
 
-	player = new Player(0, 0, 135, 135, background); // * 0.5
+	unlockedEnemies = upgradesManager.getUnlockedEnemies();
+
+	player = new Player(0, 0, 135, 135, background);
 	player.setY(player.groundCoord);
-	player.setX(GameViewer.screenSize.width / 2 - player.getScaledWidth() / 2);
+	player.setX(SCREEN_SIZE.width / 2 - player.getScaledWidth() / 2);
 	playerDrawable = new PlayerDrawable(player);
 
 	enemy = new Enemy(CharacterType.SKELETON_WARRIOR, 0, 0, 128, 128);
 	enemy.setY(enemy.groundCoord);
-	enemy.setX(player.x + 2000);
+	enemy.setX(player.x + ENEMY_SPAWN_DISTANCE);
 
 	enemyDrawable = new EnemyDrawable(enemy);
 
@@ -91,6 +101,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     }
 
     public void run() {
+	resetGame();
 	while (running) {
 	    update();
 	    repaint();
@@ -121,9 +132,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	}
 
 	if (deadEnemyTimer > 0 && System.currentTimeMillis() - deadEnemyTimer >= NEW_ENEMY_DELAY) {
-	    enemy = new Enemy(CharacterType.SKELETON_WARRIOR, 0, 0, 128, 128);
+	    int randomIndex = random.nextInt(unlockedEnemies.length);
+	    CharacterType randomEnemyType = unlockedEnemies[randomIndex];
+	    while (randomEnemyType == null) {
+		randomIndex = random.nextInt(unlockedEnemies.length);
+		randomEnemyType = unlockedEnemies[randomIndex];
+	    }
+	    enemy = new Enemy(randomEnemyType, 0, 0, 128, 128);
 	    enemy.setY(enemy.groundCoord);
-	    enemy.setX(player.x + 2000);
+	    enemy.setX(player.x + ENEMY_SPAWN_DISTANCE);
 	    enemyDrawable = new EnemyDrawable(enemy);
 	    enemies.add(enemy);
 	    deadEnemyTimer = 0; // reset the timer
@@ -155,18 +172,18 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		case KeyEvent.VK_UP:
 		    player.jump();
 		    break;
-		case KeyEvent.VK_DOWN: // Future crouch? No animation for it yet
+		case KeyEvent.VK_DOWN: // TODO: Future crouch? No animation for it yet
 		    break;
 		case KeyEvent.VK_SPACE:
-		    player.attack();
+		    if (!player.isAttacking()) {
+			player.attack();
+		    }
 		    break;
 	    }
 	} else {
 	    if (keyCode == KeyEvent.VK_SPACE) {
-//		stop();
-		resetGame();
 		stop();
-		player.setDead(false);
+		GameProgress.addMoney(player.getMoney());
 		panelManager.switchToMainMenu();
 	    }
 	    player.stop();
@@ -180,7 +197,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	playerKeyReleased(keyCode);
     }
     private void playerKeyReleased(int keyCode) {
-	if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT && player.isAboveGround()) {
+	if ((keyCode == KeyEvent.VK_LEFT  && player.isAboveGround()) ||
+	    (keyCode == KeyEvent.VK_RIGHT && player.isAboveGround())) {
 	    player.stop();
 	}
 	if (!player.isAboveGround()) {

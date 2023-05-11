@@ -4,24 +4,26 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PanelManager {
-
+    public final static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     private JFrame frame;
     private JPanel currentPanel;
     private MenuPanel menuPanel;
     private GamePanel gamePanel;
-    private UpgradesPanel upgradesPanel;
     private OptionsPanel optionsPanel;
+    public static Dimension frameSize;
 
     public PanelManager() {
         frame = new JFrame("Side Scroller Game");
 
         menuPanel = new MenuPanel(this);
-        upgradesPanel = new UpgradesPanel(this);
         optionsPanel = new OptionsPanel(this);
+        gamePanel = new GamePanel(this);
 
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Runs the game in fullscreen windowed mode.
         frame.setUndecorated(true); // Hides the title bar.
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        frameSize = frame.getSize();
 
         frame.setResizable(false);
         frame.setVisible(true);
@@ -43,17 +45,18 @@ public class PanelManager {
     }
 
     public void switchToGame() {
-        gamePanel = new GamePanel(this);
+//        gamePanel = new GamePanel(this);
         switchPanel(gamePanel);
         gamePanel.start();
         gamePanel.requestFocusInWindow();
     }
 
     public void switchToUpgrades() {
+        UpgradesPanel upgradesPanel = new UpgradesPanel(this);
         switchPanel(upgradesPanel);
     }
 
-        public void switchToOptions() {
+    public void switchToOptions() {
                 switchPanel(optionsPanel);
         }
 

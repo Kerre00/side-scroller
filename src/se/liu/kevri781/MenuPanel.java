@@ -42,15 +42,15 @@ public class MenuPanel extends JPanel {
 
 	add(Box.createVerticalStrut(25));
 
-	// Load game button
-	JButton loadGameButton = new JButton("Load Game");
+	// Load game button TODO: Implement game saving
+	JButton loadGameButton = new JButton("<html><s>Load Game</s></html>");
 	loadGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 	loadGameButton.setMaximumSize(menuButtonSize);
 	loadGameButton.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	add(loadGameButton);
-	loadGameButton.addActionListener(e -> {
-	    panelManager.switchToGame();
-	});
+//	loadGameButton.addActionListener(e -> {
+//	    panelManager.switchToGame();
+//	});
 
 	add(Box.createVerticalStrut(25));
 
@@ -68,7 +68,7 @@ public class MenuPanel extends JPanel {
 	add(Box.createVerticalStrut(25));
 
 
-	JButton optionsButton = new JButton("Options");
+	JButton optionsButton = new JButton("<html><s>Options</s></html>");
 	optionsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 	optionsButton.setMaximumSize(menuButtonSize);
 	optionsButton.setFont(new Font("Times New Roman", Font.BOLD, 20));
