@@ -3,8 +3,9 @@ package se.liu.kevri781;
 public abstract class Character extends GameObjects
 {
     //    Represents a character in the game, which includes the player and enemies.
-//    Contains properties such as health, attack power, and movement speed.
-//    Defines methods for movement, attacking, and taking damage.
+    //    Contains properties such as health, attack power, and movement speed.
+    //    Defines methods for movement, attacking, and taking damage.
+    //    Also contains methods for getting and setting the character's stats.
     public int health;
     public int maxHealth;
     public boolean dead;

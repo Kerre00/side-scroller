@@ -78,7 +78,9 @@ public class Enemy extends Character {
         return moneyValue;
     }
     private void setEnemyStats(CharacterType enemytype) {
-        /** Sets the enemy stats based on the enemytype and the upgrade level of the enemytype. */
+        /**
+         * Sets the enemy stats based on the enemytype and the upgrade level of the enemytype.
+         */
         switch (enemytype) {
             case SKELETON_WARRIOR:
                 this.setSpeed(3 + GameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR));
