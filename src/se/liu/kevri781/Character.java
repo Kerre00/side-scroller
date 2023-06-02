@@ -1,27 +1,28 @@
 package se.liu.kevri781;
 
+/** Represents a character in the game.
+ *  Used to create characters in the game such as the player and enemies.
+ *  Extends the GameObjects class to inherit the methods for collision detection.
+ *  Also contains methods for movement, attacking and taking damage, as well as
+ *  getters and setters for the character's stats.
+ */
 public abstract class Character extends GameObjects
 {
-    //    Represents a character in the game, which includes the player and enemies.
-    //    Contains properties such as health, attack power, and movement speed.
-    //    Defines methods for movement, attacking, and taking damage.
-    //    Also contains methods for getting and setting the character's stats.
-    public int health;
-    public int maxHealth;
-    public boolean dead;
-    public int level;
-    public int damage;
-    public int speed;
-    public int jumpHeight;
-    public int attackReach;
-    private boolean attacking = false;
-    private boolean isGettingHit = false;
-    public long recoverTimer = 0;
-    public boolean recovering = false;
-    public long invincibilityTimer = 1000;
-    public String stringDirection = "_right";
-
-    public Character(final int x, final int y, final int width, final int height) {
+    protected int health;
+    protected int maxHealth;
+    protected boolean dead;
+    protected int level;
+    protected int damage;
+    protected int speed;
+    protected int jumpHeight;
+    protected int attackReach;
+    protected boolean attacking = false;
+    protected boolean isGettingHit = false;
+    protected long recoverTimer = 0;
+    protected boolean recovering = false;
+    protected long invincibilityTimer = 1000;
+    protected String stringDirection = "_right";
+    protected Character(final int x, final int y, final int width, final int height) {
         super(x, y, width, height);
         this.level = 1;
         this.damage = 1;
@@ -36,34 +37,26 @@ public abstract class Character extends GameObjects
     // ----------------------------------
     // -------Methods for movement-------
     // ----------------------------------
-    public void moveLeft() {
+    protected void moveLeft() {
         setDirection(Direction.LEFT);
         velocityX = -speed;
     }
-
-    public void moveRight() {
+    protected void moveRight() {
         setDirection(Direction.RIGHT);
         velocityX = speed;
     }
-
-    public void jump() {
+    protected void jump() {
         if (!isAboveGround()) {
             velocityY -= jumpHeight;
         }
     }
-    public void setJumpHeight(int jumpHeight) {
+    protected void setJumpHeight(int jumpHeight) {
         this.jumpHeight = jumpHeight;
     }
-
-    public void stop() {
+    protected void stop() {
         velocityX = 0;
     }
-
-    public String getDirection() {
-        return stringDirection;
-    }
-
-    public void setDirection(Direction direction) {
+    protected void setDirection(Direction direction) {
         switch (direction) {
             case LEFT:
                 stringDirection = "_left";
@@ -73,7 +66,6 @@ public abstract class Character extends GameObjects
                 break;
         }
     }
-
     protected boolean isMovingLeft() {
         if (velocityX < 0) {
             return true;
@@ -81,7 +73,6 @@ public abstract class Character extends GameObjects
             return false;
         }
     }
-
     protected boolean isMovingRight() {
         if (velocityX > 0) {
             return true;
@@ -89,15 +80,6 @@ public abstract class Character extends GameObjects
             return false;
         }
     }
-
-    protected boolean isMoving() {
-        if (velocityX != 0 || velocityY != 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     protected boolean isJumping() {
         if (velocityY < 0) {
             return true;
@@ -105,7 +87,6 @@ public abstract class Character extends GameObjects
             return false;
         }
     }
-
     protected boolean isFalling() {
         if (velocityY > 0) {
             return true;
@@ -113,7 +94,6 @@ public abstract class Character extends GameObjects
             return false;
         }
     }
-
     protected boolean isAboveGround() {
         if (y < groundCoord) {
             return true;
@@ -126,99 +106,49 @@ public abstract class Character extends GameObjects
     // -------Methods for attacking-------
     // -----------------------------------
 
-    public void attack() {
+    protected void attack() {
         attacking = true;
     }
-
-    public void setAttacking(boolean attacking) {
+    protected void setAttacking(boolean attacking) {
         this.attacking = attacking;
     }
-
-    public boolean isAttacking() {
+    protected boolean isAttacking() {
         return attacking;
     }
-
-    public void setAttackReach(int attackReach) {
+    protected void setAttackReach(int attackReach) {
         this.attackReach = attackReach;
     }
-
-    public void stopAttack() {
-        attacking = false;
-    }
-
-    public int getAttackReach() {
-        return attackReach;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-
-    public void setMaxHealth(int maxHealth) {
+    protected void setMaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
         this.health = maxHealth;
     }
-
-    public int getMaxHealth() {
-        return maxHealth;
-    }
-
-    public void setSpeed(int speed) {
+    protected void setSpeed(int speed) {
         this.speed = speed;
     }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setDamage(int damage) {
+    protected void setDamage(int damage) {
         this.damage = damage;
     }
-
-    public int getDamage() {
+    protected int getDamage() {
         return damage;
     }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public int getHealth() {
+    protected int getHealth() {
         return health;
     }
-
-    public void setDead(boolean dead) {
+    protected void setDead(boolean dead) {
         this.dead = dead;
     }
-
-    public boolean isDead() {
+    protected boolean isDead() {
         return dead;
     }
-
-    public void reduceHealth(int damage) {
+    protected void reduceHealth(int damage) {
         health -= damage;
         setGettingHit(true);
-//        knockBack();
     }
     protected boolean isGettingHit() {
         return isGettingHit;
     }
     protected void setGettingHit(boolean gettingHit) {
         isGettingHit = gettingHit;
-    }
-    protected void knockBack() {
-        if (getDirection().equals("_left")) {
-            velocityX = 10;
-            velocityY = -10;
-        } else if (getDirection().equals("_right")) {
-            velocityX = -10;
-            velocityY = -10;
-        }
     }
     protected void setInvincibilityTimer(long invincibilityTimer) {
         this.invincibilityTimer = invincibilityTimer;

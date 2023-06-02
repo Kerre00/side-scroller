@@ -2,11 +2,12 @@ package se.liu.kevri781;
 
 import static se.liu.kevri781.GamePanel.GROUND_LEVEL;
 
+/**
+ * Represents an enemy in the game. Contains the logic for enemy AI. It also contains the information for the enemy's
+ * type, stats and position etc. Extends the Character class to inherit the methods for movement, attacking and taking
+ * damage.
+ */
 public class Enemy extends Character {
-    /**
-     * Represents an enemy in the game. Contains the logic for enemy AI. It also contains the information for the enemy's
-     * type, stats and position etc.
-     */
     private CharacterType characterType;
     private int moneyValue;
     private final static int ENEMY_SCALE = 3;

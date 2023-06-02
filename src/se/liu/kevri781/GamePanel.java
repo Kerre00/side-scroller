@@ -12,22 +12,28 @@ import javax.swing.*;
 // Import screensize from PanelManager
 import static se.liu.kevri781.PanelManager.SCREEN_SIZE;
 
+/**
+ * The GamePanel class represents the game panel where the game is played.
+ * It extends JPanel and implements Runnable and KeyListener interfaces.
+ * It is responsible for drawing the game and updating the game state.
+ * It also handles keyboard input.
+ */
 public class GamePanel extends JPanel implements Runnable, KeyListener
 {
-    private Thread thread;
-    private volatile boolean running; // volatile = the variable is accessed by multiple threads
+    private Thread thread = null;
+    private volatile boolean running;
     private GameBackground background;
-    private Player player;
-    private PlayerDrawable playerDrawable;
-    private Enemy enemy;
-    private EnemyDrawable enemyDrawable;
+    private Player player = null;
+    private PlayerDrawable playerDrawable = null;
+    private Enemy enemy = null;
+    private EnemyDrawable enemyDrawable = null;
     public static final int GROUND_LEVEL = (SCREEN_SIZE.height * 9 / 10);
     private Random random = new Random();
     public static final int FPS = 60;
     public static ArrayList<Enemy> enemies = new ArrayList<>();
     private long deadEnemyTimer = 0;
-    private final long NEW_ENEMY_DELAY = 350; // 2 seconds
-    private HUD hud;
+    private final long NEW_ENEMY_DELAY = 350;
+    private HUD hud = null;
     private PanelManager panelManager;
     private UpgradesManager upgradesManager;
     private CharacterType[] unlockedEnemies;
@@ -103,6 +109,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     public void run() {
 	resetGame();
 	while (running) {
+	    player.addMoney(1000);
 	    update();
 	    repaint();
 	    try {

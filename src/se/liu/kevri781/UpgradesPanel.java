@@ -7,6 +7,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * The UpgradesPanel class is responsible for displaying the upgrades the player can buy.
+ * It is responsible for updating the upgrades the player has bought using the UpgradesManager class.
+ * It displays the upgrades in a grid layout with a button for each upgrade.
+ */
 public class UpgradesPanel extends JPanel
 {
     private PanelManager panelManager;

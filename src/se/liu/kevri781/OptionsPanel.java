@@ -3,6 +3,12 @@ package se.liu.kevri781;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The OptionsPanel class represents the options panel of the game.
+ * It is responsible for drawing the options panel and updating the options of
+ * the game.
+ * NOT FINISHED
+ */
 public class OptionsPanel extends JPanel
 {
     private PanelManager panelManager;

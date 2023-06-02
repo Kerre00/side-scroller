@@ -9,7 +9,12 @@ import java.awt.event.ComponentEvent;
 import static se.liu.kevri781.PanelManager.SCREEN_SIZE;
 import static se.liu.kevri781.PanelManager.frameSize;
 
-public class GameBackground {
+/**
+ * The GameBackground class represents the background of the game.
+ * It is responsible for drawing the background and updating the background,
+ * resizing of the background. It is used by the GamePanel class.
+ */
+public class GameBackground implements Drawable {
 
     private ArrayList<Image> bgImages = new ArrayList<>();
     private ArrayList<Image> bgImages2 = new ArrayList<>();

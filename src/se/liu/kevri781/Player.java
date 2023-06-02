@@ -2,11 +2,13 @@ package se.liu.kevri781;
 
 import static se.liu.kevri781.GamePanel.GROUND_LEVEL;
 
+/**
+ * Represents the player character. Contains methods for updating
+ * the player's position, information about player stats, and
+ * checking for collisions with enemies.
+ */
 public class Player extends Character {
-    /**
-     * Represents the player character. Contains methods for updating the player's position, information
-     * about player stats, and checking for collisions with enemies.
-     */
+
     private final static int SPRITE_EMPTY_SPACE = 49; // The space below the sprite that is empty
     private final static int PLAYER_SCALE = 5;
     public GameBackground background;

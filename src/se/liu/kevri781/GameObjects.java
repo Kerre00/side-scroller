@@ -2,9 +2,13 @@ package se.liu.kevri781;
 
 import java.awt.*;
 
-import static se.liu.kevri781.GamePanel.FPS;
 import static se.liu.kevri781.GamePanel.GROUND_LEVEL;
 
+/**
+ * The GameObjects class represents any object that can appear in the game, including the player, enemies, and obstacles.
+ * It contains properties such as position, velocity, and collision detection. It is an abstract class and is extended by
+ * the Player and Enemy classes.
+ */
 public abstract class GameObjects
 {
 //    Represents any object that can appear in the game, including the player, enemies, and obstacles.
@@ -83,7 +87,7 @@ public abstract class GameObjects
         return xDistance;
     }
     public void moveWithBackground(GameBackground background) {
-        this.velocityX += -(background.getGroundSpeed());
+        this.velocityX -= background.getGroundSpeed();
         if (!isSyncedWithBackground) {
             isSyncedWithBackground = true;
         }

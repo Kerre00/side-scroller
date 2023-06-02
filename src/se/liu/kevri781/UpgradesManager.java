@@ -2,6 +2,11 @@ package se.liu.kevri781;
 
 import javax.swing.*;
 
+/**
+ * The UpgradesManager class is responsible for managing the upgrades.
+ * It is responsible for calculating the price of an upgrade, upgrading
+ * the player, and determining which enemies are unlocked.
+ */
 public class UpgradesManager
 {
     public int getUpgradePrice(Upgrades upgrade)
@@ -53,7 +58,7 @@ public class UpgradesManager
 	    if (enemy != CharacterType.PLAYER && GameProgress.getUpgradeLevel(Upgrades.valueOf(enemy.toString())) > 0) {
 		unlockedEnemies[unlockedEnemiesIndex] = enemy;
 		unlockedEnemiesIndex++;
-		System.out.println(enemy.toString() + " is unlocked!");
+//		System.out.println(enemy.toString() + " is unlocked!");
 	    }
     	}
 	return unlockedEnemies;

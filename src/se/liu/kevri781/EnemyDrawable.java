@@ -3,6 +3,12 @@ package se.liu.kevri781;
 import java.awt.*;
 import java.util.Random;
 
+/**
+ * Represents an enemy character that can be drawn on the screen.
+ * Implements the Drawable interface to provide a method for drawing the enemy.
+ * Extends the Enemy class to inherit the enemy's properties.
+ * Uses spriteAnimation to animate the enemy.
+ */
 public class EnemyDrawable extends Enemy implements Drawable {
 //    Represents the player character that can be drawn on the screen.
 //    Implements the Drawable interface to provide a method for drawing the player.

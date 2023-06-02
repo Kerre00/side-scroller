@@ -3,12 +3,17 @@ package se.liu.kevri781;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The MenuPanel class represents the main menu panel.
+ * It is responsible for drawing the main menu panel using Swing.
+ * It uses the PanelManager class to switch to other panels.
+ * It is the first panel that is shown when the game is started.
+ */
 public class MenuPanel extends JPanel {
     // Represents the main menu panel
 
     private PanelManager panelManager;
     private Dimension menuButtonSize = new Dimension(300, 100);
-    private GamePanel gamePanel;
     public MenuPanel(PanelManager panelManager) {
 	this.panelManager = panelManager;
 

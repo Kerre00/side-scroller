@@ -3,6 +3,10 @@ package se.liu.kevri781;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * Represents the game progress.
+ * Used to keep track of the player's money and upgrade levels.
+ */
 public class GameProgress {
     private static int money;
     private static Map<Upgrades, Integer> upgradeLevels;
@@ -12,7 +16,7 @@ public class GameProgress {
 	upgradeLevels = new EnumMap<>(Upgrades.class);
 	setUpgradeLevels();
     }
-    private static void setUpgradeLevels() {
+    private static void setUpgradeLevels() { // TODO: TA BORT ALLT STATIC
 	upgradeLevels.put(Upgrades.MAX_DAMAGE, 1);
 	upgradeLevels.put(Upgrades.MAX_HEALTH, 1);
 	upgradeLevels.put(Upgrades.SPEED, 1);
@@ -26,8 +30,6 @@ public class GameProgress {
 	upgradeLevels.put(Upgrades.WANDERER_MAGICIAN, 0);
 	upgradeLevels.put(Upgrades.FIRE_WIZARD, 0);
     }
-
-    private GameProgress() {}
 
     public static void addMoney(int amount) {
 	money += amount;

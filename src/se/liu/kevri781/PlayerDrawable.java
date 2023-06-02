@@ -3,6 +3,13 @@ package se.liu.kevri781;
 import java.awt.*;
 import java.util.Random;
 
+/**
+ * Responsible for drawing the player.
+ * Uses the Player class to get the player's position and size.
+ * Uses the SpriteAnimation class to get the player's current animation image.
+ * Implements the Drawable interface to be able to draw the player.
+ * Extends the Player class to be able to access the player's position and size.
+ */
 public class PlayerDrawable extends Player implements Drawable {
     private SpriteAnimation spriteAnimation;
     private int currentAnimationIndex;
@@ -103,14 +110,5 @@ public class PlayerDrawable extends Player implements Drawable {
             this.currentAnimationIndex = 0;
         }
         getAnimation(currentAnimationIndex);
-    }
-    public boolean animationDone() {
-        return spriteAnimation.isFinished();
-    }
-    public void setLockAnimation(boolean lockAnimation) {
-            this.lockAnimation = lockAnimation;
-    }
-    public boolean isLockAnimation() {
-        return lockAnimation;
     }
 }

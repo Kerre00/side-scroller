@@ -5,6 +5,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * The SpriteAnimation class is responsible for animating the different sprites in the game.
+ * It takes a sprite sheet and splits it into individual frames.
+ * It then returns the next frame in the animation.
+ */
 public class SpriteAnimation {
     private BufferedImage spriteSheet = null;
     private int spriteWidth;
@@ -15,13 +20,12 @@ public class SpriteAnimation {
     private long lastUpdate;
     private boolean reverse;
     private String filePath;
-    private boolean playWholeAnimation = false;
     public boolean freezeAnimation = false;
-    GameObjects object;
+    private GameObjects object;
 
     public SpriteAnimation(GameObjects object, String filePath, int animationDelay) {
 	try {
-	    spriteSheet = ImageIO.read(new File(filePath));
+	    spriteSheet = ImageIO.read(new File(filePath)); // TODO Get resources check examples
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
@@ -74,15 +78,12 @@ public class SpriteAnimation {
 	int y = (currentFrame / (spriteSheet.getWidth() / spriteWidth)) * spriteHeight;
 	return spriteSheet.getSubimage(x, y, spriteWidth, spriteHeight);
     }
-    public boolean isFinished() {
+    private boolean isFinished() {
 	if (reverse) {
 	    return this.currentFrame == 0;}
 	else {
 	    return this.currentFrame == this.numFrames - 1;
 	}
-    }
-    private boolean playerDead() {
-	return filePath.contains("Death") && filePath.contains("Player") && currentFrame >= numFrames - 1;
     }
     private void setFreezeAnimation(boolean freezeAnimation) {
 	this.freezeAnimation = freezeAnimation;

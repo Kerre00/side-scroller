@@ -2,6 +2,11 @@ package se.liu.kevri781;
 
 import java.awt.*;
 
+/**
+ * The HUD class represents the heads-up display that appears on the screen during gameplay.
+ * It contains the player's health bar, the enemy's health bar, the player's money, and the player's damage indicator.
+ * It implements the Drawable interface and extends the Player class because it needs to know the player's health and money.
+ */
 public class HUD extends Player implements Drawable
 {
     private Image currentHUDImage = Toolkit.getDefaultToolkit().getImage("resources/images/hud/hud_spritesheet.png");
