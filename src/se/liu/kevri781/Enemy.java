@@ -11,9 +11,11 @@ public class Enemy extends Character {
     private CharacterType characterType;
     private int moneyValue;
     private final static int ENEMY_SCALE = 3;
+    private GameProgress gameProgress;
 
-    public Enemy(final CharacterType characterType, final int x, final int y, final int width, final int height) {
+    public Enemy(final CharacterType characterType, final int x, final int y, final int width, final int height, GameProgress gameProgress) {
         super(x, y, width, height);
+        this.gameProgress = gameProgress;
         this.setScale(ENEMY_SCALE); // Scale of enemy sprites
         this.setGroundCoord(GROUND_LEVEL - getScaledHeight());
         this.characterType = characterType;
@@ -58,22 +60,22 @@ public class Enemy extends Character {
          */
         switch (characterType) {
             case SKELETON_WARRIOR:
-                moneyValue = 10 + 5 * GameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR);
+                moneyValue = 10 + 5 * gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR);
                 break;
             case SKELETON_ARCHER:
-                moneyValue = 30 + 15 * GameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER);
+                moneyValue = 30 + 15 * gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER);
                 break;
             case SKELETON_SPEARMAN:
-                moneyValue = 20 + 10 * GameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN);
+                moneyValue = 20 + 10 * gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN);
                 break;
             case WANDERER_MAGICIAN:
-                moneyValue = 80 + 40 * GameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN);
+                moneyValue = 80 + 40 * gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN);
                 break;
             case FIRE_WIZARD:
-                moneyValue = 60 + 30 * GameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD);
+                moneyValue = 60 + 30 * gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD);
                 break;
             case LIGHTNING_MAGE:
-                moneyValue = 100 + 50 * GameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE);
+                moneyValue = 100 + 50 * gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE);
                 break;
         }
         return moneyValue;
@@ -84,41 +86,45 @@ public class Enemy extends Character {
          */
         switch (enemytype) {
             case SKELETON_WARRIOR:
-                this.setSpeed(3 + GameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR));
-                this.setMaxHealth(5 + GameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR));
-                this.setDamage(1 + GameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR));
-                this.setAttackReach(100 + GameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR) * 20);
+                this.setSpeed(3 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR));
+                this.setMaxHealth(5 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR));
+                this.setDamage(1 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR));
+                this.setAttackReach(100 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR) * 20);
                 break;
             case SKELETON_ARCHER:
-                this.setSpeed(5 + GameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER));
-                this.setMaxHealth(3 + GameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER));
-                this.setDamage(2 + GameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER));
-                this.setAttackReach(300 + GameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER) * 40);
+                this.setSpeed(5 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER));
+                this.setMaxHealth(3 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER));
+                this.setDamage(2 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER));
+                this.setAttackReach(300 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER) * 40);
                 break;
             case SKELETON_SPEARMAN:
-                this.setSpeed(4 + GameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN));
-                this.setMaxHealth(4 + GameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN));
-                this.setDamage(3 + GameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN));
-                this.setAttackReach(200 + GameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN) * 40);
+                this.setSpeed(4 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN));
+                this.setMaxHealth(4 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN));
+                this.setDamage(3 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN));
+                this.setAttackReach(200 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN) * 40);
                 break;
             case WANDERER_MAGICIAN:
-                this.setSpeed(5 + GameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN));
-                this.setMaxHealth(5 + GameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN) * 2);
-                this.setDamage(5 + GameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN) * 2);
-                this.setAttackReach(350 + GameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN) * 30);
+                this.setSpeed(5 + gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN));
+                this.setMaxHealth(5 + gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN) * 2);
+                this.setDamage(5 + gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN) * 2);
+                this.setAttackReach(350 + gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN) * 30);
                 break;
             case FIRE_WIZARD:
-                this.setSpeed(5 + GameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD));
-                this.setMaxHealth(6 + GameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD) * 2);
-                this.setDamage(6 + GameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD) * 2);
-                this.setAttackReach(350 + GameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD) * 30);
+                this.setSpeed(5 + gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD));
+                this.setMaxHealth(6 + gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD) * 2);
+                this.setDamage(6 + gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD) * 2);
+                this.setAttackReach(350 + gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD) * 30);
                 break;
             case LIGHTNING_MAGE:
-                this.setSpeed(5 + GameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE));
-                this.setMaxHealth(5 + GameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE) * 2);
-                this.setDamage(7 + GameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE) * 2);
-                this.setAttackReach(350 + GameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE) * 30);
+                this.setSpeed(5 + gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE));
+                this.setMaxHealth(5 + gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE) * 2);
+                this.setDamage(7 + gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE) * 2);
+                this.setAttackReach(350 + gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE) * 30);
                 break;
         }
+    }
+
+    public GameProgress getGameProgress() {
+        return gameProgress;
     }
 }

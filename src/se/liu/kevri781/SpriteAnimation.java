@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * The SpriteAnimation class is responsible for animating the different sprites in the game.
@@ -22,10 +23,12 @@ public class SpriteAnimation {
     private String filePath;
     public boolean freezeAnimation = false;
     private GameObjects object;
+    private URL spriteSheetURL;
 
     public SpriteAnimation(GameObjects object, String filePath, int animationDelay) {
+	this.spriteSheetURL = ClassLoader.getSystemResource(filePath);
 	try {
-	    spriteSheet = ImageIO.read(new File(filePath)); // TODO Get resources check examples
+	    this.spriteSheet = ImageIO.read(spriteSheetURL);
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}

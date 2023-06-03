@@ -15,14 +15,18 @@ public class PanelManager {
     private MenuPanel menuPanel;
     private GamePanel gamePanel;
     private OptionsPanel optionsPanel;
+    private GameProgress gameProgress;
     public static Dimension frameSize;
 
     public PanelManager() {
         frame = new JFrame("Side Scroller Game");
 
+        gameProgress = new GameProgress();
+        gameProgress.setUpgradeLevels();
+
         menuPanel = new MenuPanel(this);
         optionsPanel = new OptionsPanel(this);
-        gamePanel = new GamePanel(this);
+        gamePanel = new GamePanel(this, gameProgress);
 
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Runs the game in fullscreen windowed mode.
         frame.setUndecorated(true); // Hides the title bar.
@@ -57,7 +61,7 @@ public class PanelManager {
     }
 
     public void switchToUpgrades() {
-        UpgradesPanel upgradesPanel = new UpgradesPanel(this);
+        UpgradesPanel upgradesPanel = new UpgradesPanel(this, gameProgress);
         switchPanel(upgradesPanel);
     }
 

@@ -12,19 +12,22 @@ public class Player extends Character {
     private final static int SPRITE_EMPTY_SPACE = 49; // The space below the sprite that is empty
     private final static int PLAYER_SCALE = 5;
     public GameBackground background;
+    private GameProgress gameProgress;
     private int money = 0;
-    public Player(final int x, final int y, final int width, final int height, GameBackground background) {
+    public Player(final int x, final int y, final int width, final int height, GameBackground background, GameProgress gameProgress) {
+
         super(x, y, width, height);
         this.setScale(PLAYER_SCALE); // Scale of player sprite
         this.background = background;
+        this.gameProgress = gameProgress;
 
         // Sets the player's stats based on the upgrades
-        this.setDamage(GameProgress.getUpgradeLevel(Upgrades.MAX_DAMAGE));
-        this.setMaxHealth(10 * GameProgress.getUpgradeLevel(Upgrades.MAX_HEALTH));
-        this.setSpeed(4 + GameProgress.getUpgradeLevel(Upgrades.SPEED));
-        this.setJumpHeight(10 + 5 * GameProgress.getUpgradeLevel(Upgrades.JUMP_HEIGHT));
-        this.setInvincibilityTimer(1000 + 500L * GameProgress.getUpgradeLevel(Upgrades.RECOVERY_TIME));
-        this.setAttackReach(100 + 50 * GameProgress.getUpgradeLevel(Upgrades.ATTACK_REACH));
+        this.setDamage(gameProgress.getUpgradeLevel(Upgrades.MAX_DAMAGE));
+        this.setMaxHealth(10 * gameProgress.getUpgradeLevel(Upgrades.MAX_HEALTH));
+        this.setSpeed(4 + gameProgress.getUpgradeLevel(Upgrades.SPEED));
+        this.setJumpHeight(10 + 5 * gameProgress.getUpgradeLevel(Upgrades.JUMP_HEIGHT));
+        this.setInvincibilityTimer(1000 + 500L * gameProgress.getUpgradeLevel(Upgrades.RECOVERY_TIME));
+        this.setAttackReach(100 + 50 * gameProgress.getUpgradeLevel(Upgrades.ATTACK_REACH));
 
         // Sets the player's direction and ground coordinate
         this.setDirection(Direction.RIGHT);
@@ -103,5 +106,8 @@ public class Player extends Character {
     }
     public void addMoney(int amount) {
         money += amount;
+    }
+    public GameProgress getGameProgress() {
+        return gameProgress;
     }
 }

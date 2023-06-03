@@ -19,28 +19,28 @@ public class EnemyDrawable extends Enemy implements Drawable {
     private Random rnd = new Random();
     private Enemy enemy;
     public EnemyDrawable(Enemy enemy) {
-        super(enemy.getEnemyType(), enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight());
+        super(enemy.getEnemyType(), enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight(), enemy.getGameProgress());
         this.enemy = enemy;
         this.enemyType = enemy.getEnemyType();
         // Set the current animation index to 0 (the idle animation)
         switch (enemyType) {
             case FIRE_WIZARD:
-                this.dir = "resources/images/enemy/Fire_Wizard/";
+                this.dir = "images/enemy/Fire_Wizard/";
                 break;
             case LIGHTNING_MAGE:
-                this.dir = "resources/images/enemy/Lightning_Mage/";
+                this.dir = "images/enemy/Lightning_Mage/";
                 break;
             case SKELETON_ARCHER:
-                this.dir = "resources/images/enemy/Skeleton_Archer/";
+                this.dir = "images/enemy/Skeleton_Archer/";
                 break;
             case SKELETON_SPEARMAN:
-                this.dir = "resources/images/enemy/Skeleton_Spearman/";
+                this.dir = "images/enemy/Skeleton_Spearman/";
                 break;
             case SKELETON_WARRIOR:
-                this.dir = "resources/images/enemy/Skeleton_Warrior/";
+                this.dir = "images/enemy/Skeleton_Warrior/";
                 break;
             case WANDERER_MAGICIAN:
-                this.dir = "resources/images/enemy/Wanderer_Magician/";
+                this.dir = "images/enemy/Wanderer_Magician/";
                 break;
         }
         currentAnimationIndex = 0;

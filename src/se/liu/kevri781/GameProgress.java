@@ -8,15 +8,13 @@ import java.util.Map;
  * Used to keep track of the player's money and upgrade levels.
  */
 public class GameProgress {
-    private static int money;
-    private static Map<Upgrades, Integer> upgradeLevels;
-
-    static {
+    private int money;
+    private Map<Upgrades, Integer> upgradeLevels = new EnumMap<>(Upgrades.class);
+    private void GameProgress() {
 	money = 0;
-	upgradeLevels = new EnumMap<>(Upgrades.class);
-	setUpgradeLevels();
+//	setUpgradeLevels();
     }
-    private static void setUpgradeLevels() { // TODO: TA BORT ALLT STATIC
+    public void setUpgradeLevels() {
 	upgradeLevels.put(Upgrades.MAX_DAMAGE, 1);
 	upgradeLevels.put(Upgrades.MAX_HEALTH, 1);
 	upgradeLevels.put(Upgrades.SPEED, 1);
@@ -31,19 +29,19 @@ public class GameProgress {
 	upgradeLevels.put(Upgrades.FIRE_WIZARD, 0);
     }
 
-    public static void addMoney(int amount) {
+    public void addMoney(int amount) {
 	money += amount;
     }
 
-    public static int getMoney() {
+    public int getMoney() {
 	return money;
     }
 
-    public static int getUpgradeLevel(Upgrades upgradeName) {
+    public int getUpgradeLevel(Upgrades upgradeName) {
 	return upgradeLevels.getOrDefault(upgradeName, 0);
     }
 
-    public static void setUpgradeLevel(Upgrades upgradeName, int level) {
+    public void setUpgradeLevel(Upgrades upgradeName, int level) {
 	upgradeLevels.put(upgradeName, level);
     }
 }

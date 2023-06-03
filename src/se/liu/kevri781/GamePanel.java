@@ -38,13 +38,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private UpgradesManager upgradesManager;
     private CharacterType[] unlockedEnemies;
     private final static int ENEMY_SPAWN_DISTANCE = 2000;
+    private GameProgress gameProgress;
 
-    public GamePanel(PanelManager panelManager) {
+    public GamePanel(PanelManager panelManager, GameProgress gameProgress) {
+	this.gameProgress = gameProgress;
+
 	this.panelManager = panelManager;
 	this.upgradesManager = new UpgradesManager();
 
 	// Load unlocked enemies
-	this.unlockedEnemies = upgradesManager.getUnlockedEnemies();
+	this.unlockedEnemies = upgradesManager.getUnlockedEnemies(gameProgress);
 
 	setFocusable(true);
 	setVisible(true);
@@ -85,14 +88,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
     public void resetGame() {
 
-	unlockedEnemies = upgradesManager.getUnlockedEnemies();
+	unlockedEnemies = upgradesManager.getUnlockedEnemies(gameProgress);
 
-	player = new Player(0, 0, 135, 135, background);
+	player = new Player(0, 0, 135, 135, background, gameProgress);
 	player.setY(player.groundCoord);
 	player.setX(SCREEN_SIZE.width / 2 - player.getScaledWidth() / 2);
 	playerDrawable = new PlayerDrawable(player);
 
-	enemy = new Enemy(CharacterType.SKELETON_WARRIOR, 0, 0, 128, 128);
+	enemy = new Enemy(CharacterType.SKELETON_WARRIOR, 0, 0, 128, 128, gameProgress);
 	enemy.setY(enemy.groundCoord);
 	enemy.setX(player.x + ENEMY_SPAWN_DISTANCE);
 
@@ -109,7 +112,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     public void run() {
 	resetGame();
 	while (running) {
-	    player.addMoney(1000);
 	    update();
 	    repaint();
 	    try {
@@ -145,7 +147,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		randomIndex = random.nextInt(unlockedEnemies.length);
 		randomEnemyType = unlockedEnemies[randomIndex];
 	    }
-	    enemy = new Enemy(randomEnemyType, 0, 0, 128, 128);
+	    enemy = new Enemy(randomEnemyType, 0, 0, 128, 128, gameProgress);
 	    enemy.setY(enemy.groundCoord);
 	    enemy.setX(player.x + ENEMY_SPAWN_DISTANCE);
 	    enemyDrawable = new EnemyDrawable(enemy);
@@ -190,7 +192,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	} else {
 	    if (keyCode == KeyEvent.VK_SPACE) {
 		stop();
-		GameProgress.addMoney(player.getMoney());
+		gameProgress.addMoney(player.getMoney());
 		panelManager.switchToMainMenu();
 	    }
 	    player.stop();
