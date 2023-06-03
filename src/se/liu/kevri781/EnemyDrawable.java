@@ -19,7 +19,7 @@ public class EnemyDrawable extends Enemy implements Drawable {
     private Random rnd = new Random();
     private Enemy enemy;
     public EnemyDrawable(Enemy enemy) {
-        super(enemy.getEnemyType(), enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight(), enemy.getGameProgress());
+        super(enemy.getEnemyType(), enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight(), enemy.getGameProgress(), 0);
         this.enemy = enemy;
         this.enemyType = enemy.getEnemyType();
         // Set the current animation index to 0 (the idle animation)

@@ -18,7 +18,8 @@ public class PlayerDrawable extends Player implements Drawable {
     private Player player;
     private String dir = null;
     public PlayerDrawable(Player player) {
-        super(player.getX(), player.getY(), player.getWidth(), player.getHeight(), player.background, player.getGameProgress());
+        super(player.getX(), player.getY(), player.getWidth(), player.getHeight(), player.background, player.getGameProgress(),
+              0);
         // Set the current animation index to 0 (the idle animation)
         this.currentAnimationIndex = 0;
         this.player = player;

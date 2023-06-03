@@ -23,7 +23,7 @@ public abstract class Character extends GameObjects
     protected long invincibilityTimer = 1000;
     protected String stringDirection = "_right";
     protected Character(final int x, final int y, final int width, final int height) {
-        super(x, y, width, height);
+        super(x, y, width, height, 0);
         this.level = 1;
         this.damage = 1;
         this.speed = 1;

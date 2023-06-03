@@ -27,9 +27,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private PlayerDrawable playerDrawable = null;
     private Enemy enemy = null;
     private EnemyDrawable enemyDrawable = null;
-    public static final int GROUND_LEVEL = (SCREEN_SIZE.height * 9 / 10);
+    public final int GROUND_LEVEL = (SCREEN_SIZE.height * 9 / 10);
     private Random random = new Random();
-    public static final int FPS = 60;
+    public final int FPS = 60;
     public static ArrayList<Enemy> enemies = new ArrayList<>();
     private long deadEnemyTimer = 0;
     private final long NEW_ENEMY_DELAY = 350;
@@ -90,12 +90,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
 	unlockedEnemies = upgradesManager.getUnlockedEnemies(gameProgress);
 
-	player = new Player(0, 0, 135, 135, background, gameProgress);
+	player = new Player(0, 0, 135, 135, background, gameProgress, GROUND_LEVEL);
 	player.setY(player.groundCoord);
 	player.setX(SCREEN_SIZE.width / 2 - player.getScaledWidth() / 2);
 	playerDrawable = new PlayerDrawable(player);
 
-	enemy = new Enemy(CharacterType.SKELETON_WARRIOR, 0, 0, 128, 128, gameProgress);
+	enemy = new Enemy(CharacterType.SKELETON_WARRIOR, 0, 0, 128, 128, gameProgress, GROUND_LEVEL);
 	enemy.setY(enemy.groundCoord);
 	enemy.setX(player.x + ENEMY_SPAWN_DISTANCE);
 
@@ -147,7 +147,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 		randomIndex = random.nextInt(unlockedEnemies.length);
 		randomEnemyType = unlockedEnemies[randomIndex];
 	    }
-	    enemy = new Enemy(randomEnemyType, 0, 0, 128, 128, gameProgress);
+	    enemy = new Enemy(randomEnemyType, 0, 0, 128, 128, gameProgress, GROUND_LEVEL);
 	    enemy.setY(enemy.groundCoord);
 	    enemy.setX(player.x + ENEMY_SPAWN_DISTANCE);
 	    enemyDrawable = new EnemyDrawable(enemy);
@@ -216,5 +216,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	if (!player.dead) {
 	    playerDrawable.stopSpriteAnimation();
 	}
+    }
+    public int getGROUND_LEVEL() {
+	return GROUND_LEVEL;
     }
 }

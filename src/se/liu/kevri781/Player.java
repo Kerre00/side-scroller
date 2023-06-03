@@ -1,7 +1,5 @@
 package se.liu.kevri781;
 
-import static se.liu.kevri781.GamePanel.GROUND_LEVEL;
-
 /**
  * Represents the player character. Contains methods for updating
  * the player's position, information about player stats, and
@@ -13,13 +11,15 @@ public class Player extends Character {
     private final static int PLAYER_SCALE = 5;
     public GameBackground background;
     private GameProgress gameProgress;
+    private int GROUND_LEVEL;
     private int money = 0;
-    public Player(final int x, final int y, final int width, final int height, GameBackground background, GameProgress gameProgress) {
+    public Player(final int x, final int y, final int width, final int height, GameBackground background, GameProgress gameProgress, int GROUND_LEVEL) {
 
         super(x, y, width, height);
         this.setScale(PLAYER_SCALE); // Scale of player sprite
         this.background = background;
         this.gameProgress = gameProgress;
+        this.GROUND_LEVEL = GROUND_LEVEL;
 
         // Sets the player's stats based on the upgrades
         this.setDamage(gameProgress.getUpgradeLevel(Upgrades.MAX_DAMAGE));

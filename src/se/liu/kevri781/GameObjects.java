@@ -2,8 +2,6 @@ package se.liu.kevri781;
 
 import java.awt.*;
 
-import static se.liu.kevri781.GamePanel.GROUND_LEVEL;
-
 /**
  * The GameObjects class represents any object that can appear in the game, including the player, enemies, and obstacles.
  * It contains properties such as position, velocity, and collision detection. It is an abstract class and is extended by
@@ -22,15 +20,17 @@ public abstract class GameObjects
     private Point centerCoordinate;
     private boolean isSyncedWithBackground = false;
     protected int groundCoord;
+    protected int GROUND_LEVEL;
 
     // Constructor
-    protected GameObjects(int x, int y, int width, int height) {
+    protected GameObjects(int x, int y, int width, int height, int GROUND_LEVEL) {
         this.x = x;
         this.y = y;
         this.velocityX = 0;
         this.velocityY = 0;
         this.width = width;
         this.height = height;
+        this.GROUND_LEVEL = GROUND_LEVEL;
         this.centerCoordinate = new Point(x + getScaledWidth() / 2, y + getScaledHeight() / 2);
         isOnGround = false;
         this.groundCoord = GROUND_LEVEL - height;

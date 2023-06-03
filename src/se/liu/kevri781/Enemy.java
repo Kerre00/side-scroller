@@ -1,7 +1,5 @@
 package se.liu.kevri781;
 
-import static se.liu.kevri781.GamePanel.GROUND_LEVEL;
-
 /**
  * Represents an enemy in the game. Contains the logic for enemy AI. It also contains the information for the enemy's
  * type, stats and position etc. Extends the Character class to inherit the methods for movement, attacking and taking
@@ -13,7 +11,7 @@ public class Enemy extends Character {
     private final static int ENEMY_SCALE = 3;
     private GameProgress gameProgress;
 
-    public Enemy(final CharacterType characterType, final int x, final int y, final int width, final int height, GameProgress gameProgress) {
+    public Enemy(final CharacterType characterType, final int x, final int y, final int width, final int height, GameProgress gameProgress, int GROUND_LEVEL) {
         super(x, y, width, height);
         this.gameProgress = gameProgress;
         this.setScale(ENEMY_SCALE); // Scale of enemy sprites
