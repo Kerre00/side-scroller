@@ -24,7 +24,7 @@ public class PlayerDrawable extends Player implements Drawable {
         this.player = player;
         this.dir = "images/player/";
         // Create a sprite animation object for the idle animation
-        getAnimation();
+        setAnimation();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class PlayerDrawable extends Player implements Drawable {
 //        }
         g.drawImage(spriteAnimation.getNextFrame(), player.x, player.y, player.getScaledWidth(), player.getScaledHeight(), null);
     }
-    private void getAnimation() {
+    private void setAnimation() {
         final int animationDelay = 100;
         switch (currentAnimationIndex) {
                 case 0:
@@ -101,7 +101,7 @@ public class PlayerDrawable extends Player implements Drawable {
             this.currentAnimationIndex = 0;
         } if (lastAnimationIndex != currentAnimationIndex) {
             if (!player.isAttacking()) {
-                getAnimation();
+                setAnimation();
             }
         }
     }
@@ -110,6 +110,6 @@ public class PlayerDrawable extends Player implements Drawable {
         if (currentAnimationIndex < 4) {
             this.currentAnimationIndex = 0;
         }
-        getAnimation();
+        setAnimation();
     }
 }

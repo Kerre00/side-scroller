@@ -1,7 +1,6 @@
 package se.liu.kevri781;
 
 import java.awt.*;
-import java.util.Random;
 
 /**
  * Represents an enemy character that can be drawn on the screen.
@@ -40,7 +39,7 @@ public class EnemyDrawable extends Enemy implements Drawable {
         }
         currentAnimationIndex = 0;
         // Create a sprite animation object for the idle animation
-        getAnimation();
+        setAnimation();
     }
 
     @Override
@@ -50,7 +49,7 @@ public class EnemyDrawable extends Enemy implements Drawable {
         g2d.drawImage(spriteAnimation.getNextFrame(), enemy.getX(), enemy.getY(), enemy.getWidth() * getScale(), enemy.getHeight() * getScale(), null);
     }
 
-    private void getAnimation() {
+    private void setAnimation() {
         this.stringDirection = enemy.stringDirection;
         final int animationDelay = 100;
         switch (currentAnimationIndex) {
@@ -118,7 +117,7 @@ public class EnemyDrawable extends Enemy implements Drawable {
         }
 
         if (lastAnimationIndex != currentAnimationIndex || !lastDirection.equals(stringDirection)) {
-            getAnimation();
+            setAnimation();
         }
     }
 }
