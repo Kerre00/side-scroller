@@ -4,8 +4,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
 
 /**
  * The SpriteAnimation class is responsible for animating the different sprites in the game.
@@ -24,22 +22,23 @@ public class SpriteAnimation {
     private boolean reverse;
     private String filePath;
     private GameObjects object;
-    private Logger logger = Logger.getLogger(SpriteAnimation.class.getName());
-
     public SpriteAnimation(GameObjects object, String filePath, int animationDelay) {
 
 	try {
-	    FileHandler fileHandler = new FileHandler("logfile.log");
-	    logger.addHandler(fileHandler);
 	    URL spriteSheetURL = ClassLoader.getSystemResource(filePath);
 	    this.spriteSheet = ImageIO.read(spriteSheetURL);
 	} catch (IOException e) {
 	    e.printStackTrace();
-	    logger.severe("Error loading sprite sheet");
 	}
-	this.spriteWidth = spriteSheet.getHeight();
-	this.spriteHeight = spriteSheet.getHeight();
-	this.numFrames = spriteSheet.getWidth() / spriteWidth;
+	if (spriteSheet != null) {
+	    this.spriteWidth = spriteSheet.getHeight();
+	    this.spriteHeight = spriteSheet.getHeight();
+	    this.numFrames = spriteSheet.getWidth() / spriteWidth;
+	} else {
+	    this.spriteWidth = 0;
+	    this.spriteHeight = 0;
+	    this.numFrames = 0;
+	}
 	this.animationDelay = animationDelay;
 	this.filePath = filePath;
 	this.object = object;
@@ -82,9 +81,12 @@ public class SpriteAnimation {
 		}
 	    }
     	}
-	int x = (currentFrame % (spriteSheet.getWidth() / spriteWidth)) * spriteWidth;
-	int y = (currentFrame / (spriteSheet.getWidth() / spriteWidth)) * spriteHeight;
-	return spriteSheet.getSubimage(x, y, spriteWidth, spriteHeight);
+	if (spriteSheet != null) {
+	    int x = (currentFrame % (spriteSheet.getWidth() / spriteWidth)) * spriteWidth;
+	    int y = (currentFrame / (spriteSheet.getWidth() / spriteWidth)) * spriteHeight;
+	    return spriteSheet.getSubimage(x, y, spriteWidth, spriteHeight);
+	}
+	return null;
     }
     private boolean isFinished() {
 	if (reverse) {
