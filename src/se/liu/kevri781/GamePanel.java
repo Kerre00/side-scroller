@@ -103,7 +103,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
 	player = new Player(0, 0, 135, 135, background, gameProgress, groundLevel);
 	player.setY(player.groundCoordSpriteOffset);
-	player.setX(screenSize.width / 2 - player.getScaledWidth() / 2);
+	final int playerMidXCoord = screenSize.width / 2 - player.getScaledWidth() / 2;
+	player.setX(playerMidXCoord);
 	playerDrawable = new PlayerDrawable(player);
 
 	enemy = new Enemy(CharacterType.SKELETON_WARRIOR, 0, 0, 128, 128, gameProgress, groundLevel);
