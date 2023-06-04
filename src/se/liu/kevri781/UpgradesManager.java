@@ -51,8 +51,8 @@ public class UpgradesManager
 	    JOptionPane.showMessageDialog(null, "You don't have enough money to buy this upgrade!");
 	}
     }
-    public CharacterType[] getUnlockedEnemies(GameProgress gameProgress) {
-	CharacterType[] unlockedEnemies = new CharacterType[6];
+    public EnemyType[] getUnlockedEnemies(GameProgress gameProgress) {
+	EnemyType[] unlockedEnemies = new EnemyType[6];
 	int unlockedEnemiesIndex = 0;
 	for (Upgrades upgrade : Upgrades.values()) {
 	    if (!upgrade.checkIfPlayerUpgrade() && gameProgress.getUpgradeLevel(upgrade) > 0) {

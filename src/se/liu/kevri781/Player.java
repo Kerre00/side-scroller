@@ -40,7 +40,7 @@ public class Player extends Character {
         this.setGroundCoordSpriteOffset(groundLevel - (height - SPRITE_EMPTY_SPACE) * scale);
     }
 
-    @Override public void update() {
+    public void update() {
         /**
          * Updates the player's position and applies gravity.
          */

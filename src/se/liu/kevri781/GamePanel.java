@@ -27,13 +27,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private Enemy enemy = null;
     private EnemyDrawable enemyDrawable = null;
     private int groundLevel = (screenSize.height * 9 / 10);
-    private Random random = new Random();
+    private static Random random = new Random();
     private List<Enemy> enemies = new ArrayList<>();
     private long deadEnemyTimer = 0;
     private HUD hud = null;
     private PanelManager panelManager;
     private UpgradesManager upgradesManager;
-    private CharacterType[] unlockedEnemies;
+    private EnemyType[] unlockedEnemies;
     private final static int ENEMY_SPAWN_DISTANCE = 2000;
     private GameProgress gameProgress;
 
@@ -94,7 +94,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	player.setX(playerMidXCoord);
 	playerDrawable = new PlayerDrawable(player);
 
-	enemy = new Enemy(CharacterType.SKELETON_WARRIOR, 0, 0, 128, 128, gameProgress, groundLevel);
+	enemy = new Enemy(EnemyType.SKELETON_WARRIOR, 0, 0, 128, 128, gameProgress, groundLevel);
 	enemy.setY(enemy.groundCoordSpriteOffset);
 	enemy.setX(player.x + ENEMY_SPAWN_DISTANCE);
 
@@ -114,7 +114,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	long lastTime = System.nanoTime();
 	int framesPerSecond = 60;
 	double nanosecondsPerFrame = 1000000000.0 / framesPerSecond;
-	double deltaTime = 0;
+	double deltaTime = 0;	// The time since the last update
 
 	while (running) {
 	    long currentTime = System.nanoTime();
@@ -153,7 +153,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	long enemySpawnDelay = 350;
 	if (deadEnemyTimer > 0 && System.currentTimeMillis() - deadEnemyTimer >= enemySpawnDelay) {
 	    int randomIndex = random.nextInt(unlockedEnemies.length);
-	    CharacterType randomEnemyType = unlockedEnemies[randomIndex];
+	    EnemyType randomEnemyType = unlockedEnemies[randomIndex];
 	    while (randomEnemyType == null) {
 		randomIndex = random.nextInt(unlockedEnemies.length);
 		randomEnemyType = unlockedEnemies[randomIndex];

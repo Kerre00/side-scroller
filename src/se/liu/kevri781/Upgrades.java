@@ -20,20 +20,20 @@ public enum Upgrades {
         return isPlayerUpgrade;
     }
 
-    public CharacterType getCharacterType(Upgrades upgrade) {
+    public EnemyType getCharacterType(Upgrades upgrade) {
         switch (upgrade) {
             case SKELETON_WARRIOR:
-                return CharacterType.SKELETON_WARRIOR;
+                return EnemyType.SKELETON_WARRIOR;
             case SKELETON_SPEARMAN:
-                return CharacterType.SKELETON_SPEARMAN;
+                return EnemyType.SKELETON_SPEARMAN;
             case SKELETON_ARCHER:
-                return CharacterType.SKELETON_ARCHER;
+                return EnemyType.SKELETON_ARCHER;
             case LIGHTNING_MAGE:
-                return CharacterType.LIGHTNING_MAGE;
+                return EnemyType.LIGHTNING_MAGE;
             case WANDERER_MAGICIAN:
-                return CharacterType.WANDERER_MAGICIAN;
+                return EnemyType.WANDERER_MAGICIAN;
             case FIRE_WIZARD:
-                return CharacterType.FIRE_WIZARD;
+                return EnemyType.FIRE_WIZARD;
             default:
                 return null;
         }

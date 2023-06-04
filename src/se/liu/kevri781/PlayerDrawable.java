@@ -13,7 +13,7 @@ import java.util.Random;
 public class PlayerDrawable extends Player implements Drawable {
     private SpriteAnimation spriteAnimation = null;
     private int currentAnimationIndex;
-    private Random rnd = new Random();
+    private static Random rnd = new Random();
     private Player player;
     private String dir;
     public PlayerDrawable(Player player) {
@@ -26,8 +26,6 @@ public class PlayerDrawable extends Player implements Drawable {
         // Create a sprite animation object for the idle animation
         setAnimation();
     }
-
-    @Override
     public void draw(Graphics g) {
         // Draw the next frame of the current player animation
 //        if (spriteAnimation.freezeAnimation) { // TODO: Fix freeze animation

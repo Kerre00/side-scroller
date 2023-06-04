@@ -83,7 +83,7 @@ public class GameBackground implements Drawable {
     }
 
     public void moveBackground(int speed) {
-	int layerSpeedDifference = 5;
+	final int layerSpeedDifference = 5;
 	speed /= layerSpeedDifference;
 	for (int i = 0; i < numLayers; i++) {
 	    bgSpeed.set(i, speed * i);

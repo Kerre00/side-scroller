@@ -41,8 +41,6 @@ public class EnemyDrawable extends Enemy implements Drawable {
         // Create a sprite animation object for the idle animation
         setAnimation();
     }
-
-    @Override
     public void draw(Graphics g) {
     	// Draws the enemy character on the screen
         Graphics2D g2d = (Graphics2D) g;

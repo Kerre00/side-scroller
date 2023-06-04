@@ -6,11 +6,11 @@ package se.liu.kevri781;
  * damage.
  */
 public class Enemy extends Character {
-    private CharacterType characterType;
+    private EnemyType characterType;
     private int moneyValue;
     private GameProgress gameProgress;
 
-    public Enemy(final CharacterType characterType, final int x, final int y, final int width, final int height, GameProgress gameProgress, int groundLevel) {
+    public Enemy(final EnemyType characterType, final int x, final int y, final int width, final int height, GameProgress gameProgress, int groundLevel) {
         super(x, y, width, height);
         this.gameProgress = gameProgress;
         this.setScale(3); // Scale of enemy sprites
@@ -18,7 +18,7 @@ public class Enemy extends Character {
         this.characterType = characterType;
         setEnemyStats(characterType); // Set enemy stats based on upgrade level
     }
-    @Override public void update() {
+    public void update() {
         /**
          * Updates the enemy's position and applies gravity.
          */
@@ -48,7 +48,7 @@ public class Enemy extends Character {
             }
         }
     }
-    public CharacterType getCharacterType() {
+    public EnemyType getCharacterType() {
         return characterType;
     }
     public int getMoneyValue() {
@@ -89,7 +89,7 @@ public class Enemy extends Character {
         }
         return moneyValue;
     }
-    private void setEnemyStats(CharacterType enemytype) {
+    private void setEnemyStats(EnemyType enemytype) {
         /**
          * Sets the enemy stats based on the enemytype and the upgrade level of the enemytype.
          */

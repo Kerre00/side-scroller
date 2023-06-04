@@ -11,7 +11,6 @@ public abstract class GameObjects
     protected int velocityX, velocityY;
     protected int width, height;
     protected int scale = 1;
-    private boolean isOnGround;
     private boolean isSyncedWithBackground = false;
     protected int groundCoordSpriteOffset;
     protected int groundLevel;
@@ -24,7 +23,6 @@ public abstract class GameObjects
         this.width = width;
         this.height = height;
         this.groundLevel = groundLevel;
-        isOnGround = false;
         this.groundCoordSpriteOffset = groundLevel - height;
     }
 
@@ -37,18 +35,12 @@ public abstract class GameObjects
         }
     }
     private void setOnGround() {
-        if (y > groundCoordSpriteOffset) {
-            y = groundCoordSpriteOffset;
-            velocityY = 0;
-            isOnGround = true;
-        } else {
-            isOnGround = false;
-        }
+        y = groundCoordSpriteOffset;
+        velocityY = 0;
     }
     protected void setGroundCoordSpriteOffset(int groundCoordSpriteOffset) {
         this.groundCoordSpriteOffset = groundCoordSpriteOffset;
     }
-    protected abstract void update();
     protected int xDistanceTo(GameObjects other, boolean enableDirection) {
         int xMid = x + this.getScaledWidth() / 2;
         int xMidOther = other.getX() + other.getScaledWidth() / 2;
