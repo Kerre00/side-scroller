@@ -5,6 +5,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Logger;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.SimpleFormatter;
 
 /**
  * The HUD class represents the heads-up display that appears on the screen during gameplay.
@@ -19,15 +22,17 @@ public class HUD extends Player implements Drawable
     private Enemy enemy;
     private int healthBarX;
     private int healthBarY;
+    private Logger logger = Logger.getLogger(HUD.class.getName());
     public HUD(Player player, Enemy enemy) {
         super(0, 0, 0, 0, null, player.getGameProgress(), player.groundLevel);
         try {
+            FileHandler fileHandler = new FileHandler("logfile.log");
+            logger.addHandler(fileHandler);
             final URL hud = ClassLoader.getSystemResource("images/hud/hud_spritesheet.png");
             currentHUDImage = ImageIO.read(hud);
         } catch (IOException e) {
             e.printStackTrace();
-            Logger logger = Logger.getLogger(HUD.class.getName());
-            logger.severe("Error loading HUD spritesheet");
+            logger.severe("Error loading HUD image");
         }
         this.player = player;
         this.enemy = enemy;
@@ -55,7 +60,6 @@ public class HUD extends Player implements Drawable
             currentHUDImage = ImageIO.read(gameOver);
         } catch (IOException e) {
             e.printStackTrace();
-            Logger logger = Logger.getLogger(HUD.class.getName());
             logger.severe("Error loading game over image");
         }
 

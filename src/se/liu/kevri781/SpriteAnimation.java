@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
 /**
@@ -23,14 +24,17 @@ public class SpriteAnimation {
     private boolean reverse;
     private String filePath;
     private GameObjects object;
+    private Logger logger = Logger.getLogger(SpriteAnimation.class.getName());
 
     public SpriteAnimation(GameObjects object, String filePath, int animationDelay) {
+
 	try {
+	    FileHandler fileHandler = new FileHandler("logfile.log");
+	    logger.addHandler(fileHandler);
 	    URL spriteSheetURL = ClassLoader.getSystemResource(filePath);
 	    this.spriteSheet = ImageIO.read(spriteSheetURL);
 	} catch (IOException e) {
 	    e.printStackTrace();
-	    Logger logger = Logger.getLogger(SpriteAnimation.class.getName());
 	    logger.severe("Error loading sprite sheet");
 	}
 	this.spriteWidth = spriteSheet.getHeight();

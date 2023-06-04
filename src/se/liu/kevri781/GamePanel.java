@@ -5,9 +5,11 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import javax.swing.*;
 
@@ -37,8 +39,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private CharacterType[] unlockedEnemies;
     private final static int ENEMY_SPAWN_DISTANCE = 2000;
     private GameProgress gameProgress;
+    private Logger logger = Logger.getLogger(GamePanel.class.getName());
 
     public GamePanel(PanelManager panelManager, GameProgress gameProgress) {
+
+	try {
+	    FileHandler fileHandler = new FileHandler("logfile.log");
+	    logger.addHandler(fileHandler);
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+
 	this.gameProgress = gameProgress;
 
 	this.panelManager = panelManager;
@@ -81,7 +92,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	    thread.join();
 	} catch (InterruptedException e) {
 	    e.printStackTrace();
-	    Logger.getGlobal().severe("Error stopping thread");
+	    logger.severe("Thread interrupted");
 	}
     }
 
