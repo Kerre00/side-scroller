@@ -48,6 +48,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	    logger.addHandler(fileHandler);
 	} catch (IOException e) {
 	    e.printStackTrace();
+	    logger.severe("Error loading HUD image");
 	}
 
 	this.gameProgress = gameProgress;
