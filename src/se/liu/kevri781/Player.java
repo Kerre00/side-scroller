@@ -15,7 +15,7 @@ public class Player extends Character {
     public Player(final int x, final int y, final int width, final int height, GameBackground background, GameProgress gameProgress, int groundLevel) {
         super(x, y, width, height);
 
-        this.setScale(PLAYER_SCALE); // Scale of player sprite
+        this.setScale(PLAYER_SCALE);
         this.background = background;
         this.gameProgress = gameProgress;
 

@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Logger;
 
 /**
  * The HUD class represents the heads-up display that appears on the screen during gameplay.
@@ -25,6 +26,9 @@ public class HUD extends Player implements Drawable
             currentHUDImage = ImageIO.read(hud);
         } catch (IOException e) {
             e.printStackTrace();
+            // Log error
+            Logger logger = Logger.getLogger(HUD.class.getName());
+            logger.severe("Error loading HUD spritesheet");
         }
         this.player = player;
         this.enemy = enemy;
