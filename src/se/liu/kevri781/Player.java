@@ -12,6 +12,7 @@ public class Player extends Character {
     private GameBackground background;
     private GameProgress gameProgress;
     private int money = 0;
+
     public Player(final int x, final int y, final int width, final int height, GameBackground background, GameProgress gameProgress, int groundLevel) {
         super(x, y, width, height);
 
@@ -21,11 +22,18 @@ public class Player extends Character {
 
         // Sets the player's stats based on the upgrades
         this.setDamage(gameProgress.getUpgradeLevel(Upgrades.MAX_DAMAGE));
-        this.setMaxHealth(10 * gameProgress.getUpgradeLevel(Upgrades.MAX_HEALTH));
-        this.setSpeed(4 + gameProgress.getUpgradeLevel(Upgrades.SPEED));
-        this.setJumpHeight(10 + 5 * gameProgress.getUpgradeLevel(Upgrades.JUMP_HEIGHT));
-        this.setMaxRecoveryTime(1000 + 500L * gameProgress.getUpgradeLevel(Upgrades.RECOVERY_TIME));
-        this.setAttackReach(100 + 50 * gameProgress.getUpgradeLevel(Upgrades.ATTACK_REACH));
+        final int baseMaxHealth = 10;
+        this.setMaxHealth(baseMaxHealth * gameProgress.getUpgradeLevel(Upgrades.MAX_HEALTH));
+        final int baseSpeed = 4;
+        this.setSpeed(baseSpeed + gameProgress.getUpgradeLevel(Upgrades.SPEED));
+        final int baseJumpHeight = 10;
+        this.setJumpHeight(baseJumpHeight + 5 * gameProgress.getUpgradeLevel(Upgrades.JUMP_HEIGHT));
+        final int baseMaxRecoveryTime = 1000;
+        final long recoveryTimeMultiplier = 500;
+        this.setMaxRecoveryTime(baseMaxRecoveryTime + recoveryTimeMultiplier * gameProgress.getUpgradeLevel(Upgrades.RECOVERY_TIME));
+        final int baseAttackReach = 100;
+        final int attackReachMultiplier = 50;
+        this.setAttackReach(baseAttackReach + attackReachMultiplier * gameProgress.getUpgradeLevel(Upgrades.ATTACK_REACH));
 
         // Sets the player's direction and ground coordinate
         this.setDirection(Direction.RIGHT);

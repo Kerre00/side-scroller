@@ -57,22 +57,34 @@ public class Enemy extends Character {
          */
         switch (characterType) {
             case SKELETON_WARRIOR:
-                moneyValue = 10 + 5 * gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR);
+                final int baseMoneyValueWarrior = 10;
+                final int moneyValueMultiplierWarrior = 5;
+                moneyValue = baseMoneyValueWarrior + moneyValueMultiplierWarrior * gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR);
                 break;
             case SKELETON_ARCHER:
-                moneyValue = 30 + 15 * gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER);
+                final int baseMoneyValueArcher = 20;
+                final int moneyValueMultiplierArcher = 10;
+                moneyValue = baseMoneyValueArcher + moneyValueMultiplierArcher * gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER);
                 break;
             case SKELETON_SPEARMAN:
-                moneyValue = 20 + 10 * gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN);
+                final int baseMoneyValueSpearman = 20;
+                final int moneyValueMultiplierSpearman = 10;
+                moneyValue = baseMoneyValueSpearman + moneyValueMultiplierSpearman * gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN);
                 break;
             case WANDERER_MAGICIAN:
-                moneyValue = 80 + 40 * gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN);
+                final int baseMoneyValueMagician = 80;
+                final int moneyValueMultiplierMagician = 40;
+                moneyValue = baseMoneyValueMagician + moneyValueMultiplierMagician * gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN);
                 break;
             case FIRE_WIZARD:
-                moneyValue = 60 + 30 * gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD);
+                final int baseMoneyValueWizard = 60;
+                final int moneyValueMultiplierWizard = 30;
+                moneyValue = baseMoneyValueWizard + moneyValueMultiplierWizard * gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD);
                 break;
             case LIGHTNING_MAGE:
-                moneyValue = 100 + 50 * gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE);
+                final int baseMoneyValueMage = 100;
+                final int moneyValueMultiplierMage = 50;
+                moneyValue = baseMoneyValueMage + moneyValueMultiplierMage * gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE);
                 break;
         }
         return moneyValue;
@@ -83,40 +95,64 @@ public class Enemy extends Character {
          */
         switch (enemytype) {
             case SKELETON_WARRIOR:
-                this.setSpeed(3 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR));
-                this.setMaxHealth(5 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR));
-                this.setDamage(1 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR));
-                this.setAttackReach(100 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR) * 20);
+                final int baseSpeedWarrior = 3;
+                final int baseHealthWarrior = 5;
+                final int baseDamageWarrior = 1;
+                final int baseAttackReachWarrior = 100;
+                this.setSpeed(baseSpeedWarrior + gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR));
+                this.setMaxHealth(baseHealthWarrior + gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR));
+                this.setDamage(baseDamageWarrior + gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR));
+                this.setAttackReach(baseAttackReachWarrior + gameProgress.getUpgradeLevel(Upgrades.SKELETON_WARRIOR) * 20);
                 break;
             case SKELETON_ARCHER:
-                this.setSpeed(5 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER));
-                this.setMaxHealth(3 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER));
-                this.setDamage(2 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER));
-                this.setAttackReach(300 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER) * 40);
+                final int baseSpeedArcher = 5;
+                final int baseHealthArcher = 3;
+                final int baseDamageArcher = 2;
+                final int baseAttackReachArcher = 150;
+                this.setSpeed(baseSpeedArcher + gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER));
+                this.setMaxHealth(baseHealthArcher + gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER));
+                this.setDamage(baseDamageArcher + gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER));
+                this.setAttackReach(baseAttackReachArcher + gameProgress.getUpgradeLevel(Upgrades.SKELETON_ARCHER) * 40);
                 break;
             case SKELETON_SPEARMAN:
-                this.setSpeed(4 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN));
-                this.setMaxHealth(4 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN));
-                this.setDamage(3 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN));
-                this.setAttackReach(200 + gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN) * 40);
+                final int baseSpeedSpearman = 4;
+                final int baseHealthSpearman = 4;
+                final int baseDamageSpearman = 3;
+                final int baseAttackReachSpearman = 200;
+                this.setSpeed(baseSpeedSpearman + gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN));
+                this.setMaxHealth(baseHealthSpearman + gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN));
+                this.setDamage(baseDamageSpearman + gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN));
+                this.setAttackReach(baseAttackReachSpearman + gameProgress.getUpgradeLevel(Upgrades.SKELETON_SPEARMAN) * 40);
                 break;
             case WANDERER_MAGICIAN:
-                this.setSpeed(5 + gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN));
-                this.setMaxHealth(5 + gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN) * 2);
-                this.setDamage(5 + gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN) * 2);
-                this.setAttackReach(350 + gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN) * 30);
+                final int baseSpeedMagician = 5;
+                final int baseHealthMagician = 5;
+                final int baseDamageMagician = 5;
+                final int baseAttackReachMagician = 350;
+                this.setSpeed(baseSpeedMagician + gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN));
+                this.setMaxHealth(baseHealthMagician + gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN) * 2);
+                this.setDamage(baseDamageMagician + gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN) * 2);
+                this.setAttackReach(baseAttackReachMagician + gameProgress.getUpgradeLevel(Upgrades.WANDERER_MAGICIAN) * 30);
                 break;
             case FIRE_WIZARD:
-                this.setSpeed(5 + gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD));
-                this.setMaxHealth(6 + gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD) * 2);
-                this.setDamage(6 + gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD) * 2);
-                this.setAttackReach(350 + gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD) * 30);
+                final int baseSpeedWizard = 5;
+                final int baseHealthWizard = 6;
+                final int baseDamageWizard = 6;
+                final int baseAttackReachWizard = 350;
+                this.setSpeed(baseSpeedWizard + gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD));
+                this.setMaxHealth(baseHealthWizard + gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD) * 2);
+                this.setDamage(baseDamageWizard + gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD) * 2);
+                this.setAttackReach(baseAttackReachWizard + gameProgress.getUpgradeLevel(Upgrades.FIRE_WIZARD) * 30);
                 break;
             case LIGHTNING_MAGE:
-                this.setSpeed(5 + gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE));
-                this.setMaxHealth(5 + gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE) * 2);
-                this.setDamage(7 + gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE) * 2);
-                this.setAttackReach(350 + gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE) * 30);
+                final int baseSpeedMage = 5;
+                final int baseHealthMage = 7;
+                final int baseDamageMage = 7;
+                final int baseAttackReachMage = 350;
+                this.setSpeed(baseSpeedMage + gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE));
+                this.setMaxHealth(baseHealthMage + gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE) * 2);
+                this.setDamage(baseDamageMage + gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE) * 2);
+                this.setAttackReach(baseAttackReachMage + gameProgress.getUpgradeLevel(Upgrades.LIGHTNING_MAGE) * 30);
                 break;
         }
     }

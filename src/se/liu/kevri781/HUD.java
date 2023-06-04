@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Logger;
 import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.SimpleFormatter;
 
 /**
  * The HUD class represents the heads-up display that appears on the screen during gameplay.
