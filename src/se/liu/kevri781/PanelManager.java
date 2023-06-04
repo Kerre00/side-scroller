@@ -1,7 +1,6 @@
 package se.liu.kevri781;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * The PanelManager class is responsible for switching between the different panels in the game.
@@ -9,7 +8,7 @@ import java.awt.*;
  * It is responsible for starting the game thread.
  */
 public class PanelManager {
-    private JFrame frame;
+    private JFrame frame = new JFrame("Side Scroller Game");
     private JPanel currentPanel;
     private MenuPanel menuPanel;
     private GamePanel gamePanel;
@@ -17,8 +16,6 @@ public class PanelManager {
     private GameProgress gameProgress;
 
     public PanelManager() {
-        frame = new JFrame("Side Scroller Game");
-
         gameProgress = new GameProgress();
         gameProgress.setUpgradeLevels();
 
@@ -42,7 +39,7 @@ public class PanelManager {
     }
 
     public static void main(String[] args) {
-        PanelManager panel = new PanelManager();
+        new PanelManager();
     }
 
     public void switchToMainMenu() {

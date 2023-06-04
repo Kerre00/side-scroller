@@ -7,7 +7,7 @@ package se.liu.kevri781;
  */
 public class Player extends Character {
 
-    private final static int SPRITE_EMPTY_SPACE = 49; // The space below the sprite that is empty
+    private final static int SPRITE_EMPTY_SPACE = 49;
     private final static int PLAYER_SCALE = 5;
     private GameBackground background;
     private GameProgress gameProgress;

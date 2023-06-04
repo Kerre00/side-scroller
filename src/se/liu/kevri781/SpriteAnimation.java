@@ -12,7 +12,7 @@ import java.net.URL;
  */
 public class SpriteAnimation {
     private BufferedImage spriteSheet = null;
-    public boolean freezeAnimation = false;
+    private boolean freezeAnimation = false;
     private int spriteWidth;
     private int spriteHeight;
     private int currentFrame;

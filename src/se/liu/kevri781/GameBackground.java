@@ -3,6 +3,7 @@ package se.liu.kevri781;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import java.awt.event.ComponentEvent;
 
@@ -12,14 +13,14 @@ import java.awt.event.ComponentEvent;
  * resizing of the background. It is used by the GamePanel class.
  */
 public class GameBackground implements Drawable {
-    private ArrayList<Image> bgImages = new ArrayList<>();
-    private ArrayList<Image> bgImages2 = new ArrayList<>();
-    private ArrayList<Integer> bgXPos = new ArrayList<>();
-    private ArrayList<Integer> bgXpos2 = new ArrayList<>();
-    private ArrayList<Integer> bgYpos = new ArrayList<>();
-    private ArrayList<Integer> bgYpos2 = new ArrayList<>();
-    private ArrayList<Integer> bgSpeed = new ArrayList<>();
-    private ArrayList<Integer> bgSpeed2 = new ArrayList<>();
+    private List<Image> bgImages = new ArrayList<>();
+    private List<Image> bgImages2 = new ArrayList<>();
+    private List<Integer> bgXPos = new ArrayList<>();
+    private List<Integer> bgXpos2 = new ArrayList<>();
+    private List<Integer> bgYpos = new ArrayList<>();
+    private List<Integer> bgYpos2 = new ArrayList<>();
+    private List<Integer> bgSpeed = new ArrayList<>();
+    private List<Integer> bgSpeed2 = new ArrayList<>();
     private int numLayers;
     private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final int scaledWidth = (int) (screenSize.width * 1.32);
@@ -80,6 +81,7 @@ public class GameBackground implements Drawable {
 	    }
 	}
     }
+
     public void moveBackground(int speed) {
 	int layerSpeedDifference = 5;
 	speed /= layerSpeedDifference;
@@ -88,10 +90,10 @@ public class GameBackground implements Drawable {
 	    bgSpeed2.set(i, speed * i);
 	}
     }
+
     public void drawForeGround(Graphics g) {
 	int lastLayerIndex = numLayers - 1;
 	Image lastLayerImage = bgImages.get(lastLayerIndex);
-	Image lastLayerImage2 = bgImages2.get(lastLayerIndex);
 	int x1 = bgXPos.get(lastLayerIndex);
 	int y1 = bgYpos.get(lastLayerIndex);
 	g.drawImage(lastLayerImage, x1, y1, null);
@@ -103,6 +105,4 @@ public class GameBackground implements Drawable {
     public int getGroundSpeed() {
 	return bgSpeed.get(groundLayerIndex);
     }
-
 }
-

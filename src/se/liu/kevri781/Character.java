@@ -10,7 +10,6 @@ public abstract class Character extends GameObjects
 {
     protected int health;
     protected int maxHealth;
-    protected int level;
     protected int damage;
     protected int speed;
     protected int jumpHeight;
@@ -24,7 +23,6 @@ public abstract class Character extends GameObjects
     protected String stringDirection = "_right";
     protected Character(final int x, final int y, final int width, final int height) {
         super(x, y, width, height, 0);
-        this.level = 1;
         this.damage = 1;
         this.speed = 1;
         this.maxHealth = 3;

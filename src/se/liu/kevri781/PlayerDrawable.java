@@ -13,10 +13,9 @@ import java.util.Random;
 public class PlayerDrawable extends Player implements Drawable {
     private SpriteAnimation spriteAnimation = null;
     private int currentAnimationIndex;
-    private boolean lockAnimation = false;
-    private Random rnd = new Random();
+    private static Random rnd = new Random();
     private Player player;
-    private String dir = null;
+    private String dir;
     public PlayerDrawable(Player player) {
         super(player.getX(), player.getY(), player.getWidth(), player.getHeight(), null, player.getGameProgress(),
               player.groundLevel);
@@ -25,19 +24,19 @@ public class PlayerDrawable extends Player implements Drawable {
         this.player = player;
         this.dir = "images/player/";
         // Create a sprite animation object for the idle animation
-        getAnimation(currentAnimationIndex);
+        getAnimation();
     }
 
     @Override
     public void draw(Graphics g) {
         // Draw the next frame of the current player animation
-        if (spriteAnimation.freezeAnimation) {
-            return;
-        }
+//        if (spriteAnimation.freezeAnimation) { // TODO: Fix freeze animation
+//            return;
+//        }
         g.drawImage(spriteAnimation.getNextFrame(), player.x, player.y, player.getScaledWidth(), player.getScaledHeight(), null);
     }
-    private void getAnimation(int animationIndex) {
-        int animationDelay = 100;
+    private void getAnimation() {
+        final int animationDelay = 100;
         switch (currentAnimationIndex) {
                 case 0:
                         // Idle animation
@@ -102,7 +101,7 @@ public class PlayerDrawable extends Player implements Drawable {
             this.currentAnimationIndex = 0;
         } if (lastAnimationIndex != currentAnimationIndex) {
             if (!player.isAttacking()) {
-                getAnimation(currentAnimationIndex);
+                getAnimation();
             }
         }
     }
@@ -111,6 +110,6 @@ public class PlayerDrawable extends Player implements Drawable {
         if (currentAnimationIndex < 4) {
             this.currentAnimationIndex = 0;
         }
-        getAnimation(currentAnimationIndex);
+        getAnimation();
     }
 }

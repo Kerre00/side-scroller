@@ -6,6 +6,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import javax.swing.*;
 
@@ -25,9 +26,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private PlayerDrawable playerDrawable = null;
     private Enemy enemy = null;
     private EnemyDrawable enemyDrawable = null;
-    public int groundLevel = (screenSize.height * 9 / 10);
+    private int groundLevel = (screenSize.height * 9 / 10);
     private Random random = new Random();
-    private ArrayList<Enemy> enemies = new ArrayList<>();
+    private List<Enemy> enemies = new ArrayList<>();
     private long deadEnemyTimer = 0;
     private HUD hud = null;
     private PanelManager panelManager;

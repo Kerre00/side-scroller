@@ -1,6 +1,9 @@
 package se.liu.kevri781;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
 
 /**
  * The HUD class represents the heads-up display that appears on the screen during gameplay.
@@ -10,19 +13,24 @@ import java.awt.*;
 public class HUD extends Player implements Drawable
 {
     private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    private Image currentHUDImage = Toolkit.getDefaultToolkit().getImage("resources/images/hud/hud_spritesheet.png");
+    private Image currentHUDImage = null;
     private Player player;
     private Enemy enemy;
     private int healthBarX;
     private int healthBarY;
     public HUD(Player player, Enemy enemy) {
         super(0, 0, 0, 0, null, player.getGameProgress(), player.groundLevel);
+        try {
+            final URL hud = ClassLoader.getSystemResource("images/hud/hud_spritesheet.png");
+            currentHUDImage = ImageIO.read(hud);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.player = player;
         this.enemy = enemy;
     }
 
     public void draw(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
         if(player.isDead()) {
             drawGameOver(g);
         } else {
@@ -39,7 +47,13 @@ public class HUD extends Player implements Drawable
         }
     }
     private void drawGameOver(Graphics g) {
-        currentHUDImage = Toolkit.getDefaultToolkit().getImage("resources/images/hud/game_over.png");
+        try {
+            final URL gameOver = ClassLoader.getSystemResource("images/hud/game_over.png");
+            currentHUDImage = ImageIO.read(gameOver);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         x = screenSize.width / 2 - currentHUDImage.getWidth(null) / 2;
         y = screenSize.height / 2 - currentHUDImage.getHeight(null) / 2;
         g.drawImage(currentHUDImage, x, y, null);

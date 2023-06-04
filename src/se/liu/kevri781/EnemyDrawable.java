@@ -10,12 +10,9 @@ import java.util.Random;
  * Uses spriteAnimation to animate the enemy.
  */
 public class EnemyDrawable extends Enemy implements Drawable {
-//    Represents the player character that can be drawn on the screen.
-//    Implements the Drawable interface to provide a method for drawing the player.
     private SpriteAnimation spriteAnimation = null;
     private int currentAnimationIndex;
     private String dir = null;
-    private Random rnd = new Random();
     private Enemy enemy;
     public EnemyDrawable(Enemy enemy) {
         super(enemy.getCharacterType(), enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight(), enemy.getGameProgress(), 0);
@@ -43,7 +40,7 @@ public class EnemyDrawable extends Enemy implements Drawable {
         }
         currentAnimationIndex = 0;
         // Create a sprite animation object for the idle animation
-        getAnimation(currentAnimationIndex);
+        getAnimation();
     }
 
     @Override
@@ -53,9 +50,9 @@ public class EnemyDrawable extends Enemy implements Drawable {
         g2d.drawImage(spriteAnimation.getNextFrame(), enemy.getX(), enemy.getY(), enemy.getWidth() * getScale(), enemy.getHeight() * getScale(), null);
     }
 
-    private void getAnimation(int animationIndex) {
+    private void getAnimation() {
         this.stringDirection = enemy.stringDirection;
-        int animationDelay = 100;
+        final int animationDelay = 100;
         switch (currentAnimationIndex) {
             case 0:
                 // Idle animation
@@ -121,7 +118,7 @@ public class EnemyDrawable extends Enemy implements Drawable {
         }
 
         if (lastAnimationIndex != currentAnimationIndex || !lastDirection.equals(stringDirection)) {
-            getAnimation(currentAnimationIndex);
+            getAnimation();
         }
     }
 }
