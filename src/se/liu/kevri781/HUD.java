@@ -38,13 +38,13 @@ public class HUD extends Player implements Drawable
             }
         }
     }
-    public void drawGameOver(Graphics g) {
+    private void drawGameOver(Graphics g) {
         currentHUDImage = Toolkit.getDefaultToolkit().getImage("resources/images/hud/game_over.png");
         x = screenSize.width / 2 - currentHUDImage.getWidth(null) / 2;
         y = screenSize.height / 2 - currentHUDImage.getHeight(null) / 2;
         g.drawImage(currentHUDImage, x, y, null);
     }
-    public void drawHealthBars(Graphics g) {
+    private void drawHealthBars(Graphics g) {
         int healthWidth = 119;
         int healthHeight = 7;
         int healthX = 133;
@@ -78,27 +78,27 @@ public class HUD extends Player implements Drawable
     }
 
 
-    public void drawMoney(Graphics g) {
+    private void drawMoney(Graphics g) {
         g.setFont(new Font("Times New Roman", Font.PLAIN, 50));
         g.setColor(Color.YELLOW);
         g.drawString(player.getMoney() + " $", 100, 150);
     }
-    public void drawHealthNumber(Graphics g) {
+    private void drawHealthNumber(Graphics g) {
         g.setFont(new Font("Times New Roman", Font.PLAIN, 50));
         g.setColor(Color.RED);
         g.drawString(player.health + "/" + player.maxHealth + " HP", 100, 100);
     }
-    public void drawPlayerDamage(Graphics g) {
+    private void drawPlayerDamage(Graphics g) {
         g.setFont(new Font("Times New Roman", Font.PLAIN, 50));
         g.setColor(Color.white);
         g.drawString("-" + player.getDamage(), enemy.x + enemy.getScaledWidth() / 2, enemy.y + 100);
     }
-    public void drawEnemyDamage(Graphics g) {
+    private void drawEnemyDamage(Graphics g) {
         g.setFont(new Font("Times New Roman", Font.PLAIN, 50));
         g.setColor(Color.RED);
         g.drawString("-" + enemy.getDamage(), player.x + player.getScaledHeight() / 2, player.y + 100);
     }
-    public void drawMoneyGain(Graphics g) {
+    private void drawMoneyGain(Graphics g) {
         g.setFont(new Font("Times New Roman", Font.PLAIN, 50));
         g.setColor(Color.YELLOW);
         g.drawString("+" + enemy.getMoneyValue() + " $", player.x + player.getScaledWidth() / 2, player.y + 100);

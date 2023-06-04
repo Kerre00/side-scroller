@@ -18,7 +18,7 @@ public class PlayerDrawable extends Player implements Drawable {
     private Player player;
     private String dir = null;
     public PlayerDrawable(Player player) {
-        super(player.getX(), player.getY(), player.getWidth(), player.getHeight(), player.background, player.getGameProgress(),
+        super(player.getX(), player.getY(), player.getWidth(), player.getHeight(), null, player.getGameProgress(),
               player.groundLevel);
         // Set the current animation index to 0 (the idle animation)
         this.currentAnimationIndex = 0;
@@ -36,7 +36,7 @@ public class PlayerDrawable extends Player implements Drawable {
         }
         g.drawImage(spriteAnimation.getNextFrame(), player.x, player.y, player.getScaledWidth(), player.getScaledHeight(), null);
     }
-    public void getAnimation(int animationIndex) {
+    private void getAnimation(int animationIndex) {
         int animationDelay = 100;
         switch (currentAnimationIndex) {
                 case 0:

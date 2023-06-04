@@ -9,7 +9,6 @@ import java.awt.*;
  * It is responsible for starting the game thread.
  */
 public class PanelManager {
-    public Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private JFrame frame;
     private JPanel currentPanel;
     private MenuPanel menuPanel;

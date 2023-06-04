@@ -53,7 +53,7 @@ public class EnemyDrawable extends Enemy implements Drawable {
         g2d.drawImage(spriteAnimation.getNextFrame(), enemy.getX(), enemy.getY(), enemy.getWidth() * getScale(), enemy.getHeight() * getScale(), null);
     }
 
-    public void getAnimation(int animationIndex) {
+    private void getAnimation(int animationIndex) {
         this.stringDirection = enemy.stringDirection;
         int animationDelay = 100;
         switch (currentAnimationIndex) {

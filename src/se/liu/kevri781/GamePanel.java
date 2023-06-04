@@ -27,8 +27,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private EnemyDrawable enemyDrawable = null;
     public int groundLevel = (screenSize.height * 9 / 10);
     private Random random = new Random();
-    public int framesPerSecond = 60;
-    public ArrayList<Enemy> enemies = new ArrayList<>();
+    private ArrayList<Enemy> enemies = new ArrayList<>();
     private long deadEnemyTimer = 0;
     private HUD hud = null;
     private PanelManager panelManager;
@@ -83,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	}
     }
 
-    public void resetGame() {
+    private void resetGame() {
 
 	unlockedEnemies = upgradesManager.getUnlockedEnemies(gameProgress);
 
@@ -110,6 +109,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	resetGame();
 
 	long lastTime = System.nanoTime();
+	int framesPerSecond = 60;
 	double nanosecondsPerFrame = 1000000000.0 / framesPerSecond;
 	double deltaTime = 0;
 
@@ -173,15 +173,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	background.drawForeGround(g);
 	hud.draw(g);
     }
-    public int getGroundLevel() {
-	return groundLevel;
-    }
-
-    public ArrayList<Enemy> getEnemies() {
-	return enemies;
-    }
-
-    public void updatePlayerEnemyCollision() {
+    private void updatePlayerEnemyCollision() {
 	/**
 	 * Updates the player's position and applies gravity. And also checks for collisions with enemies.
 	 */

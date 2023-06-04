@@ -9,7 +9,7 @@ public class Player extends Character {
 
     private final static int SPRITE_EMPTY_SPACE = 49; // The space below the sprite that is empty
     private final static int PLAYER_SCALE = 5;
-    public GameBackground background;
+    private GameBackground background;
     private GameProgress gameProgress;
     private int money = 0;
     public Player(final int x, final int y, final int width, final int height, GameBackground background, GameProgress gameProgress, int groundLevel) {

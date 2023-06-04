@@ -153,27 +153,27 @@ public abstract class Character extends GameObjects
         this.maxRecoveryTime = maxRecoveryTime;
     }
 
-    public boolean isRecovering() {
+    protected boolean isRecovering() {
         return recovering;
     }
 
-    public long getRecoverTimer() {
+    protected long getRecoverTimer() {
         return recoverTimer;
     }
 
-    public long setRecoverTimer(long recoverTimer) {
+    protected long setRecoverTimer(long recoverTimer) {
         return this.recoverTimer = recoverTimer;
     }
 
-    public void setRecovering(boolean recovering) {
+    protected void setRecovering(boolean recovering) {
         this.recovering = recovering;
     }
 
-    public void resetRecoveryTimer() {
+    protected void resetRecoveryTimer() {
         recoverTimer = 0;
     }
 
-    public int getAttackReach() {
+    protected int getAttackReach() {
         return attackReach;
     }
 }
