@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -80,6 +81,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	    thread.join();
 	} catch (InterruptedException e) {
 	    e.printStackTrace();
+	    Logger.getGlobal().severe("Error stopping thread");
 	}
     }
 

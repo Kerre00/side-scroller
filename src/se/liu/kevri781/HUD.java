@@ -26,7 +26,6 @@ public class HUD extends Player implements Drawable
             currentHUDImage = ImageIO.read(hud);
         } catch (IOException e) {
             e.printStackTrace();
-            // Log error
             Logger logger = Logger.getLogger(HUD.class.getName());
             logger.severe("Error loading HUD spritesheet");
         }
@@ -56,6 +55,8 @@ public class HUD extends Player implements Drawable
             currentHUDImage = ImageIO.read(gameOver);
         } catch (IOException e) {
             e.printStackTrace();
+            Logger logger = Logger.getLogger(HUD.class.getName());
+            logger.severe("Error loading game over image");
         }
 
         x = screenSize.width / 2 - currentHUDImage.getWidth(null) / 2;

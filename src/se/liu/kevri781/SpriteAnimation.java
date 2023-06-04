@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Logger;
 
 /**
  * The SpriteAnimation class is responsible for animating the different sprites in the game.
@@ -29,6 +30,8 @@ public class SpriteAnimation {
 	    this.spriteSheet = ImageIO.read(spriteSheetURL);
 	} catch (IOException e) {
 	    e.printStackTrace();
+	    Logger logger = Logger.getLogger(SpriteAnimation.class.getName());
+	    logger.severe("Error loading sprite sheet");
 	}
 	this.spriteWidth = spriteSheet.getHeight();
 	this.spriteHeight = spriteSheet.getHeight();
