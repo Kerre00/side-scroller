@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private Enemy enemy = null;
     private EnemyDrawable enemyDrawable = null;
     private int groundLevel = (screenSize.height * 9 / 10);
-    private static Random random = new Random();
+    private Random random = new Random();
     private List<Enemy> enemies = new ArrayList<>();
     private long deadEnemyTimer = 0;
     private HUD hud = null;
@@ -112,7 +112,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	resetGame();
 
 	long lastTime = System.nanoTime();
-	int framesPerSecond = 60;
+	final int framesPerSecond = 60;
 	double nanosecondsPerFrame = 1000000000.0 / framesPerSecond;
 	double deltaTime = 0;	// The time since the last update
 
@@ -150,7 +150,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	    deadEnemyTimer = System.currentTimeMillis(); // start the timer
 	}
 
-	long enemySpawnDelay = 350;
+	final long enemySpawnDelay = 350;
 	if (deadEnemyTimer > 0 && System.currentTimeMillis() - deadEnemyTimer >= enemySpawnDelay) {
 	    int randomIndex = random.nextInt(unlockedEnemies.length);
 	    EnemyType randomEnemyType = unlockedEnemies[randomIndex];

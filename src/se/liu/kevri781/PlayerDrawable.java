@@ -13,7 +13,7 @@ import java.util.Random;
 public class PlayerDrawable extends Player implements Drawable {
     private SpriteAnimation spriteAnimation = null;
     private int currentAnimationIndex;
-    private static Random rnd = new Random();
+    private Random rnd = new Random();
     private Player player;
     private String dir;
     public PlayerDrawable(Player player) {
