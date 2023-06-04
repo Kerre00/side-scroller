@@ -54,11 +54,10 @@ public class UpgradesManager
     public CharacterType[] getUnlockedEnemies(GameProgress gameProgress) {
 	CharacterType[] unlockedEnemies = new CharacterType[6];
 	int unlockedEnemiesIndex = 0;
-	for (CharacterType enemy : CharacterType.values()) {
-	    if (enemy != CharacterType.PLAYER) {
-		unlockedEnemies[unlockedEnemiesIndex] = enemy;
+	for (Upgrades upgrade : Upgrades.values()) {
+	    if (!upgrade.checkIfPlayerUpgrade() && gameProgress.getUpgradeLevel(upgrade) > 0) {
+		unlockedEnemies[unlockedEnemiesIndex] = upgrade.getCharacterType(upgrade);
 		unlockedEnemiesIndex++;
-//		System.out.println(enemy.toString() + " is unlocked!");
 	    }
     	}
 	return unlockedEnemies;

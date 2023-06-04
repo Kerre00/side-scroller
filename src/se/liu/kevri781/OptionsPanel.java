@@ -11,10 +11,8 @@ import java.awt.*;
  */
 public class OptionsPanel extends JPanel
 {
-    private PanelManager panelManager;
 
     public OptionsPanel(PanelManager panelManager) {
-	this.panelManager = panelManager;
 	setBackground(Color.DARK_GRAY);
 
 	setLayout(new GridBagLayout());
@@ -89,9 +87,7 @@ public class OptionsPanel extends JPanel
 	backButton.setPreferredSize(new Dimension(400, 50));
 	backButton.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	add(backButton, c);
-	backButton.addActionListener(e -> {
-	    panelManager.switchToMainMenu();
-	});
+	backButton.addActionListener(e -> panelManager.switchToMainMenu());
 
 
     }

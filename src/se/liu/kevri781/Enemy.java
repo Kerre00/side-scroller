@@ -8,14 +8,13 @@ package se.liu.kevri781;
 public class Enemy extends Character {
     private CharacterType characterType;
     private int moneyValue;
-    private final static int ENEMY_SCALE = 3;
     private GameProgress gameProgress;
 
-    public Enemy(final CharacterType characterType, final int x, final int y, final int width, final int height, GameProgress gameProgress, int GROUND_LEVEL) {
+    public Enemy(final CharacterType characterType, final int x, final int y, final int width, final int height, GameProgress gameProgress, int groundLevel) {
         super(x, y, width, height);
         this.gameProgress = gameProgress;
-        this.setScale(ENEMY_SCALE); // Scale of enemy sprites
-        this.setGroundCoord(GROUND_LEVEL - getScaledHeight());
+        this.setScale(3); // Scale of enemy sprites
+        this.setGroundCoordSpriteOffset(groundLevel - getScaledHeight());
         this.characterType = characterType;
         setEnemyStats(characterType); // Set enemy stats based on upgrade level
     }
@@ -27,7 +26,7 @@ public class Enemy extends Character {
         y += velocityY;
         this.applyGravity();
     }
-    public void Ai(Player player) {
+    public void decisionLogic(Player player) {
         /**
          * Contains the logic for the enemy AI. The enemy will move towards the player and attack if the player is within
          * range.
@@ -49,7 +48,7 @@ public class Enemy extends Character {
             }
         }
     }
-    public CharacterType getEnemyType() {
+    public CharacterType getCharacterType() {
         return characterType;
     }
     public int getMoneyValue() {

@@ -19,21 +19,21 @@ public abstract class GameObjects
     private boolean isOnGround;
     private Point centerCoordinate;
     private boolean isSyncedWithBackground = false;
-    protected int groundCoord;
-    protected int GROUND_LEVEL;
+    protected int groundCoordSpriteOffset;
+    protected int groundLevel;
 
     // Constructor
-    protected GameObjects(int x, int y, int width, int height, int GROUND_LEVEL) {
+    protected GameObjects(int x, int y, int width, int height, int groundLevel) {
         this.x = x;
         this.y = y;
         this.velocityX = 0;
         this.velocityY = 0;
         this.width = width;
         this.height = height;
-        this.GROUND_LEVEL = GROUND_LEVEL;
+        this.groundLevel = groundLevel;
         this.centerCoordinate = new Point(x + getScaledWidth() / 2, y + getScaledHeight() / 2);
         isOnGround = false;
-        this.groundCoord = GROUND_LEVEL - height;
+        this.groundCoordSpriteOffset = groundLevel - height;
     }
 
     // Getter and setter methods for the gravity field
@@ -48,27 +48,27 @@ public abstract class GameObjects
 
     // Gravity-related methods
     public void applyGravity() {
-        if (y < groundCoord) {
-            velocityY += gravity;
-        } else if (y > groundCoord) {
+        if (y < groundCoordSpriteOffset) {
+            velocityY += (int) gravity;
+        } else if (y > groundCoordSpriteOffset) {
             setOnGround();
         }
     }
     public void setOnGround() {
-        if (y > groundCoord) {
-            y = groundCoord;
+        if (y > groundCoordSpriteOffset) {
+            y = groundCoordSpriteOffset;
             velocityY = 0;
             isOnGround = true;
         } else {
             isOnGround = false;
         }
     }
-    public void setGroundCoord(int groundCoord) {
-        this.groundCoord = groundCoord;
+    public void setGroundCoordSpriteOffset(int groundCoordSpriteOffset) {
+        this.groundCoordSpriteOffset = groundCoordSpriteOffset;
     }
 
     public boolean isOnGround() {
-        if (y == groundCoord) {
+        if (y == groundCoordSpriteOffset) {
             return true;
         } else {
             return false;

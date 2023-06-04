@@ -10,17 +10,17 @@ public abstract class Character extends GameObjects
 {
     protected int health;
     protected int maxHealth;
-    protected boolean dead;
     protected int level;
     protected int damage;
     protected int speed;
     protected int jumpHeight;
     protected int attackReach;
+    protected boolean dead = false;
     protected boolean attacking = false;
-    protected boolean isGettingHit = false;
-    protected long recoverTimer = 0;
+    protected boolean gettingHit = false;
     protected boolean recovering = false;
-    protected long invincibilityTimer = 1000;
+    protected long recoverTimer = 0;
+    protected long maxRecoveryTime = 1000;
     protected String stringDirection = "_right";
     protected Character(final int x, final int y, final int width, final int height) {
         super(x, y, width, height, 0);
@@ -29,7 +29,6 @@ public abstract class Character extends GameObjects
         this.speed = 1;
         this.maxHealth = 3;
         this.health = maxHealth;
-        this.dead = false;
         this.attackReach = 100;
         this.jumpHeight = 10;
     }
@@ -95,7 +94,7 @@ public abstract class Character extends GameObjects
         }
     }
     protected boolean isAboveGround() {
-        if (y < groundCoord) {
+        if (y < groundCoordSpriteOffset) {
             return true;
         } else {
             return false;
@@ -145,12 +144,36 @@ public abstract class Character extends GameObjects
         setGettingHit(true);
     }
     protected boolean isGettingHit() {
-        return isGettingHit;
+        return gettingHit;
     }
     protected void setGettingHit(boolean gettingHit) {
-        isGettingHit = gettingHit;
+        this.gettingHit = gettingHit;
     }
-    protected void setInvincibilityTimer(long invincibilityTimer) {
-        this.invincibilityTimer = invincibilityTimer;
+    protected void setMaxRecoveryTime(long maxRecoveryTime) {
+        this.maxRecoveryTime = maxRecoveryTime;
+    }
+
+    public boolean isRecovering() {
+        return recovering;
+    }
+
+    public long getRecoverTimer() {
+        return recoverTimer;
+    }
+
+    public long setRecoverTimer(long recoverTimer) {
+        return this.recoverTimer = recoverTimer;
+    }
+
+    public void setRecovering(boolean recovering) {
+        this.recovering = recovering;
+    }
+
+    public void resetRecoveryTimer() {
+        recoverTimer = 0;
+    }
+
+    public int getAttackReach() {
+        return attackReach;
     }
 }

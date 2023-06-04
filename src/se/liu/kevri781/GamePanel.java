@@ -9,9 +9,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.*;
 
-// Import screensize from PanelManager
-import static se.liu.kevri781.PanelManager.SCREEN_SIZE;
-
 /**
  * The GamePanel class represents the game panel where the game is played.
  * It extends JPanel and implements Runnable and KeyListener interfaces.
@@ -20,6 +17,7 @@ import static se.liu.kevri781.PanelManager.SCREEN_SIZE;
  */
 public class GamePanel extends JPanel implements Runnable, KeyListener
 {
+    private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private Thread thread = null;
     private volatile boolean running;
     private GameBackground background;
@@ -27,12 +25,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
     private PlayerDrawable playerDrawable = null;
     private Enemy enemy = null;
     private EnemyDrawable enemyDrawable = null;
-    public final int GROUND_LEVEL = (SCREEN_SIZE.height * 9 / 10);
+    public int groundLevel = (screenSize.height * 9 / 10);
     private Random random = new Random();
-    public final int FPS = 60;
-    public static ArrayList<Enemy> enemies = new ArrayList<>();
+    public int framesPerSecond = 60;
+    public ArrayList<Enemy> enemies = new ArrayList<>();
     private long deadEnemyTimer = 0;
-    private final long NEW_ENEMY_DELAY = 350;
     private HUD hud = null;
     private PanelManager panelManager;
     private UpgradesManager upgradesManager;
@@ -61,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	resetGame();
 
 	// Set the size of the panel to the size of the screen
-	setPreferredSize(new Dimension(SCREEN_SIZE.width, SCREEN_SIZE.height));
+	setPreferredSize(new Dimension(screenSize.width, screenSize.height));
 
 	// Listener to the panel to resize the panel when the window is resized
 	addComponentListener(new ComponentAdapter()
@@ -90,13 +87,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
 	unlockedEnemies = upgradesManager.getUnlockedEnemies(gameProgress);
 
-	player = new Player(0, 0, 135, 135, background, gameProgress, GROUND_LEVEL);
-	player.setY(player.groundCoord);
-	player.setX(SCREEN_SIZE.width / 2 - player.getScaledWidth() / 2);
+	player = new Player(0, 0, 135, 135, background, gameProgress, groundLevel);
+	player.setY(player.groundCoordSpriteOffset);
+	player.setX(screenSize.width / 2 - player.getScaledWidth() / 2);
 	playerDrawable = new PlayerDrawable(player);
 
-	enemy = new Enemy(CharacterType.SKELETON_WARRIOR, 0, 0, 128, 128, gameProgress, GROUND_LEVEL);
-	enemy.setY(enemy.groundCoord);
+	enemy = new Enemy(CharacterType.SKELETON_WARRIOR, 0, 0, 128, 128, gameProgress, groundLevel);
+	enemy.setY(enemy.groundCoordSpriteOffset);
 	enemy.setX(player.x + ENEMY_SPAWN_DISTANCE);
 
 	enemyDrawable = new EnemyDrawable(enemy);
@@ -111,24 +108,34 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 
     public void run() {
 	resetGame();
+
+	long lastTime = System.nanoTime();
+	double nanosecondsPerFrame = 1000000000.0 / framesPerSecond;
+	double deltaTime = 0;
+
 	while (running) {
-	    update();
-	    repaint();
-	    try {
-		Thread.sleep(1000 / FPS);
-	    } catch (InterruptedException e) {
-		e.printStackTrace();
+	    long currentTime = System.nanoTime();
+	    deltaTime += (currentTime - lastTime) / nanosecondsPerFrame;
+	    lastTime = currentTime;
+
+	    while (deltaTime >= 1) {
+		update();
+		deltaTime--;
 	    }
+
+	    repaint();
 	}
     }
+
     private void update() {
 	background.update();
 	player.update();
 	hud.update();
 	checkSpawnNewEnemy();
+	updatePlayerEnemyCollision();
 	for (Enemy enemy : enemies) {
 	    enemy.update();
-	    enemy.Ai(player);
+	    enemy.decisionLogic(player);
 	    enemy.moveWithBackground(background);
 	}
 	enemyDrawable.animationLogic();
@@ -140,15 +147,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	    deadEnemyTimer = System.currentTimeMillis(); // start the timer
 	}
 
-	if (deadEnemyTimer > 0 && System.currentTimeMillis() - deadEnemyTimer >= NEW_ENEMY_DELAY) {
+	long enemySpawnDelay = 350;
+	if (deadEnemyTimer > 0 && System.currentTimeMillis() - deadEnemyTimer >= enemySpawnDelay) {
 	    int randomIndex = random.nextInt(unlockedEnemies.length);
 	    CharacterType randomEnemyType = unlockedEnemies[randomIndex];
 	    while (randomEnemyType == null) {
 		randomIndex = random.nextInt(unlockedEnemies.length);
 		randomEnemyType = unlockedEnemies[randomIndex];
 	    }
-	    enemy = new Enemy(randomEnemyType, 0, 0, 128, 128, gameProgress, GROUND_LEVEL);
-	    enemy.setY(enemy.groundCoord);
+	    enemy = new Enemy(randomEnemyType, 0, 0, 128, 128, gameProgress, groundLevel);
+	    enemy.setY(enemy.groundCoordSpriteOffset);
 	    enemy.setX(player.x + ENEMY_SPAWN_DISTANCE);
 	    enemyDrawable = new EnemyDrawable(enemy);
 	    enemies.add(enemy);
@@ -165,6 +173,77 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	background.drawForeGround(g);
 	hud.draw(g);
     }
+    public int getGroundLevel() {
+	return groundLevel;
+    }
+
+    public ArrayList<Enemy> getEnemies() {
+	return enemies;
+    }
+
+    public void updatePlayerEnemyCollision() {
+	/**
+	 * Updates the player's position and applies gravity. And also checks for collisions with enemies.
+	 */
+
+	// Checks if the player has died
+	if (player.getHealth() <= 0) {
+	    player.setDead(true);
+	}
+
+	// Checks if the player is recovering and sets recovering to false if the player has been
+	// recovering for longer than the invincibility timer.
+	if (player.isRecovering()) {
+	    long elapsed = (System.nanoTime() - player.getRecoverTimer()) / 1000000;
+	    if (elapsed > player.maxRecoveryTime) {
+		player.setRecovering(false);
+		player.resetRecoveryTimer();
+	    }
+	}
+
+	for (Enemy e : enemies) {
+	    int dist = player.xDistanceTo(e, false);
+
+	    // Checks if the enemy is recovering and sets recovering to false if the enemy has been
+	    // recovering for longer than the invincibility timer.
+	    if (e.isRecovering()) {
+		long elapsed = (System.nanoTime() - e.getRecoverTimer()) / 1000000;
+		if (elapsed > e.maxRecoveryTime) {
+		    e.setRecovering(false);
+		    e.resetRecoveryTimer();
+		}
+	    }
+
+	    // If the enemy is attacking and the player is close enough, the player takes damage
+	    if (e.isAttacking() && !e.isDead()) {
+		if (dist <= e.getAttackReach() && !player.isRecovering()) {
+		    player.reduceHealth(e.getDamage());
+		    player.setRecovering(true);
+		    player.setRecoverTimer(System.nanoTime());
+		}
+	    }
+
+	    // If the player is close enough to an enemy, the player loses a life
+	    if (dist < 100 && !player.isRecovering() && !e.isDead()) {
+		player.reduceHealth(1);
+		player.setRecovering(true);
+		player.setRecoverTimer(System.nanoTime());
+	    }
+
+	    // If the player is attacking and the enemy is close enough, the enemy takes damage
+	    if (player.isAttacking() && dist <= player.getAttackReach() && !e.recovering) {
+		e.reduceHealth(player.getDamage());
+		e.setRecovering(true);
+		e.setRecoverTimer(System.nanoTime());
+
+		if (e.getHealth() <= 0 && !e.isDead()) {
+		    e.setDead(true);
+		    player.addMoney(e.getMoneyValue());
+		}
+	    }
+	}
+    }
+
     @Override public void keyTyped(final KeyEvent e) {}
     @Override public void keyPressed(KeyEvent e) {
 	int keyCode = e.getKeyCode();
@@ -216,8 +295,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener
 	if (!player.dead) {
 	    playerDrawable.stopSpriteAnimation();
 	}
-    }
-    public int getGROUND_LEVEL() {
-	return GROUND_LEVEL;
     }
 }

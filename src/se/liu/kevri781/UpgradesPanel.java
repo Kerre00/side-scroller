@@ -2,10 +2,6 @@ package se.liu.kevri781;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 /**
  * The UpgradesPanel class is responsible for displaying the upgrades the player can buy.
@@ -14,14 +10,10 @@ import java.awt.event.KeyEvent;
  */
 public class UpgradesPanel extends JPanel
 {
-    private PanelManager panelManager;
     private UpgradesManager upgradesManager;
-    private GameProgress gameProgress;
 
     public UpgradesPanel(final PanelManager panelManager, GameProgress gameProgress) {
-	this.panelManager = panelManager;
 	this.upgradesManager = new UpgradesManager();
-	this.gameProgress = gameProgress;
 
 	setBackground(Color.DARK_GRAY);
 
@@ -199,13 +191,11 @@ public class UpgradesPanel extends JPanel
 	damageUpgrade.setPreferredSize(new Dimension(200, 50));
 	damageUpgrade.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	add(damageUpgrade, c);
-	damageUpgrade.addActionListener(new ActionListener() {
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		upgradesManager.upgrade(Upgrades.MAX_DAMAGE, gameProgress);
-		panelManager.switchToUpgrades();
-	    }
+	damageUpgrade.addActionListener(e -> {
+	    upgradesManager.upgrade(Upgrades.MAX_DAMAGE, gameProgress);
+	    panelManager.switchToUpgrades();
 	});
+
 
 	c.gridx++;
 
@@ -213,12 +203,9 @@ public class UpgradesPanel extends JPanel
 	healthUpgrade.setPreferredSize(new Dimension(200, 50));
 	healthUpgrade.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	add(healthUpgrade, c);
-	healthUpgrade.addActionListener(new ActionListener() {
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		upgradesManager.upgrade(Upgrades.MAX_HEALTH, gameProgress);
-		panelManager.switchToUpgrades();
-	    }
+	healthUpgrade.addActionListener(e -> {
+	    upgradesManager.upgrade(Upgrades.MAX_HEALTH, gameProgress);
+	    panelManager.switchToUpgrades();
 	});
 
 	c.gridx++;
@@ -227,13 +214,11 @@ public class UpgradesPanel extends JPanel
 	speedUpgrade.setPreferredSize(new Dimension(200, 50));
 	speedUpgrade.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	add(speedUpgrade, c);
-	speedUpgrade.addActionListener(new ActionListener() {
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		upgradesManager.upgrade(Upgrades.SPEED, gameProgress);
-		panelManager.switchToUpgrades();
-	    }
+	speedUpgrade.addActionListener(e -> {
+	    upgradesManager.upgrade(Upgrades.SPEED, gameProgress);
+	    panelManager.switchToUpgrades();
 	});
+
 
 	c.gridx++;
 
@@ -241,13 +226,11 @@ public class UpgradesPanel extends JPanel
 	jumpUpgrade.setPreferredSize(new Dimension(200, 50));
 	jumpUpgrade.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	add(jumpUpgrade, c);
-	jumpUpgrade.addActionListener(new ActionListener() {
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		upgradesManager.upgrade(Upgrades.JUMP_HEIGHT, gameProgress);
-		panelManager.switchToUpgrades();
-	    }
+	jumpUpgrade.addActionListener(e -> {
+	    upgradesManager.upgrade(Upgrades.JUMP_HEIGHT, gameProgress);
+	    panelManager.switchToUpgrades();
 	});
+
 
 	c.gridx++;
 
@@ -255,13 +238,11 @@ public class UpgradesPanel extends JPanel
 	attackReachUpgrade.setPreferredSize(new Dimension(200, 50));
 	attackReachUpgrade.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	add(attackReachUpgrade, c);
-	attackReachUpgrade.addActionListener(new ActionListener() {
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		upgradesManager.upgrade(Upgrades.ATTACK_REACH, gameProgress);
-		panelManager.switchToUpgrades();
-	    }
+	attackReachUpgrade.addActionListener(e -> {
+	    upgradesManager.upgrade(Upgrades.ATTACK_REACH, gameProgress);
+	    panelManager.switchToUpgrades();
 	});
+
 
 	c.gridx++;
 
@@ -269,13 +250,11 @@ public class UpgradesPanel extends JPanel
 	recoveryTimeUpgrade.setPreferredSize(new Dimension(200, 50));
 	recoveryTimeUpgrade.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	add(recoveryTimeUpgrade, c);
-	recoveryTimeUpgrade.addActionListener(new ActionListener() {
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		upgradesManager.upgrade(Upgrades.RECOVERY_TIME, gameProgress);
-		panelManager.switchToUpgrades();
-	    }
+	recoveryTimeUpgrade.addActionListener(e -> {
+	    upgradesManager.upgrade(Upgrades.RECOVERY_TIME, gameProgress);
+	    panelManager.switchToUpgrades();
 	});
+
 
 	c.gridx = 0;
 	c.gridy = 5;
@@ -415,13 +394,11 @@ public class UpgradesPanel extends JPanel
 	buySkeletonWarrior.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	buySkeletonWarrior.setPreferredSize(new Dimension(100, 50));
 	add(buySkeletonWarrior, c);
-	buySkeletonWarrior.addActionListener(new ActionListener() {
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		upgradesManager.upgrade(Upgrades.SKELETON_WARRIOR, gameProgress);
-		panelManager.switchToUpgrades();
-	    }
+	buySkeletonWarrior.addActionListener(e -> {
+	    upgradesManager.upgrade(Upgrades.SKELETON_WARRIOR, gameProgress);
+	    panelManager.switchToUpgrades();
 	});
+
 
 	c.gridy--;
 
@@ -441,13 +418,11 @@ public class UpgradesPanel extends JPanel
 	buySpearman.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	buySpearman.setPreferredSize(new Dimension(100, 50));
 	add(buySpearman, c);
-	buySpearman.addActionListener(new ActionListener() {
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		upgradesManager.upgrade(Upgrades.SKELETON_SPEARMAN, gameProgress);
-		panelManager.switchToUpgrades();
-	    }
+	buySpearman.addActionListener(e -> {
+	    upgradesManager.upgrade(Upgrades.SKELETON_SPEARMAN, gameProgress);
+	    panelManager.switchToUpgrades();
 	});
+
 
 	c.gridy--;
 
@@ -467,13 +442,11 @@ public class UpgradesPanel extends JPanel
 	buyArcher.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	buyArcher.setPreferredSize(new Dimension(100, 50));
 	add(buyArcher, c);
-	buyArcher.addActionListener(new ActionListener() {
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		upgradesManager.upgrade(Upgrades.SKELETON_ARCHER, gameProgress);
-		panelManager.switchToUpgrades();
-	    }
+	buyArcher.addActionListener(e -> {
+	    upgradesManager.upgrade(Upgrades.SKELETON_ARCHER, gameProgress);
+	    panelManager.switchToUpgrades();
 	});
+
 
 	c.gridy--;
 
@@ -493,13 +466,11 @@ public class UpgradesPanel extends JPanel
 	buyFireWizard.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	buyFireWizard.setPreferredSize(new Dimension(100, 50));
 	add(buyFireWizard, c);
-	buyFireWizard.addActionListener(new ActionListener() {
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		upgradesManager.upgrade(Upgrades.FIRE_WIZARD, gameProgress);
-		panelManager.switchToUpgrades();
-	    }
+	buyFireWizard.addActionListener(e -> {
+	    upgradesManager.upgrade(Upgrades.FIRE_WIZARD, gameProgress);
+	    panelManager.switchToUpgrades();
 	});
+
 
 	c.gridy--;
 
@@ -519,13 +490,11 @@ public class UpgradesPanel extends JPanel
 	buyMagician.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	buyMagician.setPreferredSize(new Dimension(100, 50));
 	add(buyMagician, c);
-	buyMagician.addActionListener(new ActionListener() {
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		upgradesManager.upgrade(Upgrades.WANDERER_MAGICIAN, gameProgress);
-		panelManager.switchToUpgrades();
-	    }
+	buyMagician.addActionListener(e -> {
+	    upgradesManager.upgrade(Upgrades.WANDERER_MAGICIAN, gameProgress);
+	    panelManager.switchToUpgrades();
 	});
+
 
 	c.gridy--;
 
@@ -545,13 +514,11 @@ public class UpgradesPanel extends JPanel
 	buyLightningMage.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	buyLightningMage.setPreferredSize(new Dimension(100, 50));
 	add(buyLightningMage, c);
-	buyLightningMage.addActionListener(new ActionListener() {
-	    @Override
-	    public void actionPerformed(ActionEvent e) {
-		upgradesManager.upgrade(Upgrades.LIGHTNING_MAGE, gameProgress);
-		panelManager.switchToUpgrades();
-	    }
+	buyLightningMage.addActionListener(e -> {
+	    upgradesManager.upgrade(Upgrades.LIGHTNING_MAGE, gameProgress);
+	    panelManager.switchToUpgrades();
 	});
+
 
 	c.gridx = 0;
 	c.gridy++;
@@ -577,8 +544,6 @@ public class UpgradesPanel extends JPanel
 	backButton.setFont(new Font("Times New Roman", Font.BOLD, 20));
 	backButton.setPreferredSize(new Dimension(400, 50));
 	add(backButton, c);
-	backButton.addActionListener(e -> {
-	    panelManager.switchToMainMenu();
-	});
+	backButton.addActionListener(e -> panelManager.switchToMainMenu());
     }
 }

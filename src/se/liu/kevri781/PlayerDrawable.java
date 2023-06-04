@@ -11,7 +11,7 @@ import java.util.Random;
  * Extends the Player class to be able to access the player's position and size.
  */
 public class PlayerDrawable extends Player implements Drawable {
-    private SpriteAnimation spriteAnimation;
+    private SpriteAnimation spriteAnimation = null;
     private int currentAnimationIndex;
     private boolean lockAnimation = false;
     private Random rnd = new Random();
@@ -19,7 +19,7 @@ public class PlayerDrawable extends Player implements Drawable {
     private String dir = null;
     public PlayerDrawable(Player player) {
         super(player.getX(), player.getY(), player.getWidth(), player.getHeight(), player.background, player.getGameProgress(),
-              0);
+              player.groundLevel);
         // Set the current animation index to 0 (the idle animation)
         this.currentAnimationIndex = 0;
         this.player = player;
@@ -37,45 +37,46 @@ public class PlayerDrawable extends Player implements Drawable {
         g.drawImage(spriteAnimation.getNextFrame(), player.x, player.y, player.getScaledWidth(), player.getScaledHeight(), null);
     }
     public void getAnimation(int animationIndex) {
+        int animationDelay = 100;
         switch (currentAnimationIndex) {
                 case 0:
                         // Idle animation
-                        spriteAnimation = new SpriteAnimation(player, dir + "Idle" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Idle" + stringDirection + ".png", animationDelay);
                         break;
                 case 1:
                         // Running animation
-                        spriteAnimation = new SpriteAnimation(player, dir + "Run" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Run" + stringDirection + ".png", animationDelay);
                         break;
                 case 2:
-                        // TODO: Crouch animation
+                        // TODO: Add crouch animation, currently no sprite sheet for it
                         break;
                 case 3:
                         // Jumping animation
-                        spriteAnimation = new SpriteAnimation(player, dir + "Jump" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Jump" + stringDirection + ".png", animationDelay);
                         break;
                 case 4:
                         // Death animation
-                        spriteAnimation = new SpriteAnimation(player, dir + "Death" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Death" + stringDirection + ".png", animationDelay);
                         break;
                 case 5:
                         // Attack animation 1
-                        spriteAnimation = new SpriteAnimation(player, dir + "Attack_1" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Attack_1" + stringDirection + ".png", animationDelay);
                         break;
                 case 6:
                         // Attack animation 2
-                        spriteAnimation = new SpriteAnimation(player, dir + "Attack_2" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Attack_2" + stringDirection + ".png", animationDelay);
                         break;
                 case 7:
                         // Attack animation 3
-                        spriteAnimation = new SpriteAnimation(player, dir + "Attack_3" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Attack_3" + stringDirection + ".png", animationDelay);
                         break;
                 case 8:
                         // Fall animation
-                        spriteAnimation = new SpriteAnimation(player, dir + "Fall" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Fall" + stringDirection + ".png", animationDelay);
                         break;
                 case 9:
                         // Get hit animation
-                        spriteAnimation = new SpriteAnimation(player, dir + "Get_Hit" + stringDirection + ".png", 100);
+                        spriteAnimation = new SpriteAnimation(player, dir + "Get_Hit" + stringDirection + ".png", animationDelay);
                         break;
             }
     }

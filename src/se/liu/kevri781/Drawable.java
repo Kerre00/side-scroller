@@ -1,7 +1,6 @@
 package se.liu.kevri781;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public interface Drawable
 {

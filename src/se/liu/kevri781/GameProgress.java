@@ -8,12 +8,8 @@ import java.util.Map;
  * Used to keep track of the player's money and upgrade levels.
  */
 public class GameProgress {
-    private int money;
+    private int money = 0;
     private Map<Upgrades, Integer> upgradeLevels = new EnumMap<>(Upgrades.class);
-    private void GameProgress() {
-	money = 0;
-//	setUpgradeLevels();
-    }
     public void setUpgradeLevels() {
 	upgradeLevels.put(Upgrades.MAX_DAMAGE, 1);
 	upgradeLevels.put(Upgrades.MAX_HEALTH, 1);

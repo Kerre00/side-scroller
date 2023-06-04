@@ -2,7 +2,6 @@ package se.liu.kevri781;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -13,6 +12,7 @@ import java.net.URL;
  */
 public class SpriteAnimation {
     private BufferedImage spriteSheet = null;
+    public boolean freezeAnimation = false;
     private int spriteWidth;
     private int spriteHeight;
     private int currentFrame;
@@ -21,13 +21,11 @@ public class SpriteAnimation {
     private long lastUpdate;
     private boolean reverse;
     private String filePath;
-    public boolean freezeAnimation = false;
     private GameObjects object;
-    private URL spriteSheetURL;
 
     public SpriteAnimation(GameObjects object, String filePath, int animationDelay) {
-	this.spriteSheetURL = ClassLoader.getSystemResource(filePath);
 	try {
+	    URL spriteSheetURL = ClassLoader.getSystemResource(filePath);
 	    this.spriteSheet = ImageIO.read(spriteSheetURL);
 	} catch (IOException e) {
 	    e.printStackTrace();
@@ -110,7 +108,6 @@ public class SpriteAnimation {
 		((Enemy) object).stop();
 	    } if (filePath.contains("Death")) {
 		setFreezeAnimation(true);
-		GamePanel.enemies.remove(object);
 	    } if (filePath.contains("Attack")) {
 		((Enemy) object).setAttacking(false);
 	    }

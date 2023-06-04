@@ -9,14 +9,13 @@ import java.awt.*;
  * It is responsible for starting the game thread.
  */
 public class PanelManager {
-    public final static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    public Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private JFrame frame;
     private JPanel currentPanel;
     private MenuPanel menuPanel;
     private GamePanel gamePanel;
     private OptionsPanel optionsPanel;
     private GameProgress gameProgress;
-    public static Dimension frameSize;
 
     public PanelManager() {
         frame = new JFrame("Side Scroller Game");
@@ -31,8 +30,6 @@ public class PanelManager {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Runs the game in fullscreen windowed mode.
         frame.setUndecorated(true); // Hides the title bar.
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        frameSize = frame.getSize();
 
         frame.setResizable(false);
         frame.setVisible(true);

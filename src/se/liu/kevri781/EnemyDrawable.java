@@ -12,18 +12,16 @@ import java.util.Random;
 public class EnemyDrawable extends Enemy implements Drawable {
 //    Represents the player character that can be drawn on the screen.
 //    Implements the Drawable interface to provide a method for drawing the player.
-    private SpriteAnimation spriteAnimation;
+    private SpriteAnimation spriteAnimation = null;
     private int currentAnimationIndex;
-    private CharacterType enemyType;
     private String dir = null;
     private Random rnd = new Random();
     private Enemy enemy;
     public EnemyDrawable(Enemy enemy) {
-        super(enemy.getEnemyType(), enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight(), enemy.getGameProgress(), 0);
+        super(enemy.getCharacterType(), enemy.getX(), enemy.getY(), enemy.getWidth(), enemy.getHeight(), enemy.getGameProgress(), 0);
         this.enemy = enemy;
-        this.enemyType = enemy.getEnemyType();
         // Set the current animation index to 0 (the idle animation)
-        switch (enemyType) {
+        switch (enemy.getCharacterType()) {
             case FIRE_WIZARD:
                 this.dir = "images/enemy/Fire_Wizard/";
                 break;
@@ -57,46 +55,47 @@ public class EnemyDrawable extends Enemy implements Drawable {
 
     public void getAnimation(int animationIndex) {
         this.stringDirection = enemy.stringDirection;
+        int animationDelay = 100;
         switch (currentAnimationIndex) {
             case 0:
                 // Idle animation
-                spriteAnimation = new SpriteAnimation(enemy,dir + "Idle" + stringDirection + ".png", 100);
+                spriteAnimation = new SpriteAnimation(enemy,dir + "Idle" + stringDirection + ".png", animationDelay);
                 break;
             case 1:
                 // Left running animation
-                spriteAnimation = new SpriteAnimation(enemy,dir + "Walk" + stringDirection + ".png", 100);
+                spriteAnimation = new SpriteAnimation(enemy,dir + "Walk" + stringDirection + ".png", animationDelay);
                 break;
             case 2:
                 // Right running animation
-                spriteAnimation = new SpriteAnimation(enemy,dir + "Run" + stringDirection + ".png", 100);
+                spriteAnimation = new SpriteAnimation(enemy,dir + "Run" + stringDirection + ".png", animationDelay);
                 break;
             case 3:
                 // Jumping animation TODO: Add jumping animation
-//                spriteAnimation = new SpriteAnimation(enemy,dir + "Jump" + stringDirection + ".png", 100);
+//                spriteAnimation = new SpriteAnimation(enemy,dir + "Jump" + stringDirection + ".png", ANIMATION_DELAY);
                 break;
             case 4:
                 // Death animation
-                spriteAnimation = new SpriteAnimation(enemy,dir + "Dead" + stringDirection + ".png", 100);
+                spriteAnimation = new SpriteAnimation(enemy,dir + "Dead" + stringDirection + ".png", animationDelay);
                 break;
             case 5:
                 // Attack animation 1
-                spriteAnimation = new SpriteAnimation(enemy,dir + "Attack_1" + stringDirection + ".png", 100);
+                spriteAnimation = new SpriteAnimation(enemy,dir + "Attack_1" + stringDirection + ".png", animationDelay);
                 break;
             case 6:
                 // Attack animation 2
-                spriteAnimation = new SpriteAnimation(enemy,dir + "Attack_2" + stringDirection + ".png", 100);
+                spriteAnimation = new SpriteAnimation(enemy,dir + "Attack_2" + stringDirection + ".png", animationDelay);
                 break;
             case 7:
                 // Attack animation 3
-                spriteAnimation = new SpriteAnimation(enemy,dir + "Attack_3" + stringDirection + ".png", 100);
+                spriteAnimation = new SpriteAnimation(enemy,dir + "Attack_3" + stringDirection + ".png", animationDelay);
                 break;
             case 8:
                 // Fall animation TODO: Add fall animation
-//                spriteAnimation = new SpriteAnimation(enemy,dir + "Fall" + stringDirection + ".png", 100);
+//                spriteAnimation = new SpriteAnimation(enemy,dir + "Fall" + stringDirection + ".png", ANIMATION_DELAY);
                 break;
             case 9:
                 // Get hit animation
-                spriteAnimation = new SpriteAnimation(enemy,dir + "Hurt" + stringDirection + ".png", 100);
+                spriteAnimation = new SpriteAnimation(enemy,dir + "Hurt" + stringDirection + ".png", animationDelay);
                 break;
         }
     }

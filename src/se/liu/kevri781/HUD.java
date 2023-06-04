@@ -9,14 +9,14 @@ import java.awt.*;
  */
 public class HUD extends Player implements Drawable
 {
+    private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private Image currentHUDImage = Toolkit.getDefaultToolkit().getImage("resources/images/hud/hud_spritesheet.png");
     private Player player;
     private Enemy enemy;
     private int healthBarX;
     private int healthBarY;
-    private Dimension screenDimension = PanelManager.SCREEN_SIZE;
     public HUD(Player player, Enemy enemy) {
-        super(0, 0, 0, 0, null, player.getGameProgress(), 0);
+        super(0, 0, 0, 0, null, player.getGameProgress(), player.groundLevel);
         this.player = player;
         this.enemy = enemy;
     }
@@ -40,8 +40,8 @@ public class HUD extends Player implements Drawable
     }
     public void drawGameOver(Graphics g) {
         currentHUDImage = Toolkit.getDefaultToolkit().getImage("resources/images/hud/game_over.png");
-        x = screenDimension.width / 2 - currentHUDImage.getWidth(null) / 2;
-        y = screenDimension.height / 2 - currentHUDImage.getHeight(null) / 2;
+        x = screenSize.width / 2 - currentHUDImage.getWidth(null) / 2;
+        y = screenSize.height / 2 - currentHUDImage.getHeight(null) / 2;
         g.drawImage(currentHUDImage, x, y, null);
     }
     public void drawHealthBars(Graphics g) {
